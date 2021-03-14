@@ -1,0 +1,10 @@
+name: unicode-extras 
+parent: default
+
+matches:
+- trigger: ":w:"
+  replace: "ƿ"
+- trigger: ":th:"
+  replace: "þ"
+- trigger: ":that:"
+  replace: "ꝥ"

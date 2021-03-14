@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GraphicsConfig>
+	<GUIColour>
+		<Default>
+<MatrixRed> -1.2, 1, -0.2 </MatrixRed>
+<MatrixGreen> 0.33, 0.33, 0.33 </MatrixGreen>
+<MatrixBlue> 0.3, 0.1, 1.2 </MatrixBlue>
+		</Default>
+	</GUIColour>
+</GraphicsConfig>

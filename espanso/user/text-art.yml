@@ -1,0 +1,19 @@
+name: text-art
+parent: default
+
+matches:
+- trigger: ":offt:"
+  replace: |
+           ```╔═════════╗
+              ║OFF TOPIC║
+              ╚════+════╝
+                   ║
+                   ║```
+- trigger: ":spark"
+  replace: "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
+- trigger: ":shrug"
+  replace: "¯\\_(ツ)_/¯"
+- trigger: ":?shrug"
+  replace: "¯\\_(?-?)_/¯"
+- trigger: ":sadshrug"
+  replace: "¯\\_(._.)_/¯"

@@ -1,0 +1,12 @@
+name: image-memes
+parent: default
+
+backend: Clipboard
+
+matches:
+- trigger: ":cpik:"
+  image_path: "/home/luctins/Pictures/mega-images/espanso/confused-pikachu.png"
+- trigger: ":bigbrain:"
+  image_path: "/home/luctins/Pictures/mega-images/espanso/big_brain.png"
+- trigger: ":thisisfine:"
+  image_path: "/home/luctins/Pictures/mega-images/espanso/thisisfine.jpeg"

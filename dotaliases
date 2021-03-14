@@ -1,0 +1,26 @@
+alias ptop="sudo powertop"
+alias python="python3"
+alias xo='xdg-open'
+alias rgrep='rgrep --color'
+alias jf='journalctl -xkefb'
+
+# -------------- work ----------------
+alias ffw='firefox -p  work &'
+alias sshfsum='fusermount -zu /mnt/macnica011/'
+alias sshfsmo='sshfs -o cache=yes -o idmap=user -o uidfile=/home/luctins/.ssh/uidfile -o gidfile=/home/luctins/.ssh/gidfile luctins@macnica011:/home/luctins/ /mnt/macnica011/'
+alias esp-idf=". ~/repo/macnica/esp-idf/export.sh; alias idf='idf.py'; alias iflash='idf.py -p /dev/ttyUSB0 flash'; alias imon='idf.py monitor'; alias ibuild='idf.py build'; ENV=esp-idf"
+#alias esp-idf='docker run -v $PWD:/project -w /project espressif/idf idf.py'
+#alias espflash='docker run --privileged -v $PWD:/project -w /project espressif/idf idf.py flash -p /dev/ttyUSB0'
+#alias espbuild='docker run --privileged -v $PWD:/project -w /project espressif/idf idf.py build'
+
+alias sshmacnica011='ssh luctins@macnica011'
+
+alias csvn='colorsvn --username=lucas.mendes'
+alias svn='svn --username=lucas.mendes'
+alias copybsp='scp -r luctins@macnica011:/home/luctins/project/nios2/bsp/ /home/luctins/mproject/nios2/bsp/'
+
+#auto
+alias editalias='vim .bash_aliases'
+
+alias cdproject='cd `realpath ~/mproject`'
+alias doxygenv='( cat Doxyfile; echo "PROJECT_NUMBER = "`git describe`" ") | doxygen'

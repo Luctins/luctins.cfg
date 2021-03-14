@@ -1,0 +1,6 @@
+name: emoji-shortcuts
+parent: default
+
+matches:
+- trigger: ":facepalm:"
+  replace: "🤦\u200d♂"

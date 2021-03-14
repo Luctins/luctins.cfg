@@ -1,0 +1,7 @@
+name: latex 
+parent: default
+
+matches:
+- trigger: ":infty"
+  replace: "\u221e"
+

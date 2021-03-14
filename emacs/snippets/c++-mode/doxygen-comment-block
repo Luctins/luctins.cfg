@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Doxygen comment block
+# key: dblk
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+/*!
+  $1.
+*/
