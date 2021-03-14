@@ -1,0 +1,2 @@
+#t::
+Run, cmd.exe

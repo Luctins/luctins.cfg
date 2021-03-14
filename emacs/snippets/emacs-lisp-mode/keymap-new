@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: keymap new
+# key: key
+# --
+(global-set-key (kbd "$1") '$2)

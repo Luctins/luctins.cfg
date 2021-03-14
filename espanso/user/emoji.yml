@@ -1,0 +1,7 @@
+parent: default
+
+matches:
+  - trigger: ":monocle:"
+    replace: "🧐"
+  - trigger: ":nice:"
+    replace: "👌"

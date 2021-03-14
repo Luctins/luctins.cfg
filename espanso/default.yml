@@ -1,0 +1,69 @@
+# espanso configuration file
+# This is the default configuration file, change it as you like it
+
+# You can refer to the official documentation: [https://espanso.org/docs/]
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+
+#backend: Clipboard
+backend: Inject
+
+matches:
+  - trigger: ":nice:"
+    replace: "👌"
+  - trigger: ";m;"
+    fast_inject: false
+    replace: "```"
+
+  - trigger: ";mb;"
+    replace: "```{{clip}}```"
+    vars:
+    - name: clip
+      type: shell
+      params:
+        cmd: "xclip -o"
+
+  - trigger: ";clip"
+    replace: "{{output}}"
+    vars:
+    - name: output
+      type: shell
+      params:
+        cmd: "xclip -o"
+
+  - trigger: ":monocle:"
+    replace: "🧐"
+
+  # Simple text replacement
+  - trigger: ":espanso"
+    replace: "Hi there!"
+  # Dates
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y%m%d"
+  - trigger: ":-date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%y-%m-%d"
+  - trigger: ":/date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%d/%m/%Y"
+  # Shell commands
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo Hello from your shell"

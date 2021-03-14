@@ -1,0 +1,7 @@
+parent: default
+
+matches:
+  - trigger: ";m;"
+    replace: "```"
+  - trigger: ";mb;"
+    replace: "```{{clip}}```"
