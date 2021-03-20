@@ -37,3 +37,4 @@ wine
 dconf-editor
 dvipng
 winbind
+nvme-cli
