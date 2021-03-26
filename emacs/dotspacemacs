@@ -459,8 +459,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 		org-default-notes-file (concat org-directory "organizer.org")
 		org-startup-folded t
 		org-latex-packages-alist '(("margin=2cm" "geometry" nil)
-								   (" " "indentfirst" " "))
-		)
+								   (" " "indentfirst" " ")))
 
 
   (add-hook 'org-mode-hook

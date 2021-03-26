@@ -9,35 +9,44 @@
 backend: Inject
 
 matches:
-  - trigger: ":nice:"
-    replace: "👌"
+
+#text matches
   - trigger: ";m;"
     fast_inject: false
     replace: "```"
 
-  - trigger: ";mb;"
-    replace: "```{{clip}}```"
-    vars:
-    - name: clip
-      type: shell
-      params:
-        cmd: "xclip -o"
-
-  - trigger: ";clip"
-    replace: "{{output}}"
-    vars:
-    - name: output
-      type: shell
-      params:
-        cmd: "xclip -o"
-
+# Emoji
   - trigger: ":monocle:"
     replace: "🧐"
+  - trigger: ":nice:"
+    replace: "👌"
 
-  # Simple text replacement
-  - trigger: ":espanso"
-    replace: "Hi there!"
-  # Dates
+
+
+# Shell commands (template)
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo Hello from your shell"
+# Shell
+  - trigger: ":filler:"
+    replace: "{{res}}"
+    vars:
+      - name: res
+        type: shell
+        params:
+          cmd: "base64 /dev/urandom | awk '{print(0==NR%10)?\"\":$1}' | sed 's/[^[:alpha:]]/ /g' | head -10"
+
+  - trigger: ":mb:"
+    replace: "```{{clipboard}}```"
+    vars:
+      - name: "clipboard"
+        type: "clipboard"
+
+  # Date
   - trigger: ":date"
     replace: "{{mydate}}"
     vars:
@@ -59,11 +68,3 @@ matches:
         type: date
         params:
           format: "%d/%m/%Y"
-  # Shell commands
-  - trigger: ":shell"
-    replace: "{{output}}"
-    vars:
-      - name: output
-        type: shell
-        params:
-          cmd: "echo Hello from your shell"
