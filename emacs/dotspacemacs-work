@@ -427,7 +427,9 @@ you should place your code here."
   ;; Assembler mode
   (add-hook 'asm-mode-hook
 			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)))
+			  (spacemacs/toggle-fill-column-indicator-on)
+			  (setq-local tab-width 8)
+			  (auto-fill-mode)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Python mode setup

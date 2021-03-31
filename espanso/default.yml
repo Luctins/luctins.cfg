@@ -14,14 +14,13 @@ matches:
   - trigger: ";m;"
     fast_inject: false
     replace: "```"
-
+# - trigger: ";m;"
+#    replace: "\u0060\u0060\u0060"
 # Emoji
   - trigger: ":monocle:"
     replace: "🧐"
   - trigger: ":nice:"
     replace: "👌"
-
-
 
 # Shell commands (template)
   - trigger: ":shell"

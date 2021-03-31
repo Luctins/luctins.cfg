@@ -1,0 +1,6 @@
+name: meta
+parent: default
+
+matches:
+  - trigger: ":match:"
+    replace: "  - trigger:\n    replace:"
