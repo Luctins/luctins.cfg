@@ -436,6 +436,7 @@ you should place your code here."
   (add-hook 'python-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
+			  (anaconda-eldoc-mode)
 			  (setq
 			   python-indent 4
 			   python-indent-offset 4

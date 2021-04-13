@@ -6,10 +6,10 @@
 # it gets replaced by the "replace" string.
 
 #backend: Clipboard
-backend: Inject
+backend: Clipboard
+fast_inject: true
 
 matches:
-
 #text matches
   - trigger: ";m;"
     fast_inject: false

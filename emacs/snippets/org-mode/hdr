@@ -4,10 +4,11 @@
 # group: template
 # --
 :PROPERTIES:
-#+TITLE: ${1:`(nth 0 (last (split-string buffer-file-name "/")))`}
+#+TITLE: ${1:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`}
 #+AUTHOR: `user-full-name`
 #+DATE:`(format-time-string " %Y-%m-%d %T")`
 #+OPTIONS: toc:nil $2
+#+TAGS:
 #+TODO: TODO TEST WAIT WONTDO | DONE
 #+STARTUP: overview
 :END:
