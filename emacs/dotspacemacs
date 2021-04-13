@@ -355,7 +355,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 		org-directory "~/mega-doc/org/"
 		org-default-notes-file (concat org-directory "organizer.org")
 		org-startup-folded t)
-
+  (setq magit-commit-arguments '("-S"))
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Tramp setup
   (setq tramp-default-method "ssh")
