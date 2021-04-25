@@ -39,3 +39,4 @@ dvipng
 winbind
 nvme-cli
 smartmontools
+gnuplot
