@@ -2,9 +2,10 @@ name: text-art
 parent: default
 
 matches:
-- trigger: ":offt:"
+- trigger: ":offtopic:"
   replace: |
-           ```╔═════════╗
+           ```
+              ╔═════════╗
               ║OFF TOPIC║
               ╚════+════╝
                    ║

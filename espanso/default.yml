@@ -22,6 +22,14 @@ matches:
   - trigger: ":nice:"
     replace: "👌"
 
+  - trigger: ";clipboard"
+    replace: "{{clipboard}}"
+    backend: Inject
+    fast_inject: false
+    vars:
+      - name: "clipboard"
+        type: "clipboard"
+
 # Shell commands (template)
   - trigger: ":shell"
     replace: "{{output}}"
