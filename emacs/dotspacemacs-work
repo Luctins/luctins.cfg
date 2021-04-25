@@ -31,8 +31,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-	 octave
+   '(octave
 	 rust
 	 csv
 	 markdown
@@ -43,8 +42,7 @@ values."
 			 python-indent 8
 			 python-indent-offset 4
 			 indent-tabs-mode t
-			 tab-width 4
-			 )
+			 tab-width 4  )
 	 lua
 	 ;(javascriptcolors :variables colors-enable-nyan-cat-ptrogress-bar t colors-enable-rainbow-identifiers t)
 
@@ -67,8 +65,6 @@ values."
 	  spell-checking
 	  syntax-checking
 	  version-control
-
-	  ;(colors :variables colors-enable-nyan-cat-progress-bar t colors-enable-rainbow-identifiers t)
 	  )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -122,7 +118,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
