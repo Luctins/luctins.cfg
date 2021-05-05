@@ -31,7 +31,6 @@ neofetch
 gthumb
 ghostscript
 pdfgrep
-
 gpick
 wine
 dconf-editor
@@ -40,3 +39,4 @@ winbind
 nvme-cli
 smartmontools
 gnuplot
+firejail
