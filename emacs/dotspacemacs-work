@@ -552,23 +552,25 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 	(auto-fill-mode) ;enable auto fill mode
 	(setq-local hide-ifdef-shadow t)
 	(hide-ifdef-mode)
-	;(add-hook 'c-special-indent-hook
-	;		  (lambda ()
-										;(yas-expand) (c-guess-basic-syntax))))
+	()
 	)
+										;(add-hook 'c-special-indent-hook
+										;		  (lambda ()
+										;(yas-expand) (c-guess-basic-syntax))))
+
 										;(font-lock-add-keywords 'c-mode
 										;						  '(("#if  .*" . 'font-lock-comment-face)))
 
-  ;; (defun cc-mode-supercomment-matcher (end)
-  ;;	  "Detect when inside a #if 0 block"
-  ;;	  (let (pos (case-fold-search t))
-  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
-  ;;					(null (nth 3 (syntax-ppss pos)))))
-  ;;		(when pos (message "found keyword"))
-  ;;		pos))
+										;(defun cc-mode-supercomment-matcher (end)
+										;	  "Detect when inside a #if 0 block"
+										;	  (let (pos (case-fold-search t))
+										;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
+										;					(null (nth 3 (syntax-ppss pos)))))
+										;		(when pos (message "found keyword"))
+										;		pos))
   ;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; c++-mode
   (add-hook 'c++-mode-hook (lambda ()
 							 (c-cpp-commom-setup)))
@@ -580,8 +582,18 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 						  )
 
   (add-hook 'c-mode-hook (lambda()
-						   ;(add-to-list 'company-backends 'company-yasnippet)
-						   (c-cpp-commom-setup)))
+						   ;; (add-to-list 'company-backends 'company-yasnippet)
+						   (c-cpp-commom-setup)
+						   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
+						   ))
+
+  ;;;;;;;;;;;;;;;;;;;;
+  ;; EVil
+
+  ;; close and open folds
+  (global-set-key (kbd "<backtab>") 'evil-toggle-fold)
+  (global-set-key (kbd "M-m c f") 'evil-close-folds)
+  (global-set-key (kbd "M-m o f") 'evil-open-folds)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Multi-cursor
@@ -591,10 +603,9 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key [C-mouse-1] 'mc/add-cursor-on-click)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Setup Flyspell
+  ;; Flyspell
 
   ;; Isto e' para habilitar o dicionario em portugues brasileiro
-
   (setq ispell-dictionary "brasileiro")
   (setq ispell-alternate-dictionary "english")
 
@@ -608,15 +619,12 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key (kbd "M-n") 'next-multiframe-window)
 
   ;; text movement keybinds
-  ;(global-set-key [M-up] 'move-text-up)
-  ;(global-set-key [M-down] 'move-text-down)
   (global-set-key [M-up] 'drag-stuff-up)
   (global-set-key [M-down] 'drag-stuff-down)
   (global-set-key [M-left] 'drag-stuff-left)
   (global-set-key [M-right] 'drag-stuff-right)
-
-  ;; close and open folds
-  (global-set-key (kbd "<backtab>") 'evil-toggle-fold)
+  ;(global-set-key [M-down] 'move-text-down)
+  ;(global-set-key [M-up] 'move-text-up)
 
   ;; zoom controls
   (global-set-key  [C-mouse-4] 'zoom-frm-in)
