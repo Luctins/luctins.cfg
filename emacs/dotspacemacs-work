@@ -352,6 +352,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
 		org-default-notes-file (concat org-directory "organizer.org")
 		org-startup-folded t)
 
+  (setq-default tab-width 4
+				indent-tabs-mode nil ; don't use tabs by default
+				hs-hide-comments-when-hiding-all nil) ; don't fold comments
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -424,7 +428,8 @@ you should place your code here."
   (add-hook 'asm-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
-			  (setq-local tab-width 8)
+			  (setq tab-width 8
+					electric-indent-mode nil)
 			  (auto-fill-mode)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -433,11 +438,11 @@ you should place your code here."
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
 			  (anaconda-eldoc-mode)
-			  (setq
-			   python-indent 4
-			   python-indent-offset 4
-			   indent-tabs-mode t
-			   tab-width 4)))
+			  (auto-fill-mode)
+			  (setq python-indent 4
+					python-indent-offset 4
+					indent-tabs-mode nil
+					tab-width 4)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org mode settings

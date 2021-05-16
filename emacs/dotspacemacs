@@ -566,8 +566,8 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;; Setup Flyspell
 
   ;; Isto e' para habilitar o dicionario em portugues brasileiro
-
   (setq ispell-dictionary "brasileiro")
+
   (setq ispell-alternate-dictionary "english")
 
   ;(setq ispell-dictionary-alist (list (map 'list  'list (list "brasileiro" "english"))))
