@@ -5,11 +5,11 @@ matches:
 - trigger: ":offtopic:"
   replace: |
            ```
-              ╔═════════╗
-              ║OFF TOPIC║
-              ╚════+════╝
-                   ║
-                   ║```
+           ╔═════════╗
+           ║OFF TOPIC║
+           ╚════+════╝
+                ║
+                ║```
 - trigger: ":spark"
   replace: "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
 - trigger: ":shrug"
