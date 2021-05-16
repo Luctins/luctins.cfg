@@ -489,8 +489,8 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 
   (setq org-image-actual-width 400
 		org-startup-with-inline-images t
-		org-directory "~/org/"
-		org-default-notes-file (concat org-directory "organizer.org")
+		org-directory "~/Documents/"
+		org-default-notes-file (concat org-directory "todo.org")
 		org-startup-folded t)
 
   (add-hook 'org-mode-hook
@@ -505,10 +505,11 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 			  (org-autolist-mode)
 			  ;(org-bullets-mode)
 			  (visual-line-mode)
-			  (local-set-key (kbd "C-c C-x s") `org-sort-headings-todo-prio)))
+			  (local-set-key (kbd "C-c C-x s") `org-sort-headings-todo-prio)
+			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
+			  ))
 
   (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-notes-file)))
-  (global-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
   (global-set-key (kbd "C-c c") 'org-capture)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
