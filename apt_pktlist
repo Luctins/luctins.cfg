@@ -40,3 +40,6 @@ nvme-cli
 smartmontools
 gnuplot
 firejail
+mpv
+clojure
+testdisk
