@@ -4,8 +4,7 @@ parent: default
 matches:
 - trigger: ":offtopic:"
   replace: |
-           ```
-           ╔═════════╗
+           ```           ╔═════════╗
            ║OFF TOPIC║
            ╚════+════╝
                 ║
