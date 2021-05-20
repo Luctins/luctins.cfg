@@ -36,15 +36,15 @@ values."
 	 csv
 	 markdown
 	 yaml
-	 ;javascript
-	 ;csv
+	 ;;javascript
+	 ;;csv
 	 (python :variables
 			 python-indent 8
 			 python-indent-offset 4
 			 indent-tabs-mode t
 			 tab-width 4  )
 	 lua
-	 ;(javascriptcolors :variables colors-enable-nyan-cat-ptrogress-bar t colors-enable-rainbow-identifiers t)
+	 ;;(javascriptcolors :variables colors-enable-nyan-cat-ptrogress-bar t colors-enable-rainbow-identifiers t)
 
 	 ;; ----------------------------------------------------------------
 	 ;; Example of useful layers you may want to use right away.
@@ -56,32 +56,38 @@ values."
 	 better-defaults
 	 emacs-lisp
 	 git
-	 ;markdown
-	 org
+	 ;;markdown
+	 (org :variables
+		  org-image-actual-width 400
+		  org-startup-with-inline-images t
+		  org-directory "~/mega-doc/org/"
+		  org-default-notes-file (concat org-directory "organizer.org")
+		  org-startup-folded t
+		  )
 	 (shell :variables
-			 shell-default-height 30
-			 shell-default-position 'bottom
-			 )
-	  spell-checking
-	  syntax-checking
-	  version-control
-	  )
+			shell-default-height 30
+			shell-default-position 'bottom
+			)
+	 spell-checking
+	 syntax-checking
+	 version-control
+	)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
-									  multiple-cursors
-									  arduino-mode
-									  org-autolist
-									  ;org-bullets
-									  yasnippet
-									  drag-stuff
-									  nodemcu-mode
-									  ;rtags
-									  ;company-rtags
-									  ;helm-rtags
-									  )
+					multiple-cursors
+					arduino-mode
+					org-autolist
+					;org-bullets
+					yasnippet
+					drag-stuff
+					nodemcu-mode
+					;rtags
+					;company-rtags
+					;helm-rtags
+					)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -93,7 +99,8 @@ values."
    ;; `used-but-keep-unused' installs only the used packages but won't uninstall
    ;; them if they become unused. `all' installs *all* packages supported by
    ;; Spacemacs and never uninstall them. (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-but-keep-unused)
+  )
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -166,16 +173,16 @@ values."
 								:width normal
 								:powerline-scale 1.1)
 
-							  ; "Ubuntu Mono"
-							  ; :size 15
-							  ; :weight normal
-							  ; :width normal
-							  ; :powerline-scale 1.1)
-   ;'("Source Code Variable Black"
-   ;                            :size 14
-   ;                            :weight normal
-   ;                            :width normal
-   ;                            :powerline-scale 1.1)
+										; "Ubuntu Mono"
+										; :size 15
+										; :weight normal
+										; :width normal
+										; :powerline-scale 1.1)
+										;'("Source Code Variable Black"
+										;                            :size 14
+										;                            :weight normal
+										;                            :width normal
+										;                            :powerline-scale 1.1)
 
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -252,6 +259,7 @@ values."
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
+
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
@@ -356,6 +364,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 				indent-tabs-mode nil ; don't use tabs by default
 				hs-hide-comments-when-hiding-all nil) ; don't fold comments
 
+  ;; Personal Info
+  (setq user-full-name "Lucas Martins Mendes"
+		user-work-email "lucas.mendes@macnicadhw.com.br"
+		user-email "lucas.martinsmendes@gmail.com"
+		)
   )
 
 (defun dotspacemacs/user-config ()
@@ -367,85 +380,82 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  (spacemacs/toggle-fill-column-indicator-on)
-
-
-
-  (defun trim-at-col (line)
-	"trim C comments at a specified column"
-	(interactive (list (if current-prefix-arg
-						   (read-from-minibuffer "line to trim at: ")
-						 nil)))
-	(end-of-line)
-	(backward-char 9)
-	(setq c (- (point) (if line line '80)))
-	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-	)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Personal Info
-
-  (setq user-full-name "Lucas Martins Mendes")
-  (setq user-work-email "lucas.mendes@macnicadhw.com.br")
-  (setq user-email "lucas.martinsmendes@gmail.com")
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; GNU make
-  (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
+  ;(add-hook  'makefile-mode (lambda () (setq tab-width 4)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Yasnippet
-
   (defun buffer-mode (&optional buffer-or-name)
-	"Returns the major mode associated with a buffer.
-	 If buffer-or-name is nil return current buffer's mode. used by yasnippet"
-	(buffer-local-value 'major-mode
-						(if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
+  "Returns the major mode associated with a buffer.
+   If buffer-or-name is nil return current buffer's mode. used by yasnippet"
+  (buffer-local-value 'major-mode
+			(if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
 
   (defun yas/org-very-safe-expand ()
-	(let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
+  (let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
 
-  ;(setq yas-snippet-dirs ;(list "~/Documents/mega-doc/config-files/emacs/snippets/"))
   (setq yas-visit-from-menu t)
 
-  (global-set-key (kbd "C-c e") 'yas-expand)
+  ;;(setq yas-snippet-dirs ;(list "~/Documents/mega-doc/config-files/emacs/snippets/"))
 
+  (global-set-key (kbd "C-c e") 'yas-expand)
   (yas-global-mode t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; General programming settings
-;    (add-hook 'prog-mode-hook
-;			(lambda ()
-;			  ((flyspell-mode-off)
-;			   (spacemacs/toggle-fill-column-indicator-on))))
+  ;;    (add-hook 'prog-mode-hook
+  ;;			(lambda ()
+  ;;       ((flyspell-mode-off)
+  ;;        (spacemacs/toggle-fill-column-indicator-on))))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; objdump mode
+  ;; set objdump to read only by default
   (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
-
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Assembler mode
   (add-hook 'asm-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
-			  (setq tab-width 8
-					electric-indent-mode nil)
-			  (auto-fill-mode)))
+			  (setq-local tab-width 8
+						  electric-indent-mode nil
+						  indent-tabs-mode t)
+			  (auto-fill-mode)
+			  ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Python mode setup
   (add-hook 'python-mode-hook
-			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)
-			  (anaconda-eldoc-mode)
-			  (auto-fill-mode)
-			  (setq python-indent 4
-					python-indent-offset 4
-					indent-tabs-mode nil
-					tab-width 4)))
+	  (lambda ()
+		(spacemacs/toggle-fill-column-indicator-on)
+		(anaconda-eldoc-mode)
+		(auto-fill-mode)
+		;; (setq-local python-indent 4
+		;;			python-indent-offset 4
+		;;			indent-tabs-mode t
+		;;			tab-width 4
+		;;			)
+		))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org mode settings
+  (add-hook 'org-mode-hook
+			(lambda ()
+			  (yas-minor-mode)
+			  (make-variable-buffer-local 'yas/trigger-key)
+			  (setq-local yas/trigger-key [tab])
+			  (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+			  (define-key yas/keymap [tab] 'yas/next-field)
+			  (flycheck-mode 1)
+			  (flyspell-mode-on)
+			  (org-autolist-mode)
+			  ;;(org-bullets-mode)
+			  (visual-line-mode)
+			  (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
+			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
+			  ))
+
   (defun org-insert-image-from-clipboard ()
 	"Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file. Depends in X.org to work (for now)"
@@ -468,61 +478,33 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 						":")) "Error")
 		 (message "clipboard does not contain a image!")
 	   (concat "[[./" (file-relative-name filename) "]]")))
-	(org-display-inline-images))
-
-  ;(font-lock-add-keywords 'org-mode
-										;'(("\\<\\(TODOMAYBE\\):" 1 font-lock-warning-face prepend)) )
-
-  (setq org-todo-keyword-faces
-		'(("TODO" . org-warning)
-		  ("WAIT" . (:foreground "#F0C674" :weight bold))
-		  ("WTDO" . (:foreground "#59872d" :weight bold))
-		  ("TEST" . (:foreground "#6eb0e9" :weight bold))
-		  ("DONE" . org-done)))
-
+	(org-display-inline-images)
+	)
   (defun org-sort-headings-todo-prio ()
 	"sort org headings first by priority then by todo order"
 	(interactive)
 	(org-sort-entries t ?p )
-	;(outline-up-heading)
-	(org-sort-entries t ?o ))
+	(org-sort-entries t ?o )
+	)
 
-  (setq org-image-actual-width 400
-		org-startup-with-inline-images t
-		org-directory "~/Documents/"
-		org-default-notes-file (concat org-directory "todo.org")
-		org-startup-folded t)
+  ;;(font-lock-add-keywords 'org-mode
+  ;;				'(("\\<\\(TODOMAYBE\\):" 1 font-lock-warning-face prepend)) )
 
-  (add-hook 'org-mode-hook
-			(lambda ()
-			  (yas-minor-mode)
-			  (make-variable-buffer-local 'yas/trigger-key)
-			  (setq yas/trigger-key [tab])
-			  (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-			  (define-key yas/keymap [tab] 'yas/next-field)
-			  (flycheck-mode 1)
-			  (flyspell-mode-on)
-			  (org-autolist-mode)
-			  ;(org-bullets-mode)
-			  (visual-line-mode)
-			  (local-set-key (kbd "C-c C-x s") `org-sort-headings-todo-prio)
-			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
-			  ))
+  ;; Orgmode keywords
+  (setq org-todo-keyword-faces
+	'(("TODO" . org-warning)
+	  ("WAIT" . (:foreground "#F0C674" :weight bold))
+	  ("WTDO" . (:foreground "#59872d" :weight bold))
+	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
+	  ("DONE" . org-done)
+	  ))
 
   (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; RTAGS
-  ;(eval-after-load 'company
-  ;  '(add-to-list
-  ;    'company-backends 'company-rtags))
-  ;(setq rtags-autostart-diagnostics t)
-  ;(rtags-enable-standard-keybindings)
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Company mode
-  ;(push '(company-semantic :with company-yasnippet) company-backends)
+  ;;(push '(company-semantic :with company-yasnippet) company-backends)
 
   (global-company-mode)
 
@@ -543,49 +525,63 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;; C and C++
   (defun c-cpp-commom-setup ()
 	"commom paramters set between c and c++ modes"
-	(flycheck-mode t)
-	(flyspell-mode-off)
 	(spacemacs/toggle-fill-column-indicator-on)
-	(setq c-syntactic-indentation t)
-	(setq c-default-style "linux")
-	(setq c-basic-offset 4)
+	(flycheck-mode t)
+	(evil-close-folds)
+	(flyspell-mode-off)
 	(auto-fill-mode) ;enable auto fill mode
 	(setq-local hide-ifdef-shadow t)
 	(hide-ifdef-mode)
-	()
+	(setq c-syntactic-indentation t
+		  c-default-style "linux"
+		  c-basic-offset 4
+		  c-tab-always-indent t
+		  )
 	)
-										;(add-hook 'c-special-indent-hook
-										;		  (lambda ()
-										;(yas-expand) (c-guess-basic-syntax))))
 
-										;(font-lock-add-keywords 'c-mode
-										;						  '(("#if  .*" . 'font-lock-comment-face)))
+  (defun trim-at-col (line)
+	"trim C comments at a specified column"
+	(interactive (list (if current-prefix-arg
+						   (read-from-minibuffer "line to trim at: ") nil)))
+	(end-of-line)
+	(backward-char 9)
+	(setq c (- (point) (if line line '80)))
+	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+	)
 
-										;(defun cc-mode-supercomment-matcher (end)
-										;	  "Detect when inside a #if 0 block"
-										;	  (let (pos (case-fold-search t))
-										;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
-										;					(null (nth 3 (syntax-ppss pos)))))
-										;		(when pos (message "found keyword"))
-										;		pos))
-  ;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
+  ;;(add-hook 'c-special-indent-hook
+  ;;     (lambda ()
+  ;;(yas-expand) (c-guess-basic-syntax))))
+
+  ;;(font-lock-add-keywords 'c-mode
+  ;;             '(("#if  .*" . 'font-lock-comment-face)))
+
+  ;;(defun cc-mode-supercomment-matcher (end)
+  ;;   "Detect when inside a #if 0 block"
+  ;;   (let (pos (case-fold-search t))
+  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
+  ;;					(null (nth 3 (syntax-ppss pos)))))
+  ;;		(when pos (message "found keyword"))
+  ;;		pos))
+  ;;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; c++-mode
   (add-hook 'c++-mode-hook (lambda ()
-							 (c-cpp-commom-setup)))
+							 (c-cpp-commom-setup)
+							 ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; c-mode
   (font-lock-add-keywords 'c-mode
-						  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
-						  )
+			  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
+			  )
 
   (add-hook 'c-mode-hook (lambda()
-						   ;; (add-to-list 'company-backends 'company-yasnippet)
-						   (c-cpp-commom-setup)
-						   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
-						   ))
+			   ;; (add-to-list 'company-backends 'company-yasnippet)
+			   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
+			   (c-cpp-commom-setup)
+			   ))
 
   ;;;;;;;;;;;;;;;;;;;;
   ;; EVil
@@ -598,7 +594,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Multi-cursor
 
-  ;;Multi cursor
   (global-set-key (kbd "C-c m c") 'mc/edit-lines)
   (global-set-key [C-mouse-1] 'mc/add-cursor-on-click)
 
@@ -623,10 +618,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key [M-down] 'drag-stuff-down)
   (global-set-key [M-left] 'drag-stuff-left)
   (global-set-key [M-right] 'drag-stuff-right)
-  ;(global-set-key [M-down] 'move-text-down)
-  ;(global-set-key [M-up] 'move-text-up)
+  ;;(global-set-key [M-down] 'move-text-down)
+  ;;(global-set-key [M-up] 'move-text-up)
 
-  ;; zoom controls
+  ;; Zoom controls
   (global-set-key  [C-mouse-4] 'zoom-frm-in)
   (global-set-key  [C-mouse-5] 'zoom-frm-out)
   (global-set-key (kbd "C-+") 'zoom-frm-in)
@@ -646,6 +641,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(org-capture-templates
    (quote
 	(("n" "Quick Note" entry
@@ -653,10 +649,29 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 	  "* %T %?"))))
  '(package-selected-packages
    (quote
-	(company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
+	(evil-collection company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
  '(safe-local-variable-values
    (quote
 	((eval progn
+		   (setq flycheck-clang-include-path
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "./inc" "../bsp/HAL/inc/" "../bsp/drivers/inc/" "../bsp" "../../shared"))
+				 flycheck-clang-includes
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "../../shared/shared-def.h" "../bsp/HAL/inc/alt_types.h"))
+				 company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)
+				 flycheck-gcc-include-path flycheck-clang-include-path))
+	 (eval progn
 		   (setq flycheck-clang-include-path
 				 (map
 				  (quote list)
