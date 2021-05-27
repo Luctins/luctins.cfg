@@ -60,8 +60,8 @@ values."
 	 (org :variables
 		  org-image-actual-width 400
 		  org-startup-with-inline-images t
-		  org-directory "~/mega-doc/org/"
-		  org-default-notes-file (concat org-directory "organizer.org")
+		  org-directory "~/Documents/"
+		  org-default-notes-file (concat org-directory "todo.org")
 		  org-startup-folded t
 		  )
 	 (shell :variables
@@ -355,6 +355,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default tab-width 4
 				hs-hide-comments-when-hiding-all nil ; don't fold comments
 				drag-stuff-global-mode t
+				hide-ifdef-shadow t
 				)
   ;;(setq rtags-use-helm t)
   ;;(setq rtags-completions-enabled t)
@@ -382,6 +383,76 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;(spacemacs/toggle-fill-column-indicator-on)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; General programming settings
+  ;;    (add-hook 'prog-mode-hook
+  ;;			(lambda ()
+  ;;       ((flyspell-mode-off)
+  ;;        (spacemacs/toggle-fill-column-indicator-on))))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; C and C++
+  (defun c-cpp-commom-setup ()
+	"commom paramters set between c and c++ modes"
+	;(spacemacs/toggle-fill-column-indicator-on)
+	(flycheck-mode t)
+	(evil-close-folds)
+	(flyspell-mode-off)
+	(auto-fill-mode) ;enable auto fill mode
+	(hide-ifdef-mode)
+	(setq c-syntactic-indentation t
+		  c-default-style "linux"
+		  c-basic-offset 4
+		  c-tab-always-indent t
+		  )
+	)
+
+  (defun trim-at-col (line)
+	"trim C comments at a specified column"
+	(interactive (list (if current-prefix-arg
+						   (read-from-minibuffer "line to trim at: ") nil)))
+	(end-of-line)
+	(backward-char 9)
+	(setq c (- (point) (if line line '80)))
+	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+	)
+
+  ;;(add-hook 'c-special-indent-hook
+  ;;     (lambda ()
+  ;;(yas-expand) (c-guess-basic-syntax))))
+
+  ;;(font-lock-add-keywords 'c-mode
+  ;;             '(("#if  .*" . 'font-lock-comment-face)))
+
+  ;;(defun cc-mode-supercomment-matcher (end)
+  ;;   "Detect when inside a #if 0 block"
+  ;;   (let (pos (case-fold-search t))
+  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
+  ;;					(null (nth 3 (syntax-ppss pos)))))
+  ;;		(when pos (message "found keyword"))
+  ;;		pos))
+  ;;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; c++-mode
+  (add-hook 'c++-mode-hook (lambda ()
+							 (c-cpp-commom-setup)
+							 ))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; c-mode
+  (font-lock-add-keywords 'c-mode
+						  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
+			  )
+
+  (add-hook 'c-mode-hook (lambda()
+						   ;; (add-to-list 'company-backends 'company-yasnippet)
+						   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
+						   (c-cpp-commom-setup)
+						   ))
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; GNU make
@@ -404,13 +475,6 @@ you should place your code here."
 
   (global-set-key (kbd "C-c e") 'yas-expand)
   (yas-global-mode t)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; General programming settings
-  ;;    (add-hook 'prog-mode-hook
-  ;;			(lambda ()
-  ;;       ((flyspell-mode-off)
-  ;;        (spacemacs/toggle-fill-column-indicator-on))))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; set objdump to read only by default
@@ -523,68 +587,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;; (defun yas/expansion-at-point ()
   ;;   "Tested with v0.6.1. Extracted from `yas-expand'"
   ;;   (first (yas/current-key)))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; C and C++
-  (defun c-cpp-commom-setup ()
-	"commom paramters set between c and c++ modes"
-	(spacemacs/toggle-fill-column-indicator-on)
-	(flycheck-mode t)
-	(evil-close-folds)
-	(flyspell-mode-off)
-	(auto-fill-mode) ;enable auto fill mode
-	(setq-local hide-ifdef-shadow t)
-	(hide-ifdef-mode)
-	(setq c-syntactic-indentation t
-		  c-default-style "linux"
-		  c-basic-offset 4
-		  c-tab-always-indent t
-		  )
-	)
-
-  (defun trim-at-col (line)
-	"trim C comments at a specified column"
-	(interactive (list (if current-prefix-arg
-						   (read-from-minibuffer "line to trim at: ") nil)))
-	(end-of-line)
-	(backward-char 9)
-	(setq c (- (point) (if line line '80)))
-	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-	)
-
-  ;;(add-hook 'c-special-indent-hook
-  ;;     (lambda ()
-  ;;(yas-expand) (c-guess-basic-syntax))))
-
-  ;;(font-lock-add-keywords 'c-mode
-  ;;             '(("#if  .*" . 'font-lock-comment-face)))
-
-  ;;(defun cc-mode-supercomment-matcher (end)
-  ;;   "Detect when inside a #if 0 block"
-  ;;   (let (pos (case-fold-search t))
-  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
-  ;;					(null (nth 3 (syntax-ppss pos)))))
-  ;;		(when pos (message "found keyword"))
-  ;;		pos))
-  ;;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; c++-mode
-  (add-hook 'c++-mode-hook (lambda ()
-							 (c-cpp-commom-setup)
-							 ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; c-mode
-  (font-lock-add-keywords 'c-mode
-			  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
-			  )
-
-  (add-hook 'c-mode-hook (lambda()
-			   ;; (add-to-list 'company-backends 'company-yasnippet)
-			   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
-			   (c-cpp-commom-setup)
-			   ))
 
   ;;;;;;;;;;;;;;;;;;;;
   ;; EVil

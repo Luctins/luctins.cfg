@@ -59,7 +59,9 @@ values."
 	 emacs-lisp
 	 git
 	 ;markdown
-	 org
+	 (org :variables
+		  org-tag-alist '("@work" "@personal")
+		  )
 	 (shell :variables
 			 shell-default-height 30
 			 shell-default-position 'bottom
