@@ -8,7 +8,9 @@
 #+AUTHOR: `user-full-name`
 #+DATE:`(format-time-string " %Y-%m-%d %T")`
 #+OPTIONS: toc:nil $2
-#+TAGS:
+#+FILETAGS: ${2:}
 #+TODO: TODO TEST WAIT | DONE WONTDO
 #+STARTUP: overview
 :END:
+
+$0
