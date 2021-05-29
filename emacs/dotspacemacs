@@ -41,7 +41,7 @@ This function should only modify configuration layer settings."
 	 ;javascript
 	 ;csv
 	 (python :variables
-			 python-indent 8
+			 python-indent 4
 			 python-indent-offset 4
 			 indent-tabs-mode t
 			 tab-width 4
@@ -246,8 +246,12 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(dracula
+   dotspacemacs-themes '(
+						 inkpot
 						 spacemacs-dark
+						 warm-night
+						 ;melancholy
+						 dracula
 						 spacemacs-light)
 
    doom-modeline-minor-modes t
@@ -258,8 +262,8 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(doom :major-mode-icon (display-graphic-p))
-   ;;(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   ;;'(doom :major-mode-icon (display-graphic-p))
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -433,7 +437,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -555,18 +559,22 @@ variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
 
+  (setq exec-path-from-shell-check-startup-files nil)
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Personal Info
-  (setq user-full-name "Lucas Martins Mendes"
-		user-work-email "lucas.mendes@macnicadhw.com.br"
-		user-email "lucas.martinsmendes@gmail.com")
+  (setq user-full-name (getenv "USERNAME")
+		user-email (getenv "USER-EMAIL"))
 
-  (setq drag-stuff-global-mode t)
-  (setq exec-path-from-shell-check-startup-files nil)
   (setq magit-commit-arguments '("-S"))
   (setq tramp-default-method "ssh")
 
+  (setq tab-width 4
+		hs-hide-comments-when-hiding-all nil ; don't fold comments
+		drag-stuff-global-mode t
+		hide-ifdef-shadow t)
   )
+
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -575,8 +583,6 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Tramp setup
 
   )
 
@@ -585,7 +591,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump.")
-
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -596,38 +601,130 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Load themes according to username
+  ;(if (equal (getenv "USER") "luctins") (load-theme 'dracula) ())
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; C and C++
+  (defun c-cpp-commom-setup ()
+	"commom paramters set between c and c++ modes"
+	;(spacemacs/toggle-fill-column-indicator-on)
+	(flycheck-mode t)
+	(evil-close-folds)
+	(flyspell-mode-off)
+	(auto-fill-mode) ;enable auto fill mode
+	(hide-ifdef-mode)
+	(setq c-syntactic-indentation t
+		  c-default-style "linux"
+		  c-basic-offset 4
+		  c-tab-always-indent t
+		  )
+	)
+  ;; c++-mode
+  (add-hook 'c++-mode-hook (lambda ()
+							 (c-cpp-commom-setup)
+							 ))
+
+  ;; c-mode
+  (font-lock-add-keywords 'c-mode
+						  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
+						  )
+
+  (add-hook 'c-mode-hook (lambda()
+						   ;; (add-to-list 'company-backends 'company-yasnippet)
+						   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
+						   (c-cpp-commom-setup)
+						   ))
+
+  (defun trim-at-col (line)
+	"trim C comments at a specified column"
+	(interactive (list (if current-prefix-arg
+						   (read-from-minibuffer "line to trim at: ") nil)))
+	(end-of-line)
+	(backward-char 9)
+	(setq c (- (point) (if line line '80)))
+	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+	)
+
+  ;;(add-hook 'c-special-indent-hook
+  ;;     (lambda ()
+  ;;(yas-expand) (c-guess-basic-syntax))))
+  ;;(font-lock-add-keywords 'c-mode
+  ;;             '(("#if  .*" . 'font-lock-comment-face)))
+  ;;(defun cc-mode-supercomment-matcher (end)
+  ;;   "Detect when inside a #if 0 block"
+  ;;   (let (pos (case-fold-search t))
+  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
+  ;;					(null (nth 3 (syntax-ppss pos)))))
+  ;;		(when pos (message "found keyword"))
+  ;;		pos))
+  ;;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Yasnippet
-
   (defun buffer-mode (&optional buffer-or-name)
 	"Returns the major mode associated with a buffer.
-	 If buffer-or-name is nil return current buffer's mode. used by yasnippet"
-	(buffer-local-value 'major-mode
-						(if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
+   If buffer-or-name is nil return current buffer's mode. used by yasnippet"
+  (buffer-local-value 'major-mode
+			(if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
 
   (defun yas/org-very-safe-expand ()
 	(let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
 
-  (setq yas-snippet-dirs (list  "~/MEGA/config-files/emacs/snippets"))
   (setq yas-visit-from-menu t)
+
+  ;;(setq yas-snippet-dirs ;(list "~/Documents/mega-doc/config-files/emacs/snippets/"))
 
   (global-set-key (kbd "C-c e") 'yas-expand)
   (yas-global-mode t)
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; set objdump to read only by default
+  (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Python mode setup
-  (add-hook 'python-mode-hook
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Assembler mode
+  (add-hook 'asm-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
-			  (setq
-			   python-indent 4
-			   python-indent-offset 4
-			   indent-tabs-mode t
-			   tab-width 4)))
+			  (setq-local tab-width 8
+						  electric-indent-mode nil
+						  indent-tabs-mode t)
+			  (auto-fill-mode)
+			  ))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; GNU make
+  (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Python mode setup
+  (add-hook 'python-mode-hook
+	  (lambda ()
+		(spacemacs/toggle-fill-column-indicator-on)
+		(anaconda-eldoc-mode)
+		(auto-fill-mode)
+		))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org mode settings
+  (add-hook 'org-mode-hook
+			(lambda ()
+			  (yas-minor-mode)
+			  (make-variable-buffer-local 'yas/trigger-key)
+			  (setq-local yas/trigger-key [tab])
+			  (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+			  (define-key yas/keymap [tab] 'yas/next-field)
+			  (flycheck-mode 1)
+			  (flyspell-mode-on)
+			  (org-autolist-mode)
+			  ;;(org-bullets-mode)
+			  (visual-line-mode)
+			  (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
+			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
+			  ))
+
   (defun org-insert-image-from-clipboard ()
 	"Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file. Depends in X.org to work (for now)"
@@ -651,51 +748,30 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 		 (message "clipboard does not contain a image!")
 	   (concat "[[./" (file-relative-name filename) "]]")))
 	(org-display-inline-images))
-
-
-
   (defun org-sort-headings-todo-prio ()
 	"sort org headings first by priority then by todo order"
 	(interactive)
 	(org-sort-entries t ?p )
-	;(outline-up-heading)
-	(org-sort-entries t ?o ))
+	(org-sort-entries t ?o )
+	)
 
-  (add-hook 'org-mode-hook
-			(lambda ()
-			  (yas-minor-mode)
-			  (make-variable-buffer-local 'yas/trigger-key)
-			  (setq yas/trigger-key [tab])
-			  (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-			  (define-key yas/keymap [tab] 'yas/next-field)
-			  (flycheck-mode 1)
-			  (flyspell-mode t)
-			  (org-autolist-mode)
-			  ;(org-bullets-mode)
-			  (visual-line-mode)
-			  (local-set-key (kbd "C-c C-x s") `org-sort-headings-todo-prio)))
+  ;; Orgmode keywords
+  (setq org-todo-keyword-faces
+	'(("TODO" . org-warning)
+	  ("WAIT" . (:foreground "#F0C674" :weight bold))
+	  ("WTDO" . (:foreground "#59872d" :weight bold))
+	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
+	  ("DONE" . org-done)
+	  ))
 
-  ;; keybinds
   (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-notes-file)))
-  (global-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
   (global-set-key (kbd "C-c c") 'org-capture)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; GNU make
-  (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; RTAGS
-  ;;(eval-after-load 'company
-  ;;  '(add-to-list
-  ;;    'company-backends 'company-rtags))
-  ;;(setq rtags-autostart-diagnostics t)
-  ;;(rtags-enable-standard-keybindings)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Company mode
+  (global-company-mode)
+
   ;;(push '(company-semantic :with company-yasnippet) company-backends)
-  ;;(global-company-mode)
   ;; (define-key company-active-map [?\t] 'company-yasnippet-or-completion)
   ;;
   ;; (defun company-yasnippet-or-completion ()
@@ -709,77 +785,64 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;   "Tested with v0.6.1. Extracted from `yas-expand'"
   ;;   (first (yas/current-key)))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;
+  ;; EVil
+
+  ;; close and open folds
+  (global-set-key (kbd "<backtab>") 'evil-toggle-fold)
+  (global-set-key (kbd "M-m c f") 'evil-close-folds)
+  (global-set-key (kbd "M-m o f") 'evil-open-folds)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Multi-cursor
+
+  (global-set-key (kbd "C-c m c") 'mc/edit-lines)
+  (global-set-key [C-mouse-1] 'mc/add-cursor-on-click)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Flyspell
 
   ;; only enable flyspell when needed
   (flyspell-mode-off)
   (flyspell-mode nil)
+
   ;; Isto e' para habilitar o dicionario em portugues brasileiro
   (setq ispell-dictionary "brasileiro")
   (setq ispell-alternate-dictionary "english")
+
+  ;(setq ispell-dictionary-alist (list (map 'list  'list (list "brasileiro" "english"))))
   (setq flyspell-issue-message-flag nil)
 
-  ;;(setq ispell-dictionary-alist (list (map 'list  'list (list "brasileiro" "english"))))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; C and C++
-  (defun c-cpp-commom-setup ()
-	"commom paramters set between c and c++ modes"
-	(flycheck-mode t)
-	(flyspell-mode-off)
-	(spacemacs/toggle-fill-column-indicator-on)
-	(setq c-syntactic-indentation t)
-	(setq c-default-style "linux")
-	(setq c-basic-offset 4)
-	(auto-fill-mode) ;enable auto fill mode
-	(setq-local hide-ifdef-shadow t)
-	(hide-ifdef-mode)
-	;;(add-hook 'c-special-indent-hook
-	;;		  (lambda ()
-	;;(yas-expand) (c-guess-basic-syntax))))
-	)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; c++-mode
-  (add-hook 'c++-mode-hook (lambda ()
-							 (c-cpp-commom-setup)))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; c-mode
-  (add-hook 'c-mode-hook (lambda()
-						   ;(add-to-list 'company-backends 'company-yasnippet)
-						   (c-cpp-commom-setup)))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Multi-cursor
-  (global-set-key (kbd "C-c m c") 'mc/edit-lines)
-  (global-set-key [C-mouse-1] 'mc/add-cursor-on-click)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; General Shortcuts
 
   ;multiframe window movement
   (global-set-key (kbd "M-n") 'next-multiframe-window)
 
   ;; text movement keybinds
-  ;(global-set-key [M-up] 'move-text-up)
-  ;(global-set-key [M-down] 'move-text-down)
   (global-set-key [M-up] 'drag-stuff-up)
   (global-set-key [M-down] 'drag-stuff-down)
   (global-set-key [M-left] 'drag-stuff-left)
   (global-set-key [M-right] 'drag-stuff-right)
+  ;;(global-set-key [M-down] 'move-text-down)
+  ;;(global-set-key [M-up] 'move-text-up)
 
-  ;; close and open folds
-  (global-set-key (kbd "<backtab>") 'evil-toggle-fold)
-
-  ;; zoom controls
+  ;; Zoom controls
   (global-set-key  [C-mouse-4] 'zoom-frm-in)
   (global-set-key  [C-mouse-5] 'zoom-frm-out)
   (global-set-key (kbd "C-+") 'zoom-frm-in)
   (global-set-key (kbd "C--") 'zoom-frm-out)
 
   (global-unset-key (kbd "C-v")) ; remove annoying conflict
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; RTAGS
+  ;;(eval-after-load 'company
+  ;;  '(add-to-list
+  ;;    'company-backends 'company-rtags))
+  ;;(setq rtags-autostart-diagnostics t)
+  ;;(rtags-enable-standard-keybindings)
 
 )
 
