@@ -52,7 +52,9 @@ This function should only modify configuration layer settings."
 	 better-defaults
 	 emacs-lisp
 	 git
-	 ;markdown
+	 (c-mode :variables
+			 indent-tabs-mode nil)
+	 ;;markdown
 	 (org :variables
 		  org-tag-alist '("@work" "@personal")
 		  org-image-actual-width 400
@@ -601,7 +603,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  ;;;;;
   ;; Load themes according to username
   ;(if (equal (getenv "USER") "luctins") (load-theme 'dracula) ())
 
@@ -609,7 +611,7 @@ you should place your code here."
   ;; C and C++
   (defun c-cpp-commom-setup ()
 	"commom paramters set between c and c++ modes"
-	;(spacemacs/toggle-fill-column-indicator-on)
+	(spacemacs/toggle-fill-column-indicator-on)
 	(flycheck-mode t)
 	(evil-close-folds)
 	(flyspell-mode-off)
@@ -757,14 +759,14 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 
   ;; Orgmode keywords
   (setq org-todo-keyword-faces
-	'(("TODO" . org-warning)
+	'(("TODO" . org-todo) ;(:foreground))
 	  ("WAIT" . (:foreground "#F0C674" :weight bold))
-	  ("WTDO" . (:foreground "#59872d" :weight bold))
+	  ("WTDO" . org-done ) ;(:foreground "#59872d" :weight bold))
 	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
 	  ("DONE" . org-done)
 	  ))
 
-  (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-notes-file)))
+  (global-set-key (kbd "M-m b o") (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -886,7 +888,22 @@ This function is called at the very end of Spacemacs initialization."
  '(package-selected-packages
    (quote
 	(prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
- '(safe-local-variable-values nil)
+ '(safe-local-variable-values
+   (quote
+	((eval progn
+		   (setq flycheck-clang-include-path
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "./include/" "~/repo/macnica/esp-idf/components/newlib/platform_include/" "~/repo/macnica/esp-idf/components/freertos/include/" "~/repo/macnica/esp-idf/components/freertos/xtensa/include/" "~/repo/macnica/esp-idf/components/heap/include/" "~/repo/macnica/esp-idf/components/log/include/" "~/repo/macnica/esp-idf/components/lwip/include/apps/" "~/repo/macnica/esp-idf/components/lwip/include/apps/sntp/" "~/repo/macnica/esp-idf/components/lwip/lwip/src/include/" "~/repo/macnica/esp-idf/components/lwip/port/esp32/include/" "~/repo/macnica/esp-idf/components/lwip/port/esp32/include/arch/" "~/repo/macnica/esp-idf/components/soc/src/esp32/./" "~/repo/macnica/esp-idf/components/soc/src/esp32/include/" "~/repo/macnica/esp-idf/components/soc/include/" "~/repo/macnica/esp-idf/components/esp_rom/include/" "~/repo/macnica/esp-idf/components/esp_common/include/" "~/repo/macnica/esp-idf/components/esp_system/include/" "~/repo/macnica/esp-idf/components/xtensa/include/" "~/repo/macnica/esp-idf/components/xtensa/esp32/include/" "~/repo/macnica/esp-idf/components/esp32/include/" "~/repo/macnica/esp-idf/components/driver/include/" "~/repo/macnica/esp-idf/components/driver/esp32/include/" "~/repo/macnica/esp-idf/components/esp_ringbuf/include/" "~/repo/macnica/esp-idf/components/efuse/include/" "~/repo/macnica/esp-idf/components/efuse/esp32/include/" "~/repo/macnica/esp-idf/components/espcoredump/include/" "~/repo/macnica/esp-idf/components/esp_timer/include/" "~/repo/macnica/esp-idf/components/soc/soc/esp32/./" "~/repo/macnica/esp-idf/components/soc/soc/esp32/include/" "~/repo/macnica/esp-idf/components/soc/soc/esp32/../include/" "~/repo/macnica/esp-idf/components/vfs/include/" "~/repo/macnica/esp-idf/components/esp_wifi/include/" "~/repo/macnica/esp-idf/components/esp_wifi/esp32/include/" "~/repo/macnica/esp-idf/components/esp_event/include/" "~/repo/macnica/esp-idf/components/esp_netif/include/" "~/repo/macnica/esp-idf/components/esp_eth/include/" "~/repo/macnica/esp-idf/components/tcpip_adapter/include/" "~/repo/macnica/esp-idf/components/app_trace/include/" "~/repo/macnica/esp-idf/components/mbedtls/port/include/" "~/repo/macnica/esp-idf/components/mbedtls/mbedtls/include/" "~/repo/macnica/esp-idf/components/mbedtls/esp_crt_bundle/include/" "~/repo/macnica/esp-idf/components/bootloader_support/include/" "~/repo/macnica/esp-idf/components/app_update/include/" "~/repo/macnica/esp-idf/components/spi_flash/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/port/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/include/esp_supplicant/" "~/repo/macnica/esp-idf/components/nvs_flash/include/" "~/repo/macnica/esp-idf/components/pthread/include/" "~/repo/macnica/esp-idf/components/perfmon/include/" "~/repo/macnica/esp-idf/components/asio/asio/asio/include/" "~/repo/macnica/esp-idf/components/asio/port/include/" "~/repo/macnica/esp-idf/components/cbor/port/include/" "~/repo/macnica/esp-idf/components/coap/port/include/" "~/repo/macnica/esp-idf/components/coap/port/include/coap/" "~/repo/macnica/esp-idf/components/coap/libcoap/include/" "~/repo/macnica/esp-idf/components/coap/libcoap/include/coap2/" "~/repo/macnica/esp-idf/components/console/" "~/repo/macnica/esp-idf/components/nghttp/port/include/" "~/repo/macnica/esp-idf/components/nghttp/nghttp2/lib/includes/" "~/repo/macnica/esp-idf/components/esp-tls/" "~/repo/macnica/esp-idf/components/esp_adc_cal/include/" "~/repo/macnica/esp-idf/components/esp_gdbstub/include/" "~/repo/macnica/esp-idf/components/tcp_transport/include/" "~/repo/macnica/esp-idf/components/esp_http_client/include/" "~/repo/macnica/esp-idf/components/esp_http_server/include/" "~/repo/macnica/esp-idf/components/esp_https_ota/include/" "~/repo/macnica/esp-idf/components/protobuf-c/protobuf-c/" "~/repo/macnica/esp-idf/components/protocomm/include/common/" "~/repo/macnica/esp-idf/components/protocomm/include/security/" "~/repo/macnica/esp-idf/components/protocomm/include/transports/" "~/repo/macnica/esp-idf/components/mdns/include/" "~/repo/macnica/esp-idf/components/esp_local_ctrl/include/" "~/repo/macnica/esp-idf/components/sdmmc/include/" "~/repo/macnica/esp-idf/components/esp_serial_slave_link/include/" "~/repo/macnica/esp-idf/components/esp_websocket_client/include/" "~/repo/macnica/esp-idf/components/expat/expat/expat/lib/" "~/repo/macnica/esp-idf/components/expat/port/include/" "~/repo/macnica/esp-idf/components/wear_levelling/include/" "~/repo/macnica/esp-idf/components/fatfs/diskio/" "~/repo/macnica/esp-idf/components/fatfs/vfs/" "~/repo/macnica/esp-idf/components/fatfs/src/" "~/repo/macnica/esp-idf/components/freemodbus/common/include/" "~/repo/macnica/esp-idf/components/idf_test/include/" "~/repo/macnica/esp-idf/components/idf_test/include/esp32/" "~/repo/macnica/esp-idf/components/jsmn/include/" "~/repo/macnica/esp-idf/components/json/cJSON/" "~/repo/macnica/esp-idf/components/libsodium/libsodium/src/libsodium/include/" "~/repo/macnica/esp-idf/components/libsodium/port_include/" "~/repo/macnica/esp-idf/components/mqtt/esp-mqtt/include/" "~/repo/macnica/esp-idf/components/openssl/include/" "~/repo/macnica/esp-idf/components/spiffs/include/" "~/repo/macnica/esp-idf/components/ulp/include/" "~/repo/macnica/esp-idf/components/unity/include/" "~/repo/macnica/esp-idf/components/unity/unity/src/" "~/repo/macnica/esp-idf/components/wifi_provisioning/include/"))
+				 company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)
+				 flycheck-gcc-include-path flycheck-clang-include-path)))))
  '(send-mail-function (quote smtpmail-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
