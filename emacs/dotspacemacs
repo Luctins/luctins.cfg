@@ -52,8 +52,6 @@ This function should only modify configuration layer settings."
 	 better-defaults
 	 emacs-lisp
 	 git
-	 (c-mode :variables
-			 indent-tabs-mode nil)
 	 ;;markdown
 	 (org :variables
 		  org-tag-alist '("@work" "@personal")
@@ -621,6 +619,7 @@ you should place your code here."
 		  c-default-style "linux"
 		  c-basic-offset 4
 		  c-tab-always-indent t
+		  indent-tabs-mode nil
 		  )
 	)
   ;; c++-mode
