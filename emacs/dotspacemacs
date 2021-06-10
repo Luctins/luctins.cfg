@@ -667,6 +667,8 @@ you should place your code here."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Yasnippet
+  (yas-global-mode t)
+
   (defun buffer-mode (&optional buffer-or-name)
 	"Returns the major mode associated with a buffer.
    If buffer-or-name is nil return current buffer's mode. used by yasnippet"
@@ -684,9 +686,9 @@ you should place your code here."
   ;; (it will still call whatever is bound to it otherwise).
   (define-key yas-minor-mode-map (kbd "TAB") yas-maybe-expand)
 
+  ;; Bind global key
   (global-set-key (kbd "C-c e") 'yas-expand)
 
-  (yas-global-mode t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; set objdump to read only by default
