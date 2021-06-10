@@ -10,9 +10,6 @@ matches:
              *Estacionamento* {{d}} (car) (truck)
              -
              ```--------```
-             Log (clock):
-             
-             ```--------```
     vars:
      - name: d
        type: date

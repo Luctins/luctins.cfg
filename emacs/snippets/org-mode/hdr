@@ -4,13 +4,13 @@
 # group: template
 # --
 :PROPERTIES:
-#+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "-" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
+#+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
 #+AUTHOR: `user-full-name`
 #+DATE:`(format-time-string " %Y-%m-%d %T")`
 #+OPTIONS: toc:nil $2
 #+FILETAGS: ${2:}
 #+TODO: TODO TEST WAIT | DONE WONTDO
-#+STARTUP: overview
+#+STARTUP: ${3:$$(yas-choose-value '("content" "overview" "showall" "showeverything"))}
 :END:
 
 $0
