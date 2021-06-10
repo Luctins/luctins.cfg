@@ -55,16 +55,17 @@ This function should only modify configuration layer settings."
 	 ;;markdown
 	 (org :variables
 		  org-confirm-babel-evaluate nil
-		  org-tag-alist '("@work" "@personal")
+		  org-tag-alist '("work" "personal" "college")
 		  org-image-actual-width 400
 		  org-startup-with-inline-images t
 		  org-directory "~/org/"
+		  org-agenda-files '("~/org/")
 		  org-default-notes-file (concat org-directory "todo.org")
 		  org-startup-folded t
 		  org-todo-keyword-faces '(("TODO" . org-warning)
-								   ("WONTDO" . "dark grey"); :background "#292b2e"))
+								   ;("WONTDO" . "dark grey"); :background "#292b2e"))
 								   ("TEST" . "#6eb0e9"); :weight bold :background "#292b2e"))
-								   ("DONE" . "green")); :weight bold :background "#292b2e"))))
+								   ("DONE" . org-done)); :weight bold :background "#292b2e"))))
 		  org-latex-packages-alist '(("margin=2cm" "geometry" nil)
 									 (" " "indentfirst" " "))
 		  )
@@ -679,7 +680,12 @@ you should place your code here."
 
   ;;(setq yas-snippet-dirs ;(list "~/Documents/mega-doc/config-files/emacs/snippets/"))
 
+  ;; Bind `TAB' to `yas-expand' when snippet expansion available
+  ;; (it will still call whatever is bound to it otherwise).
+  (define-key yas-minor-mode-map (kbd "TAB") yas-maybe-expand)
+
   (global-set-key (kbd "C-c e") 'yas-expand)
+
   (yas-global-mode t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -892,6 +898,22 @@ This function is called at the very end of Spacemacs initialization."
  '(safe-local-variable-values
    (quote
 	((eval progn
+		   (setq flycheck-clang-include-path
+				 (list
+				  (expand-file-name ".")
+				  (expand-file-name "../../../bsp/drivers/inc")
+				  (expand-file-name "../../../bsp/HAL/inc")
+				  (expand-file-name "../../../bsp/")
+				  (expand-file-name "../../../shared")))
+		   flycheck-clang-includes "../../../shared/shared-def.h"
+		   (setq company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)))
+	 (eval progn
 		   (setq flycheck-clang-include-path
 				 (map
 				  (quote list)
