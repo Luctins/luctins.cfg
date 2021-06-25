@@ -1,0 +1,8 @@
+alias ptop="sudo powertop"
+alias python="python3"
+alias xo='xdg-open'
+alias rgrep='rgrep --color'
+alias jf='journalctl -xkefb'
+
+#auto
+alias editalias='vim .bash_aliases'
