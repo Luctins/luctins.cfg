@@ -1,10 +1,13 @@
 # -*- mode: snippet -*-
 # name: Doxygen comment block
-# key: dblk
+# key: dbk
 # expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
 # group: doxygen
 # --
 /**
   $1.
-  ${2:@return}
+
+  ${2:@details  $3.}
+
+  ${4:@return $5}
 */
