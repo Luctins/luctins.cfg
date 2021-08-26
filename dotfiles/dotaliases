@@ -1,8 +1,30 @@
+alias editalias='$EDITOR ~/.aliases'
+
 alias ptop="sudo powertop"
 alias python="python3"
 alias xo='xdg-open'
 alias rgrep='rgrep --color'
-alias jf='journalctl -xkefb'
+alias jf='journalctl -efb'
+alias grephist="cat $HISTFILE | grep"
 
-#auto
-alias editalias='vim .bash_aliases'
+alias csvn='colorsvn --username=lucas.mendes'
+alias svn='svn --username=lucas.mendes'
+
+alias setm1b='ddcutil -d 1 setvcp 10'
+alias setm2b='ddcutil -d 2 setvcp 10'
+
+alias flatpakinstsys='flatpak install flathub --system'
+
+alias gimme='sudo apt install'
+alias yeet='sudo apt remove'
+
+alias stophd='sudo hdparm -B1'
+alias pulseaudioreload="pulseaudio -k && pulseaudio --start"
+
+alias setmbhigh='ddcutil -d 1 setvcp 10 50; ddcutil -d 2 setvcp 10 70'
+alias setmblow='ddcutil -d 1 setvcp 10 25; ddcutil -d 2 setvcp 10 50'
+alias setmbmid='ddcutil -d 1 setvcp 10 37; ddcutil -d 2 setvcp 10 60'
+
+alias s='source'
+
+alias restart-gnome-shell='killall -9 gnome-shell'
