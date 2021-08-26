@@ -124,8 +124,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-VISUAL=/usr/bin/nano
+VISUAL=/usr/bin/vim
 EDITOR=$VISUAL
 export EDITOR
 export VISUAL
+
+eval "$(starship init bash)"
 
