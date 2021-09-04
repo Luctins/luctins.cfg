@@ -26,5 +26,7 @@ alias setmblow='ddcutil -d 1 setvcp 10 25; ddcutil -d 2 setvcp 10 50'
 alias setmbmid='ddcutil -d 1 setvcp 10 37; ddcutil -d 2 setvcp 10 60'
 
 alias s='source'
-
+alias bat='batcat'
 alias restart-gnome-shell='killall -9 gnome-shell'
+
+alias svndiff="svn diff | colordiff | less"
