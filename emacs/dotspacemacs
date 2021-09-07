@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(systemd
+	 html
 	 javascript
 	 octave
 	 rust
@@ -57,18 +58,23 @@ This function should only modify configuration layer settings."
 	 (org :variables
 		  org-confirm-babel-evaluate nil
 		  org-tag-alist '("work" "personal" "college")
-		  org-image-actual-width 400
+		  org-image-actual-width 600
 		  org-startup-with-inline-images t
 		  org-directory "~/org/"
-		  org-agenda-files '("~/org/")
+		  ;org-agenda-files '("~/org/")
 		  org-default-notes-file (concat org-directory "todo.org")
 		  org-startup-folded t
-		  org-todo-keyword-faces '(("TODO" . org-warning)
-								   ;("WONTDO" . "dark grey"); :background "#292b2e"))
-								   ("TEST" . "#6eb0e9"); :weight bold :background "#292b2e"))
-								   ("DONE" . org-done)); :weight bold :background "#292b2e"))))
+		  org-todo-keyword-faces'(("TODO" . org-todo)
+								  ("WAIT" . (:foreground "#F0C674" :weight bold))
+								  ("WTDO" . org-done)
+								  ("TEST" . (:foreground "#6eb0e9" :weight bold))
+								  ("FIX" . (:foreground "#b34e6b" :weight bold))
+								  ("DONE" . org-done))
+
 		  org-latex-packages-alist '(("margin=2cm" "geometry" nil)
 									 (" " "indentfirst" " "))
+
+		  org-format-latex-options '(:scale 1.5)
 		  )
 	 (shell :variables
 			 shell-default-height 30
@@ -94,6 +100,7 @@ This function should only modify configuration layer settings."
 									  nodemcu-mode
 									  activity-watch-mode
 									  gnuplot-mode
+									  graphviz-dot-mode
 									  )
 
    ;; A list of packages that cannot be updated.
@@ -215,8 +222,9 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 5)
-								(projects . 7)
+   dotspacemacs-startup-lists '((recents-by-project . (4 . 4))
+								(recents . 6)
+								(bookmarks . 3)
 								(todos . 4))
 
    ;; True if the home buffer should respond to resize events. (default t)
@@ -269,14 +277,14 @@ It should only modify the values of Spacemacs settings."
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
    dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
-   ;;'(doom :major-mode-icon (display-graphic-p))
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
-   ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; a non-negative integer (pixel size), or a floating-point (point size).
+   ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
 							   :size 10.0
 							   :weight normal
@@ -398,12 +406,12 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 98
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 95
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -429,8 +437,8 @@ It should only modify the values of Spacemacs settings."
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
    ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
    ;; numbers are relative. If set to `visual', line numbers are also relative,
-   ;; but lines are only visual lines are counted. For example, folded lines
-   ;; will not be counted and wrapped lines are counted as multiple lines.
+   ;; but only visual lines are counted. For example, folded lines will not be
+   ;; counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
    ;;   :visual nil
@@ -524,14 +532,14 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup 'all
 
-   ;; If non nil activate `clean-aindent-mode' which tries to correct
-   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; If non-nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfere with mode specific
    ;; indent handling like has been reported for `go-mode'.
    ;; If it does deactivate it here.
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
 
-   ;; Accept SPC as y for prompts if non nil. (default nil)
+   ;; Accept SPC as y for prompts if non-nil. (default nil)
    dotspacemacs-use-SPC-as-y nil
 
    ;; If non-nil shift your number row to match the entered keyboard layout
@@ -551,7 +559,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-pretty-docs nil
 
    ;; If nil the home buffer shows the full path of agenda items
-   ;; and todos. If non nil only the file name is shown.
+   ;; and todos. If non-nil only the file name is shown.
    dotspacemacs-home-shorten-agenda-source nil
 
    ;; If non-nil then byte-compile some of Spacemacs files.
@@ -583,14 +591,12 @@ See the header of this file for more information."
 
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
-executes.
- This function is mostly useful for variables that need to be set
-before packages are loaded. If you are unsure, you should try in setting them in
-`dotspacemacs/user-config' first."
+  "Initialization for user code:
+This function is called immediately after `dotspacemacs/init', before layer
+configuration.
+It is mostly for variables that should be set before packages are loaded.
+If you are unsure, try setting them in `dotspacemacs/user-config' first.")
 
-  )
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -607,7 +613,13 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;(activity-watch-mode t)
+  (spacemacs/enable-transparency)
+
+  ;; Activitywatch integration
+  (if (equal (getenv '"USER") "luctins")
+	  (activity-watch-mode t)
+	)
+
   (flyspell-mode-off)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Load themes according to username
@@ -629,8 +641,9 @@ you should place your code here."
 	(flycheck-mode t)
 	(evil-close-folds)
 	(flyspell-mode-off)
-	(auto-fill-mode) ;enable auto fill mode
+	(auto-fill-mode)
 	(hide-ifdef-mode)
+	(hide-ifdefs)
 	(setq c-syntactic-indentation t
 		  c-default-style "linux"
 		  c-basic-offset 4
@@ -680,6 +693,8 @@ you should place your code here."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Yasnippet
+
+  ;; Enable it globally
   (yas-global-mode t)
 
   (defun buffer-mode (&optional buffer-or-name)
@@ -693,7 +708,7 @@ you should place your code here."
 
   (setq yas-visit-from-menu t)
 
-  ;;(setq yas-snippet-dirs ;(list "~/Documents/mega-doc/config-files/emacs/snippets/"))
+  (add-to-list 'yas-snippet-dirs '"~/.emacs.d/private/snippets-local" )
 
   ;; Bind `TAB' to `yas-expand' when snippet expansion available
   ;; (it will still call whatever is bound to it otherwise).
@@ -702,9 +717,13 @@ you should place your code here."
   ;; Bind global key
   (global-set-key (kbd "C-c e") 'yas-expand)
 
+  (yas-reload-all)
+  ;(yas-global-mode t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; set objdump to read only by default
+  ;; Objdump mode
+
+  ;; set to read only by default
   (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -712,9 +731,9 @@ you should place your code here."
   (add-hook 'asm-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
-			  (setq-local tab-width 8
-						  electric-indent-mode nil
-						  indent-tabs-mode t)
+			  (setq tab-width 8
+					electric-indent-mode nil
+					indent-tabs-mode t)
 			  (auto-fill-mode)
 			  ))
 
@@ -749,6 +768,19 @@ you should place your code here."
 			  (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
 			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
 			  ))
+  ;; Babel config
+  (setq org-babel-load-languages '((gnuplot . t)
+								   (emacs-lisp . t)
+										;(graphviz-dot . t)
+								   (dot . t)
+								   ))
+  (defun my/fix-inline-images ()
+	(when org-inline-image-overlays
+	  (org-redisplay-inline-images)))
+
+  (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+  ;(add-to-list 'org-babel-load-languages  '(gnuplot . t))
+  ;(org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
 
   (defun org-insert-image-from-clipboard ()
 	"Take a screenshot into a time stamped unique-named file in the
@@ -759,20 +791,20 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 	(if (not (file-directory-p folder-name))
 		(make-directory folder-name nil))
 	(setq filename
-		  (concat
-		   folder-name "/"
-		   (make-temp-name
-			(concat ;(buffer-file-name) ;"-"
-			 (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+		  (concat folder-name "/"
+				  (make-temp-name (format-time-string "%Y%m%d_%H%M%S_")) ".png"))
 	;; TODO: add switch to detect Xorg or wayland session using (getenv "XDG_SESSION_TYPE")
 	(insert
-	 (if (string= (car (split-string
-						(shell-command-to-string
-						 (concat "xclip -selection clip -t image/png  -o >> " filename ))
+	 (if (string=
+		  (car
+		   (split-string
+			(shell-command-to-string
+			 (concat "xclip -selection clip -t image/png  -o >> " filename ))
 						":")) "Error")
 		 (message "clipboard does not contain a image!")
 	   (concat "[[./" (file-relative-name filename) "]]")))
 	(org-display-inline-images))
+
   (defun org-sort-headings-todo-prio ()
 	"sort org headings first by priority then by todo order"
 	(interactive)
@@ -781,14 +813,14 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 	)
 
   ;; Orgmode keywords
-  (setq org-todo-keyword-faces
-	'(("TODO" . org-todo) ;(:foreground))
-	  ("WAIT" . (:foreground "#F0C674" :weight bold))
-	  ("WTDO" . org-done ) ;(:foreground "#59872d" :weight bold))
-	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
-	  ("FIX" . (:foreground "#ff0000" :weight bold))
-	  ("DONE" . org-done)
-	  ))
+  ;; (setq org-todo-keyword-faces
+  ;;	'(("TODO" . org-todo) ;(:foreground))
+  ;;	  ("WAIT" . (:foreground "#F0C674" :weight bold))
+  ;;	  ("WTDO" . org-done ) ;(:foreground "#59872d" :weight bold))
+  ;;	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
+  ;;	  ("FIX" . (:foreground "#b34e6b" :weight bold))
+  ;;	  ("DONE" . org-done))
+  ;;	)
 
   (global-set-key (kbd "M-m b o") (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
@@ -903,7 +935,11 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+	("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(org-agenda-files nil)
  '(org-capture-templates
    (quote
 	(("n" "Quick Note" entry
@@ -911,10 +947,52 @@ This function is called at the very end of Spacemacs initialization."
 	  "* %T %?"))))
  '(package-selected-packages
    (quote
-	(gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
+	(systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
  '(safe-local-variable-values
    (quote
 	((eval progn
+		   (setq flycheck-clang-include-path
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "../build/config/" "./inc/" "~/.esp-idf/components/newlib/platform_include/" "~/.esp-idf/components/freertos/include/" "~/.esp-idf/components/freertos/xtensa/include/" "~/.esp-idf/components/heap/include/" "~/.esp-idf/components/log/include/" "~/.esp-idf/components/lwip/include/apps/" "~/.esp-idf/components/lwip/include/apps/sntp/" "~/.esp-idf/components/lwip/lwip/src/include/" "~/.esp-idf/components/lwip/port/esp32/include/" "~/.esp-idf/components/lwip/port/esp32/include/arch/" "~/.esp-idf/components/soc/src/esp32/./" "~/.esp-idf/components/soc/src/esp32/include/" "~/.esp-idf/components/soc/include/" "~/.esp-idf/components/esp_rom/include/" "~/.esp-idf/components/esp_common/include/" "~/.esp-idf/components/esp_system/include/" "~/.esp-idf/components/xtensa/include/" "~/.esp-idf/components/xtensa/esp32/include/" "~/.esp-idf/components/esp32/include/" "~/.esp-idf/components/driver/include/" "~/.esp-idf/components/driver/esp32/include/" "~/.esp-idf/components/esp_ringbuf/include/" "~/.esp-idf/components/efuse/include/" "~/.esp-idf/components/efuse/esp32/include/" "~/.esp-idf/components/espcoredump/include/" "~/.esp-idf/components/esp_timer/include/" "~/.esp-idf/components/soc/soc/esp32/./" "~/.esp-idf/components/soc/soc/esp32/include/" "~/.esp-idf/components/soc/soc/esp32/../include/" "~/.esp-idf/components/vfs/include/" "~/.esp-idf/components/esp_wifi/include/" "~/.esp-idf/components/esp_wifi/esp32/include/" "~/.esp-idf/components/esp_event/include/" "~/.esp-idf/components/esp_netif/include/" "~/.esp-idf/components/esp_eth/include/" "~/.esp-idf/components/tcpip_adapter/include/" "~/.esp-idf/components/app_trace/include/" "~/.esp-idf/components/mbedtls/port/include/" "~/.esp-idf/components/mbedtls/mbedtls/include/" "~/.esp-idf/components/mbedtls/esp_crt_bundle/include/" "~/.esp-idf/components/bootloader_support/include/" "~/.esp-idf/components/app_update/include/" "~/.esp-idf/components/spi_flash/include/" "~/.esp-idf/components/wpa_supplicant/include/" "~/.esp-idf/components/wpa_supplicant/port/include/" "~/.esp-idf/components/wpa_supplicant/include/esp_supplicant/" "~/.esp-idf/components/nvs_flash/include/" "~/.esp-idf/components/pthread/include/" "~/.esp-idf/components/perfmon/include/" "~/.esp-idf/components/asio/asio/asio/include/" "~/.esp-idf/components/asio/port/include/" "~/.esp-idf/components/cbor/port/include/" "~/.esp-idf/components/coap/port/include/" "~/.esp-idf/components/coap/port/include/coap/" "~/.esp-idf/components/coap/libcoap/include/" "~/.esp-idf/components/coap/libcoap/include/coap2/" "~/.esp-idf/components/console/" "~/.esp-idf/components/nghttp/port/include/" "~/.esp-idf/components/nghttp/nghttp2/lib/includes/" "~/.esp-idf/components/esp-tls/" "~/.esp-idf/components/esp_adc_cal/include/" "~/.esp-idf/components/esp_gdbstub/include/" "~/.esp-idf/components/tcp_transport/include/" "~/.esp-idf/components/esp_http_client/include/" "~/.esp-idf/components/esp_http_server/include/" "~/.esp-idf/components/esp_https_ota/include/" "~/.esp-idf/components/protobuf-c/protobuf-c/" "~/.esp-idf/components/protocomm/include/common/" "~/.esp-idf/components/protocomm/include/security/" "~/.esp-idf/components/protocomm/include/transports/" "~/.esp-idf/components/mdns/include/" "~/.esp-idf/components/esp_local_ctrl/include/" "~/.esp-idf/components/sdmmc/include/" "~/.esp-idf/components/esp_serial_slave_link/include/" "~/.esp-idf/components/esp_websocket_client/include/" "~/.esp-idf/components/expat/expat/expat/lib/" "~/.esp-idf/components/expat/port/include/" "~/.esp-idf/components/wear_levelling/include/" "~/.esp-idf/components/fatfs/diskio/" "~/.esp-idf/components/fatfs/vfs/" "~/.esp-idf/components/fatfs/src/" "~/.esp-idf/components/freemodbus/common/include/" "~/.esp-idf/components/idf_test/include/" "~/.esp-idf/components/idf_test/include/esp32/" "~/.esp-idf/components/jsmn/include/" "~/.esp-idf/components/json/cJSON/" "~/.esp-idf/components/libsodium/libsodium/src/libsodium/include/" "~/.esp-idf/components/libsodium/port_include/" "~/.esp-idf/components/mqtt/esp-mqtt/include/" "~/.esp-idf/components/openssl/include/" "~/.esp-idf/components/spiffs/include/" "~/.esp-idf/components/ulp/include/" "~/.esp-idf/components/unity/include/" "~/.esp-idf/components/unity/unity/src/" "~/.esp-idf/components/wifi_provisioning/include/"))
+				 company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)
+				 flycheck-gcc-include-path flycheck-clang-include-path))
+	 (eval progn
+		   (setq flycheck-clang-include-path
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "./../build/config/" "./inc/" "~/.esp-idf/components/newlib/platform_include/" "~/.esp-idf/components/freertos/include/" "~/.esp-idf/components/freertos/xtensa/include/" "~/.esp-idf/components/heap/include/" "~/.esp-idf/components/log/include/" "~/.esp-idf/components/lwip/include/apps/" "~/.esp-idf/components/lwip/include/apps/sntp/" "~/.esp-idf/components/lwip/lwip/src/include/" "~/.esp-idf/components/lwip/port/esp32/include/" "~/.esp-idf/components/lwip/port/esp32/include/arch/" "~/.esp-idf/components/soc/src/esp32/./" "~/.esp-idf/components/soc/src/esp32/include/" "~/.esp-idf/components/soc/include/" "~/.esp-idf/components/esp_rom/include/" "~/.esp-idf/components/esp_common/include/" "~/.esp-idf/components/esp_system/include/" "~/.esp-idf/components/xtensa/include/" "~/.esp-idf/components/xtensa/esp32/include/" "~/.esp-idf/components/esp32/include/" "~/.esp-idf/components/driver/include/" "~/.esp-idf/components/driver/esp32/include/" "~/.esp-idf/components/esp_ringbuf/include/" "~/.esp-idf/components/efuse/include/" "~/.esp-idf/components/efuse/esp32/include/" "~/.esp-idf/components/espcoredump/include/" "~/.esp-idf/components/esp_timer/include/" "~/.esp-idf/components/soc/soc/esp32/./" "~/.esp-idf/components/soc/soc/esp32/include/" "~/.esp-idf/components/soc/soc/esp32/../include/" "~/.esp-idf/components/vfs/include/" "~/.esp-idf/components/esp_wifi/include/" "~/.esp-idf/components/esp_wifi/esp32/include/" "~/.esp-idf/components/esp_event/include/" "~/.esp-idf/components/esp_netif/include/" "~/.esp-idf/components/esp_eth/include/" "~/.esp-idf/components/tcpip_adapter/include/" "~/.esp-idf/components/app_trace/include/" "~/.esp-idf/components/mbedtls/port/include/" "~/.esp-idf/components/mbedtls/mbedtls/include/" "~/.esp-idf/components/mbedtls/esp_crt_bundle/include/" "~/.esp-idf/components/bootloader_support/include/" "~/.esp-idf/components/app_update/include/" "~/.esp-idf/components/spi_flash/include/" "~/.esp-idf/components/wpa_supplicant/include/" "~/.esp-idf/components/wpa_supplicant/port/include/" "~/.esp-idf/components/wpa_supplicant/include/esp_supplicant/" "~/.esp-idf/components/nvs_flash/include/" "~/.esp-idf/components/pthread/include/" "~/.esp-idf/components/perfmon/include/" "~/.esp-idf/components/asio/asio/asio/include/" "~/.esp-idf/components/asio/port/include/" "~/.esp-idf/components/cbor/port/include/" "~/.esp-idf/components/coap/port/include/" "~/.esp-idf/components/coap/port/include/coap/" "~/.esp-idf/components/coap/libcoap/include/" "~/.esp-idf/components/coap/libcoap/include/coap2/" "~/.esp-idf/components/console/" "~/.esp-idf/components/nghttp/port/include/" "~/.esp-idf/components/nghttp/nghttp2/lib/includes/" "~/.esp-idf/components/esp-tls/" "~/.esp-idf/components/esp_adc_cal/include/" "~/.esp-idf/components/esp_gdbstub/include/" "~/.esp-idf/components/tcp_transport/include/" "~/.esp-idf/components/esp_http_client/include/" "~/.esp-idf/components/esp_http_server/include/" "~/.esp-idf/components/esp_https_ota/include/" "~/.esp-idf/components/protobuf-c/protobuf-c/" "~/.esp-idf/components/protocomm/include/common/" "~/.esp-idf/components/protocomm/include/security/" "~/.esp-idf/components/protocomm/include/transports/" "~/.esp-idf/components/mdns/include/" "~/.esp-idf/components/esp_local_ctrl/include/" "~/.esp-idf/components/sdmmc/include/" "~/.esp-idf/components/esp_serial_slave_link/include/" "~/.esp-idf/components/esp_websocket_client/include/" "~/.esp-idf/components/expat/expat/expat/lib/" "~/.esp-idf/components/expat/port/include/" "~/.esp-idf/components/wear_levelling/include/" "~/.esp-idf/components/fatfs/diskio/" "~/.esp-idf/components/fatfs/vfs/" "~/.esp-idf/components/fatfs/src/" "~/.esp-idf/components/freemodbus/common/include/" "~/.esp-idf/components/idf_test/include/" "~/.esp-idf/components/idf_test/include/esp32/" "~/.esp-idf/components/jsmn/include/" "~/.esp-idf/components/json/cJSON/" "~/.esp-idf/components/libsodium/libsodium/src/libsodium/include/" "~/.esp-idf/components/libsodium/port_include/" "~/.esp-idf/components/mqtt/esp-mqtt/include/" "~/.esp-idf/components/openssl/include/" "~/.esp-idf/components/spiffs/include/" "~/.esp-idf/components/ulp/include/" "~/.esp-idf/components/unity/include/" "~/.esp-idf/components/unity/unity/src/" "~/.esp-idf/components/wifi_provisioning/include/"))
+				 company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)
+				 flycheck-gcc-include-path flycheck-clang-include-path))
+	 (eval progn
+		   (setq flycheck-clang-include-path
+				 (map
+				  (quote list)
+				  (quote expand-file-name)
+				  (list "./inc/" "~/repo/macnica/esp-idf/components/newlib/platform_include/" "~/repo/macnica/esp-idf/components/freertos/include/" "~/repo/macnica/esp-idf/components/freertos/xtensa/include/" "~/repo/macnica/esp-idf/components/heap/include/" "~/repo/macnica/esp-idf/components/log/include/" "~/repo/macnica/esp-idf/components/lwip/include/apps/" "~/repo/macnica/esp-idf/components/lwip/include/apps/sntp/" "~/repo/macnica/esp-idf/components/lwip/lwip/src/include/" "~/repo/macnica/esp-idf/components/lwip/port/esp32/include/" "~/repo/macnica/esp-idf/components/lwip/port/esp32/include/arch/" "~/repo/macnica/esp-idf/components/soc/src/esp32/./" "~/repo/macnica/esp-idf/components/soc/src/esp32/include/" "~/repo/macnica/esp-idf/components/soc/include/" "~/repo/macnica/esp-idf/components/esp_rom/include/" "~/repo/macnica/esp-idf/components/esp_common/include/" "~/repo/macnica/esp-idf/components/esp_system/include/" "~/repo/macnica/esp-idf/components/xtensa/include/" "~/repo/macnica/esp-idf/components/xtensa/esp32/include/" "~/repo/macnica/esp-idf/components/esp32/include/" "~/repo/macnica/esp-idf/components/driver/include/" "~/repo/macnica/esp-idf/components/driver/esp32/include/" "~/repo/macnica/esp-idf/components/esp_ringbuf/include/" "~/repo/macnica/esp-idf/components/efuse/include/" "~/repo/macnica/esp-idf/components/efuse/esp32/include/" "~/repo/macnica/esp-idf/components/espcoredump/include/" "~/repo/macnica/esp-idf/components/esp_timer/include/" "~/repo/macnica/esp-idf/components/soc/soc/esp32/./" "~/repo/macnica/esp-idf/components/soc/soc/esp32/include/" "~/repo/macnica/esp-idf/components/soc/soc/esp32/../include/" "~/repo/macnica/esp-idf/components/vfs/include/" "~/repo/macnica/esp-idf/components/esp_wifi/include/" "~/repo/macnica/esp-idf/components/esp_wifi/esp32/include/" "~/repo/macnica/esp-idf/components/esp_event/include/" "~/repo/macnica/esp-idf/components/esp_netif/include/" "~/repo/macnica/esp-idf/components/esp_eth/include/" "~/repo/macnica/esp-idf/components/tcpip_adapter/include/" "~/repo/macnica/esp-idf/components/app_trace/include/" "~/repo/macnica/esp-idf/components/mbedtls/port/include/" "~/repo/macnica/esp-idf/components/mbedtls/mbedtls/include/" "~/repo/macnica/esp-idf/components/mbedtls/esp_crt_bundle/include/" "~/repo/macnica/esp-idf/components/bootloader_support/include/" "~/repo/macnica/esp-idf/components/app_update/include/" "~/repo/macnica/esp-idf/components/spi_flash/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/port/include/" "~/repo/macnica/esp-idf/components/wpa_supplicant/include/esp_supplicant/" "~/repo/macnica/esp-idf/components/nvs_flash/include/" "~/repo/macnica/esp-idf/components/pthread/include/" "~/repo/macnica/esp-idf/components/perfmon/include/" "~/repo/macnica/esp-idf/components/asio/asio/asio/include/" "~/repo/macnica/esp-idf/components/asio/port/include/" "~/repo/macnica/esp-idf/components/cbor/port/include/" "~/repo/macnica/esp-idf/components/coap/port/include/" "~/repo/macnica/esp-idf/components/coap/port/include/coap/" "~/repo/macnica/esp-idf/components/coap/libcoap/include/" "~/repo/macnica/esp-idf/components/coap/libcoap/include/coap2/" "~/repo/macnica/esp-idf/components/console/" "~/repo/macnica/esp-idf/components/nghttp/port/include/" "~/repo/macnica/esp-idf/components/nghttp/nghttp2/lib/includes/" "~/repo/macnica/esp-idf/components/esp-tls/" "~/repo/macnica/esp-idf/components/esp_adc_cal/include/" "~/repo/macnica/esp-idf/components/esp_gdbstub/include/" "~/repo/macnica/esp-idf/components/tcp_transport/include/" "~/repo/macnica/esp-idf/components/esp_http_client/include/" "~/repo/macnica/esp-idf/components/esp_http_server/include/" "~/repo/macnica/esp-idf/components/esp_https_ota/include/" "~/repo/macnica/esp-idf/components/protobuf-c/protobuf-c/" "~/repo/macnica/esp-idf/components/protocomm/include/common/" "~/repo/macnica/esp-idf/components/protocomm/include/security/" "~/repo/macnica/esp-idf/components/protocomm/include/transports/" "~/repo/macnica/esp-idf/components/mdns/include/" "~/repo/macnica/esp-idf/components/esp_local_ctrl/include/" "~/repo/macnica/esp-idf/components/sdmmc/include/" "~/repo/macnica/esp-idf/components/esp_serial_slave_link/include/" "~/repo/macnica/esp-idf/components/esp_websocket_client/include/" "~/repo/macnica/esp-idf/components/expat/expat/expat/lib/" "~/repo/macnica/esp-idf/components/expat/port/include/" "~/repo/macnica/esp-idf/components/wear_levelling/include/" "~/repo/macnica/esp-idf/components/fatfs/diskio/" "~/repo/macnica/esp-idf/components/fatfs/vfs/" "~/repo/macnica/esp-idf/components/fatfs/src/" "~/repo/macnica/esp-idf/components/freemodbus/common/include/" "~/repo/macnica/esp-idf/components/idf_test/include/" "~/repo/macnica/esp-idf/components/idf_test/include/esp32/" "~/repo/macnica/esp-idf/components/jsmn/include/" "~/repo/macnica/esp-idf/components/json/cJSON/" "~/repo/macnica/esp-idf/components/libsodium/libsodium/src/libsodium/include/" "~/repo/macnica/esp-idf/components/libsodium/port_include/" "~/repo/macnica/esp-idf/components/mqtt/esp-mqtt/include/" "~/repo/macnica/esp-idf/components/openssl/include/" "~/repo/macnica/esp-idf/components/spiffs/include/" "~/repo/macnica/esp-idf/components/ulp/include/" "~/repo/macnica/esp-idf/components/unity/include/" "~/repo/macnica/esp-idf/components/unity/unity/src/" "~/repo/macnica/esp-idf/components/wifi_provisioning/include/"))
+				 company-clang-arguments
+				 (map
+				  (quote list)
+				  (lambda
+					(a)
+					(concat "-I" a))
+				  flycheck-clang-include-path)
+				 flycheck-gcc-include-path flycheck-clang-include-path))
+	 (eval progn
 		   (setq flycheck-clang-include-path
 				 (list
 				  (expand-file-name ".")
