@@ -30,3 +30,4 @@ alias bat='batcat'
 alias restart-gnome-shell='killall -9 gnome-shell'
 
 alias svndiff="svn diff | colordiff | less"
+
