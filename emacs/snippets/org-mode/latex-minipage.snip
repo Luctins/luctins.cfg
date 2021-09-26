@@ -3,6 +3,9 @@
 # key: lminipage
 # group: latex
 # --
-#+LATEX: \begin{minipage}{${1:0.49}\textwidth}%
+#+LATEX: \begin{minipage}{${1:0.50}\textwidth}%
 $0
+#+LATEX: \end{minipage}%
+#+LATEX: \begin{minipage}{${1:$(- 1 (string-to-number yas-text) 0.01)}\textwidth}%
+
 #+LATEX: \end{minipage}%
