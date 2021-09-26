@@ -4,7 +4,7 @@ parent: default
 Backend: Inject
 
 matches:
-#- trigger: ":infty"
-#  replace: "\u221e"
-- trigger: ":*"
-  replace: "\\cdot"
+- trigger: ":infty"
+  replace: "\u221e"
+#- trigger: ":*"
+#  replace: "\\cdot"
