@@ -57,11 +57,11 @@ This function should only modify configuration layer settings."
 	 ;;markdown
 	 (org :variables
 		  org-confirm-babel-evaluate nil
-		  org-tag-alist '("work" "personal" "college")
+		  org-tag-alist '("work" "personal" "college" "leisure")
 		  org-image-actual-width 600
 		  org-startup-with-inline-images t
 		  org-directory "~/org/"
-		  ;org-agenda-files '("~/org/")
+		  org-agenda-files '("~/org/")
 		  org-default-notes-file (concat org-directory "todo.org")
 		  org-startup-folded t
 		  org-todo-keyword-faces'(("TODO" . org-todo)
@@ -70,11 +70,10 @@ This function should only modify configuration layer settings."
 								  ("TEST" . (:foreground "#6eb0e9" :weight bold))
 								  ("FIX" . (:foreground "#b34e6b" :weight bold))
 								  ("DONE" . org-done))
-
 		  org-latex-packages-alist '(("margin=2cm" "geometry" nil)
 									 (" " "indentfirst" " "))
-
 		  org-format-latex-options '(:scale 1.5)
+		  org-roam-directory (file-truename "~/org")
 		  )
 	 (shell :variables
 			 shell-default-height 30
@@ -93,6 +92,7 @@ This function should only modify configuration layer settings."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(arduino-mode
+									  org-roam
 									  org-autolist
 									  ;rtags;company-rtags;helm-rtags
 									  yasnippet
@@ -222,10 +222,12 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents-by-project . (4 . 4))
+   dotspacemacs-startup-lists '(
 								(recents . 6)
+								(todos . 4)
+								(recents-by-project . (4 . 4))
 								(bookmarks . 3)
-								(todos . 4))
+								)
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -285,8 +287,10 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
-							   :size 10.0
+   dotspacemacs-default-font '( "Source Code Pro"
+								:size 10.0
+										;"scientifica"
+										;:size 18.0
 							   :weight normal
 							   :width normal
 							   :powerline-scale 1.1)
@@ -431,7 +435,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Show the scroll bar while scrolling. The auto hide time can be configured
    ;; by setting this variable to a number. (default t)
-   dotspacemacs-scroll-bar-while-scrolling t
+   dotspacemacs-scroll-bar-while-scrolling nil
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -750,8 +754,14 @@ you should place your code here."
 		(auto-fill-mode)
 		))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Org mode settings
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;   ___  ____   ____       __  __  ___  ____  _____  ;;
+  ;;  / _ \|  _ \ / ___|     |  \/  |/ _ \|  _ \| ____| ;;
+  ;; | | | | |_) | |  _ _____| |\/| | | | | | | |  _|   ;;
+  ;; | |_| |  _ <| |_| |_____| |  | | |_| | |_| | |___  ;;
+  ;;  \___/|_| \_\\____|     |_|  |_|\___/|____/|_____| ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
   (add-hook 'org-mode-hook
 			(lambda ()
 			  (yas-minor-mode)
@@ -767,18 +777,25 @@ you should place your code here."
 			  (visual-line-mode)
 			  (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
 			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
+			  ;; Set company mode to not suggest numbers
+			  (push (apply-partially #'cl-remove-if
+									 (lambda (c)
+									   (or (string-match-p "[0-9]+" c)
+										   (if (equal major-mode "org")))))
+					company-transformers)
 			  ))
+
   ;; Babel config
   (setq org-babel-load-languages '((gnuplot . t)
 								   (emacs-lisp . t)
-										;(graphviz-dot . t)
 								   (dot . t)
 								   ))
   (defun my/fix-inline-images ()
 	(when org-inline-image-overlays
 	  (org-redisplay-inline-images)))
 
-  (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+  ;(add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+
   ;(add-to-list 'org-babel-load-languages  '(gnuplot . t))
   ;(org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
 
@@ -809,8 +826,18 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 	"sort org headings first by priority then by todo order"
 	(interactive)
 	(org-sort-entries t ?p )
-	(org-sort-entries t ?o )
-	)
+	(org-sort-entries t ?o ))
+
+  (defun dfeich/org-export-delete-commented-cols (back-end)
+	"Delete columns $2 to $> marked as `<#>' on a row with `/' in $1.
+	If you want a non-empty column $1 to be deleted make it $2 by
+	inserting an empty column before and adding `/' in $1."
+	(while (re-search-forward "^[ \t]*| +/ +|\\(.*|\\)? +\\(<#>\\) *|" nil t)
+	  (goto-char (match-beginning 2))
+	  (org-table-delete-column)
+	  (beginning-of-line)))
+
+  (add-hook 'org-export-before-processing-hook #'dfeich/org-export-delete-commented-cols)
 
   ;; Orgmode keywords
   ;; (setq org-todo-keyword-faces
@@ -947,7 +974,7 @@ This function is called at the very end of Spacemacs initialization."
 	  "* %T %?"))))
  '(package-selected-packages
    (quote
-	(systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
+	(org-roam systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode gnu-elpa-keyring-update mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup)))
  '(safe-local-variable-values
    (quote
 	((eval progn
