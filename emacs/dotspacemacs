@@ -55,26 +55,7 @@ This function should only modify configuration layer settings."
 	 emacs-lisp
 	 git
 	 ;;markdown
-	 (org :variables
-		  org-confirm-babel-evaluate nil
-		  org-tag-alist '("work" "personal" "college" "leisure")
-		  org-image-actual-width 600
-		  org-startup-with-inline-images t
-		  org-directory "~/org/"
-		  org-agenda-files '("~/org/")
-		  org-default-notes-file (concat org-directory "todo.org")
-		  org-startup-folded t
-		  org-todo-keyword-faces'(("TODO" . org-todo)
-								  ("WAIT" . (:foreground "#F0C674" :weight bold))
-								  ("WTDO" . org-done)
-								  ("TEST" . (:foreground "#6eb0e9" :weight bold))
-								  ("FIX" . (:foreground "#b34e6b" :weight bold))
-								  ("DONE" . org-done))
-		  org-latex-packages-alist '(("margin=2cm" "geometry" nil)
-									 (" " "indentfirst" " "))
-		  org-format-latex-options '(:scale 1.5)
-		  org-roam-directory (file-truename "~/org")
-		  )
+	 org
 	 (shell :variables
 			 shell-default-height 30
 			 shell-default-position 'bottom)
@@ -761,6 +742,24 @@ you should place your code here."
   ;; | |_| |  _ <| |_| |_____| |  | | |_| | |_| | |___  ;;
   ;;  \___/|_| \_\\____|     |_|  |_|\___/|____/|_____| ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (setq  org-confirm-babel-evaluate nil
+		 org-tag-alist '("work" "personal" "college" "leisure")
+		 org-image-actual-width 600
+		 org-startup-with-inline-images t
+		 org-directory "~/org/"
+		 org-agenda-files '( "~/org/" )
+		 org-default-notes-file (concat org-directory "todo.org")
+		 org-startup-folded t
+		 org-todo-keyword-faces'(("TODO" . org-todo)
+								 ("WAIT" . (:foreground "#F0C674" :weight bold))
+								 ("WTDO" . org-done)
+								 ("TEST" . (:foreground "#6eb0e9" :weight bold))
+								 ("FIX" . (:foreground "#b34e6b" :weight bold))
+								 ("DONE" . org-done))
+		 org-latex-packages-alist '(("margin=2cm" "geometry" nil)
+									(" " "indentfirst" " "))
+		 org-format-latex-options '(:scale 1.5)
+		 org-roam-directory (file-truename "~/org"))
 
   (add-hook 'org-mode-hook
 			(lambda ()
@@ -966,7 +965,6 @@ This function is called at the very end of Spacemacs initialization."
    (quote
 	("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files nil)
  '(org-capture-templates
    (quote
 	(("n" "Quick Note" entry
