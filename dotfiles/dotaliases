@@ -1,10 +1,16 @@
 alias editalias='$EDITOR ~/.aliases'
 
+alias fdate='date +%F'
+
 alias ptop="sudo powertop"
 alias python="python3"
+
 alias xo='xdg-open'
+
 alias rgrep='rgrep --color'
+
 alias jf='journalctl -efb'
+
 alias grephist="cat $HISTFILE | grep"
 
 alias csvn='colorsvn --username=lucas.mendes'
