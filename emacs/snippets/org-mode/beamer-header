@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: Beamer header
+# key: beamerheader
+# --
+:PROPERTIES:
+#+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
+#+SUBTITLE: $2
+#+AUTHOR: `user-full-name`
+#+DATE:`(format-time-string " %Y-%m-%d %T")`
+#+language: pt-br
+#+KEYWORDS:
+#+creator: `(version)`
+#+STARTUP: beamer
+#+options: H:2 email:nil tex:t toc:1
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [smaller]
+#+beamer_theme: Berlin
+#+LaTeX_HEADER: \usepackage{pdfpages}
+#+LATEX_HEADER_EXTRA: \renewcommand{\figurename}{F}
+#+LATEX_HEADER_EXTRA: \renewcommand{\tablename}{T}
+#+LATEX_HEADER_EXTRA: \hypersetup{colorlinks, linkcolor=\pink}
+#+LATEX_HEADER_EXTRA: \institute{${3:IFSC - Câmpus Florianópolis}}
+#+LATEX_HEADER_EXTRA: \setbeamertemplate{navigation symbols}{}
+#+LATEX_HEADER_EXTRA: \setbeamertemplate{page number in head/foot}[framenumber]
+:END:
