@@ -57,17 +57,17 @@ matches:
   - trigger: ":date"
     replace: "{{mydate}}"
     vars:
-      - name: mydate
-        type: date
-        params:
-          format: "%Y%m%d"
+     - name: mydate
+       type: date
+       params:
+         format: "%Y%m%d"
   - trigger: ":-date"
-    replace: "{{mydate}}"
+    replace: "{{date}}"
     vars:
-      - name: mydate
-        type: date
+      - name: date
+        type: shell
         params:
-          format: "%y-%m-%d"
+          cmd: "date +%F"
   - trigger: ":/date"
     replace: "{{mydate}}"
     vars:
