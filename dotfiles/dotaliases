@@ -1,5 +1,6 @@
 alias editalias='$EDITOR ~/.aliases'
 
+alias sudo='doas'
 alias fdate='date +%F'
 
 alias ptop="sudo powertop"
