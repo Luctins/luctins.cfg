@@ -819,6 +819,20 @@ you should place your code here."
   ;(add-to-list 'org-babel-load-languages  '(gnuplot . t))
   ;(org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
 
+  ;; (defun org-insert-hyperlink (link-text-start link-text-end)
+  ;;	"Format the selected text as a orgmode link prompting for the link"
+  ;;	(interactive "r")
+  ;;
+  ;;	(setq dest-link (read-string "Link to insert: ")); nil nil (nth 0 kill-ring)))
+  ;;	(if (not (string-blank-p dest-link))
+  ;;		(progn (goto-char link-text-start)
+  ;;			   (setq tmp-link  (concat `"[[" dest-link `"][" (buffer-substring link-text-start link-text-end) '"]]"))
+  ;;			   (delete-region link-text-start link-text-end)
+  ;;			   (insert tmp-link))
+  ;;	  (message "Empty link")
+  ;;	  )
+  ;;	)
+
   (defun org-insert-image-from-clipboard ()
 	"Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file. Depends in X.org to work (for now)"
