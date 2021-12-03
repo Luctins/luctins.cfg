@@ -33,6 +33,10 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(systemd
+	 emacs-lisp
+	 treemacs
+	 multiple-cursors
+	 org
 	 html
 	 javascript
 	 octave
@@ -52,20 +56,17 @@ This function should only modify configuration layer settings."
 	 helm
 	 auto-completion
 	 better-defaults
-	 emacs-lisp
 	 git
 	 ;;markdown
-	 org
 
 	 ;(trello :location local)
 	 (shell :variables
 			 shell-default-height 30
-			 shell-default-position 'bottom)
+			 shell-default-position 'bottom
+			 )
 	  spell-checking
 	  syntax-checking
 	  version-control
-	  treemacs
-	  multiple-cursors
 	  )
 
    ;; List of additional packages that will be installed without being
@@ -75,7 +76,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(arduino-mode
 									  org-trello
 									  org-autolist
-									  org-trello
+										;org-trello
+										;org-roam
 									  gcode-mode
 									  yasnippet
 									  drag-stuff
@@ -83,14 +85,10 @@ This function should only modify configuration layer settings."
 									  gnuplot-mode
 									  graphviz-dot-mode
 									  gnu-elpa-keyring-update
+									  rtags
 									  rtags-xref
 									  company-rtags
 									  flycheck-rtags
-										;org-roam
-										;org-autolist
-										;org-trello
-										;rtags
-										;activity-watch-mode
 									  )
 
    ;; A list of packages that cannot be updated.
@@ -169,7 +167,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
    ;; (default t)
-   dotspacemacs-verify-spacelpa-archives nil
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -622,92 +620,20 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   (spacemacs/enable-transparency)
+  (spacemacs/toggle-fill-column-indicator-on)
+  (flyspell-mode nil)
 
-  ;; Activitywatch integration
-  ;;(if (equal (getenv '"USER") "luctins") (activity-watch-mode t))
 
-  (flyspell-mode-off)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Load themes according to username
-  ;(if (equal (getenv "USER") "luctins") (load-theme 'dracula) ())
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Minor modes
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Rust
-  (add-hook 'rust-mode
-			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)
-			  (auto-fill-mode)
-			  ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; C and C++ modes
-  (defun c-cpp-commom-setup ()
-	"commom paramters set between c and c++ modes"
-	(spacemacs/toggle-fill-column-indicator-on)
-	(rtags-start-process-unless-running)
-	(flycheck-mode t)
-	(evil-close-folds)
-	(flyspell-mode-off)
-	(auto-fill-mode)
-	(hide-ifdef-mode)
-	(hide-ifdefs)
-	(setq c-syntactic-indentation t
-		  c-default-style "linux"
-		  c-basic-offset 4
-		  c-tab-always-indent t
-		  indent-tabs-mode nil
-		  )
-	)
-
-  ;; c++-mode
-  (add-hook 'c++-mode-hook (lambda ()
-							 (c-cpp-commom-setup)
-							 ))
-
-  ;; c-mode
-  (font-lock-add-keywords 'c-mode
-						  '(("\\<\\(TODOMAYBE\\)" 1 font-lock-warning-face prepend))
-						  )
-
-  (add-hook 'c-mode-hook (lambda()
-						   ;; (add-to-list 'company-backends 'company-yasnippet)
-						   ;; (add-hook 'font-lock-fontify-region-function hide-ifdef-lines)
-						   (c-cpp-commom-setup)
-						   (rtags-start-process-unless-running)
-						   ))
-
-  (defun trim-at-col (line)
-	"trim C comments at a specified column"
-	(interactive (list (if current-prefix-arg
-						   (read-from-minibuffer "line to trim at: ") nil)))
-	(end-of-line)
-	(backward-char 9)
-	(setq c (- (point) (if line line '80)))
-	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-	)
-
-  ;;(add-hook 'c-special-indent-hook
-  ;;     (lambda ()
-  ;;(yas-expand) (c-guess-basic-syntax))))
-  ;;(font-lock-add-keywords 'c-mode
-  ;;             '(("#if  .*" . 'font-lock-comment-face)))
-  ;;(defun cc-mode-supercomment-matcher (end)
-  ;;   "Detect when inside a #if 0 block"
-  ;;   (let (pos (case-fold-search t))
-  ;;		(while (and (setq pos (re-search-forward "#if[ ]+0" end t))
-  ;;					(null (nth 3 (syntax-ppss pos)))))
-  ;;		(when pos (message "found keyword"))
-  ;;		pos))
-  ;;(add-hook 'cc-mode 'cc-mode-supercomment-matcher)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; __   __ _    ____        _                  _    ;;
-  ;; \ \ / // \  / ___| _ __ (_)_ __  _ __   ___| |_  ;;
-  ;;  \ V // _ \ \___ \| '_ \| | '_ \| '_ \ / _ \ __| ;;
-  ;;   | |/ ___ \ ___) | | | | | |_) | |_) |  __/ |_  ;;
-  ;;   |_/_/   \_\____/|_| |_|_| .__/| .__/ \___|\__| ;;
-  ;;                           |_|   |_|              ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; __   __ _    ____        _                  _
+  ;; \ \ / // \  / ___| _ __ (_)_ __  _ __   ___| |_
+  ;;  \ V // _ \ \___ \| '_ \| | '_ \| '_ \ / _ \ __|
+  ;;   | |/ ___ \ ___) | | | | | |_) | |_) |  __/ |_
+  ;;   |_/_/   \_\____/|_| |_|_| .__/| .__/ \___|\__|
+  ;;                           |_|   |_|
 
   (yas-global-mode t)   ;; Enable it globally
 
@@ -732,7 +658,63 @@ you should place your code here."
   (global-set-key (kbd "C-c e") 'yas-expand)
 
   (yas-reload-all)
-  ;(yas-global-mode t)
+										;(yas-global-mode t)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; All mode hooks
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; all code-like modes
+  (add-hook 'prog-mode
+			(lambda ()
+			  (spacemacs/toggle-fill-column-indicator-on)
+			  (flyspell-mode-off)
+			))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;  ____            _
+  ;;  |  _ \ _   _ ___| |_
+  ;;  | |_) | | | / __| __|
+  ;;  |  _ <| |_| \__ \ |_
+  ;;  |_| \_\\__,_|___/\__|
+  (add-hook 'rust-mode
+			(lambda ()
+			  (auto-fill-mode)
+			  (evil-close-folds)
+			  ))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;   ____
+  ;;  / ___|
+  ;;  | |
+  ;;  | |___
+  ;;  \____|
+  (add-hook 'cc-mode
+			 (lambda ()
+			   (hide-ifdef-mode)
+			   (rtags-start-process-unless-running)
+			   (flycheck-mode t)
+			   (evil-close-folds)
+			   (auto-fill-mode)
+			   (hide-ifdefs)
+			   ))
+  (setq c-syntactic-indentation t
+		c-default-style "linux"
+		c-basic-offset 4
+		c-tab-always-indent t
+		indent-tabs-mode nil
+   )
+
+  (defun trim-at-col (line)
+	"trim C comments at a specified column"
+	(interactive (list (if current-prefix-arg
+						   (read-from-minibuffer "line to trim at: ") nil)))
+	(end-of-line)
+	(backward-char 9)
+	(setq c (- (point) (if line line '80)))
+	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+	)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Objdump mode
@@ -740,23 +722,35 @@ you should place your code here."
   ;; set to read only by default
   (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Assembler mode
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;     _                           _     _
+  ;;    / \   ___ ___  ___ _ __ ___ | |__ | | ___ _ __
+  ;;   / _ \ / __/ __|/ _ \ '_ ` _ \| '_ \| |/ _ \ '__|
+  ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
+  ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
   (add-hook 'asm-mode-hook
 			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)
 			  (setq tab-width 8
 					electric-indent-mode nil
 					indent-tabs-mode t)
 			  (auto-fill-mode)
 			  ))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; GNU make
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;   ____ _   _ _   _   __  __       _
+  ;;  / ___| \ | | | | | |  \/  | __ _| | _____
+  ;; | |  _|  \| | | | | | |\/| |/ _` | |/ / _ \
+  ;; | |_| | |\  | |_| | | |  | | (_| |   <  __/
+  ;;  \____|_| \_|\___/  |_|  |_|\__,_|_|\_\___|
   (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Python mode setup
+  ;;  ____        _   _
+  ;; |  _ \ _   _| |_| |__   ___  _ __
+  ;; | |_) | | | | __| '_ \ / _ \| '_ \
+  ;; |  __/| |_| | |_| | | | (_) | | | |
+  ;; |_|    \__, |\__|_| |_|\___/|_| |_|
+  ;;        |___/
   (add-hook 'python-mode-hook
 	  (lambda ()
 		(spacemacs/toggle-fill-column-indicator-on)
@@ -764,13 +758,12 @@ you should place your code here."
 		(auto-fill-mode)
 		))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;   ___  ____   ____       __  __  ___  ____  _____  ;;
-  ;;  / _ \|  _ \ / ___|     |  \/  |/ _ \|  _ \| ____| ;;
-  ;; | | | | |_) | |  _ _____| |\/| | | | | | | |  _|   ;;
-  ;; | |_| |  _ <| |_| |_____| |  | | |_| | |_| | |___  ;;
-  ;;  \___/|_| \_\\____|     |_|  |_|\___/|____/|_____| ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;   ___  ____   ____
+  ;;  / _ \|  _ \ / ___|
+  ;; | | | | |_) | |  _
+  ;; | |_| |  _ <| |_| |
+  ;;  \___/|_| \_\\____|
   (setq  org-confirm-babel-evaluate nil
 		 org-tag-alist '((work . w) (personal . p) (college . c) (leisure . l))
 		 org-image-actual-width 600
@@ -779,6 +772,7 @@ you should place your code here."
 		 org-agenda-files '( "~/org/" )
 		 org-default-notes-file (concat org-directory "todo.org")
 		 org-startup-folded t
+		 org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
 		 org-todo-keyword-faces'(("TODO" . org-todo)
 								 ("WAIT" . (:foreground "#F0C674" :weight bold))
 								 ("WTDO" . org-done)
@@ -788,8 +782,7 @@ you should place your code here."
 		 org-latex-packages-alist '(("margin=2cm" "geometry" nil)
 									(" " "indentfirst" " "))
 		 org-format-latex-options '(:scale 1.5)
-		 org-roam-directory (file-truename "~/org")
-		 org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
+		 ;;org-roam-directory (file-truename "~/org")
 		 )
 
   (add-hook 'org-mode-hook
@@ -819,24 +812,7 @@ you should place your code here."
 	(when org-inline-image-overlays
 	  (org-redisplay-inline-images)))
 
-  ;(add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
-
-  ;(add-to-list 'org-babel-load-languages  '(gnuplot . t))
-  ;(org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
-
-  ;; (defun org-insert-hyperlink (link-text-start link-text-end)
-  ;;	"Format the selected text as a orgmode link prompting for the link"
-  ;;	(interactive "r")
-  ;;
-  ;;	(setq dest-link (read-string "Link to insert: ")); nil nil (nth 0 kill-ring)))
-  ;;	(if (not (string-blank-p dest-link))
-  ;;		(progn (goto-char link-text-start)
-  ;;			   (setq tmp-link  (concat `"[[" dest-link `"][" (buffer-substring link-text-start link-text-end) '"]]"))
-  ;;			   (delete-region link-text-start link-text-end)
-  ;;			   (insert tmp-link))
-  ;;	  (message "Empty link")
-  ;;	  )
-  ;;	)
+  (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
 
   (defun org-insert-image-from-clipboard ()
 	"Take a screenshot into a time stamped unique-named file in the
@@ -878,17 +854,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 
   (add-hook 'org-export-before-processing-hook #'dfeich/org-export-delete-commented-cols)
 
-  ;; Orgmode keywords
-  ;; (setq org-todo-keyword-faces
-  ;;	'(("TODO" . org-todo) ;(:foreground))
-  ;;	  ("WAIT" . (:foreground "#F0C674" :weight bold))
-  ;;	  ("WTDO" . org-done ) ;(:foreground "#59872d" :weight bold))
-  ;;	  ("TEST" . (:foreground "#6eb0e9" :weight bold))
-  ;;	  ("FIX" . (:foreground "#b34e6b" :weight bold))
-  ;;	  ("DONE" . org-done))
-  ;;	)
-
-  (global-set-key (kbd "M-m b o") (lambda () (interactive) (find-file org-default-notes-file)))
+  ;; Keybinds
+  (global-set-key (kbd "M-m b o")
+				  (lambda () (interactive)
+					(find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -900,20 +869,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 						 (lambda (c)
 						   (string-match-p "[0-9]+" c)))
 		company-transformers)
-
-  ;;(push '(company-semantic :with company-yasnippet) company-backends)
-  ;; (define-key company-active-map [?\t] 'company-yasnippet-or-completion)
-  ;;
-  ;; (defun company-yasnippet-or-completion ()
-  ;;   (interactive)
-  ;;   (if (yas/expansion-at-point)
-  ;;       (progn (company-abort)
-  ;;              (yas-expand))
-  ;;     (company-complete-common)))
-  ;;
-  ;; (defun yas/expansion-at-point ()
-  ;;   "Tested with v0.6.1. Extracted from `yas-expand'"
-  ;;   (first (yas/current-key)))
 
   ;;;;;;;;;;;;;;;;;;;;
   ;; EVil
@@ -964,15 +919,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key (kbd "C--") 'zoom-frm-out)
 
   (global-unset-key (kbd "C-v")) ; remove annoying conflict
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; RTAGS;;(eval-after-load 'company
-  ;;  '(add-to-list
-  ;;    'company-backends 'company-rtags))
-  ;;(setq rtags-autostart-diagnostics t)
-  ;;(rtags-enable-standard-keybindings)
-
 )
 
 
