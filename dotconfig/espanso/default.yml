@@ -52,26 +52,3 @@ matches:
     vars:
       - name: "clipboard"
         type: "clipboard"
-
-  # Date
-  - trigger: ":date"
-    replace: "{{mydate}}"
-    vars:
-     - name: mydate
-       type: date
-       params:
-         format: "%Y%m%d"
-  - trigger: ":-date"
-    replace: "{{date}}"
-    vars:
-      - name: date
-        type: shell
-        params:
-          cmd: "date +%F"
-  - trigger: ":/date"
-    replace: "{{mydate}}"
-    vars:
-      - name: mydate
-        type: date
-        params:
-          format: "%d/%m/%Y"
