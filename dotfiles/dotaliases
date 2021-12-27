@@ -1,4 +1,5 @@
-alias editalias='$EDITOR ~/.aliases'
+alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
+alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
 
 alias sudo='doas'
 alias fdate='date +%F'
