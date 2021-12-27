@@ -1,4 +1,5 @@
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
+
 alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
 
 alias sudo='doas'
@@ -29,13 +30,14 @@ alias yeet='sudo apt remove'
 alias stophd='sudo hdparm -B1'
 alias pulseaudioreload="pulseaudio -k && pulseaudio --start"
 
-alias setmbhigh='ddcutil -d 1 setvcp 10 50; ddcutil -d 2 setvcp 10 70'
-alias setmblow='ddcutil -d 1 setvcp 10 25; ddcutil -d 2 setvcp 10 50'
-alias setmbmid='ddcutil -d 1 setvcp 10 37; ddcutil -d 2 setvcp 10 60'
+alias setmbhigh='ddcutil -d 1 setvcp 10 50& ddcutil -d 2 setvcp 10 50&'
+alias setmbmid='ddcutil -d 1 setvcp 10 37& ddcutil -d 2 setvcp 10 37&'
+alias setmblow='ddcutil -d 1 setvcp 10 25& ddcutil -d 2 setvcp 10 25&'
+
 
 alias s='source'
 alias bat='batcat'
 alias restart-gnome-shell='killall -9 gnome-shell'
 
-alias svndiff="svn diff | colordiff | less"
+
 
