@@ -1,3 +1,0 @@
-[submodule "emacs/emacs/dotspacemacs.d/layers/trello"]
-	path = emacs/emacs/dotspacemacs.d/layers/trello
-	url = git@github.com:jankei/trello-org-spacemacs-layer.git

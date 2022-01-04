@@ -28,17 +28,19 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(systemd
-	 (org-roam :location local)
-	 (trello :location local)
+	 ;(org-roam :location local)
+	 ;(trello :location local)
 	 emacs-lisp
 	 treemacs
 	 multiple-cursors
 	 (org :variables
+		  org-enable-roam-support t
+		  org-enable-trello-support t
 		  org-roam-v2-ack t
 		  org-roam-directory "~/org/roam/"
 		  )
@@ -74,8 +76,8 @@ This function should only modify configuration layer settings."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(arduino-mode
-									  org-trello
-									  org-roam
+									  ;org-trello
+									  ;org-roam
 									  org-autolist
 									  gcode-mode
 									  yasnippet
