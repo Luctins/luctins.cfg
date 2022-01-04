@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Ledger Entry
+# key: <lentry
+# --
+* $1 :$2:
+$> :properties:
+$> :value: R$ $> $3
+$> :date: $> ${4:<`(format-time-string "%Y-%m-%d %a %R")`>}
+$> :bank: $> ${5:$$(yas-choose-value '("nubank" "neon" "banco_do_brasil"))}
+$> :end:
+
+$0

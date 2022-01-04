@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Orgmode header
+# key: header
+# group: template
+# --
+:PROPERTIES:
+#+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
+#+AUTHOR: `user-full-name`
+#+DATE:`(format-time-string " %Y-%m-%d %T")`
+#+OPTIONS: toc:nil todo:nil $2
+#+FILETAGS: ${3:$$(yas-choose-value org-tag-alist)}
+#+TAGS: $4
+#+TODO: TODO TEST WAIT | DONE WTDO
+#+STARTUP: ${5:$$(yas-choose-value '("content" "overview" "showall" "showeverything"))}
+:END:
+
+$0
