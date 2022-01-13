@@ -621,7 +621,7 @@ you should place your code here."
 
   (spacemacs/enable-transparency)
   (spacemacs/toggle-fill-column-indicator-on)
-  (flyspell-mode nil)
+  (flyspell-mode 0)
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -666,7 +666,7 @@ you should place your code here."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
-  (add-hook 'prog-mode
+  (add-hook 'prog-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
 			  (flyspell-mode-off)
@@ -678,7 +678,7 @@ you should place your code here."
   ;;  | |_) | | | / __| __|
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
-  (add-hook 'rust-mode
+  (add-hook 'rust-mode-hook
 			(lambda ()
 			  (auto-fill-mode)
 			  (evil-close-folds)
@@ -690,7 +690,7 @@ you should place your code here."
   ;;  | |
   ;;  | |___
   ;;  \____|
-  (add-hook 'cc-mode
+  (add-hook 'c-mode-common-hook
 			 (lambda ()
 			   (hide-ifdef-mode)
 			   (rtags-start-process-unless-running)
@@ -699,6 +699,7 @@ you should place your code here."
 			   (auto-fill-mode)
 			   (hide-ifdefs)
 			   ))
+
   (setq c-syntactic-indentation t
 		c-default-style "linux"
 		c-basic-offset 4

@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: Copyright Header
+# name: Macnica Copyright Header
 # key: copyright
 # group: template
 # expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
@@ -7,14 +7,14 @@
 /**
    ------------------------------------------------------------------------------
    Copyright (c) `(format-time-string "%Y")` MACNICA DHW Ltda.
-   ${1:All rights reserved MACNICA DHW SDG Confidential Proprietary}
+   ${1:All rights reserved} ${2:MACNICA DHW SDG} ${3:Confidential Proprietary}
    ------------------------------------------------------------------------------
    @file   `(nth 0 (last (split-string buffer-file-name "/")))`
    @date   `(format-time-string "%D")`
    @author `(print user-full-name)`
-   @email  `(print user-work-email)`
+   @email  `(print user-email)`
    ------------------------------------------------------------------------------
-   @brief $2
+   @brief $4
    ------------------------------------------------------------------------------
 */
 $0
