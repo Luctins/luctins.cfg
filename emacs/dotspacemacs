@@ -781,11 +781,31 @@ you should place your code here."
 								 ("TEST" . (:foreground "#6eb0e9" :weight bold))
 								 ("TFIX" . (:foreground "#b34e6b" :weight bold))
 								 ("DONE" . org-done))
-		 org-latex-packages-alist '(("margin=2cm" "geometry" nil)
+		 org-latex-packages-alist '(
+										;("margin=2cm" "geometry" nil) ; removed because of conflicts
 									(" " "indentfirst" " "))
 		 org-format-latex-options '(:scale 1.5)
 		 ;;org-roam-directory (file-truename "~/org")
 		 )
+
+  ;; lualatex preview
+  (setq org-latex-pdf-process
+		'("lualatex -shell-escape -interaction nonstopmode %f"
+		  "lualatex -shell-escape -interaction nonstopmode %f"))
+
+  (setq luamagick '(luamagick :programs ("lualatex" "convert")
+							  :description "pdf > png"
+							  :message "you need to install lualatex and imagemagick."
+							  :use-xcolor t
+							  :image-input-type "pdf"
+							  :image-output-type "png"
+							  :image-size-adjust (1.0 . 1.0)
+							  :latex-compiler ("lualatex -interaction nonstopmode -output-directory %o %f")
+							  :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))
+
+  (add-to-list 'org-preview-latex-process-alist luamagick)
+
+  (setq org-preview-latex-default-process 'luamagick)
 
   (add-hook 'org-mode-hook
 			(lambda ()
@@ -965,9 +985,35 @@ This function is called at the very end of Spacemacs initialization."
    '(("n" "Quick Note" entry
 	  (file org-default-notes-file)
 	  "* %T %?")))
+ '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(package-selected-packages
    '(org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values
-   '((org-image-actual-height . 200)))
+   '((eval progn
+		   (setq-local flycheck-clang-include-path
+					   (map 'list 'expand-file-name
+							(append
+							 '("./include/" "../build/include/")
+							 (map 'list
+								  (lambda
+									(subpath)
+									(concat
+									 (getenv "IDF_PATH")
+									 subpath))
+								  (list "bt/host/bluedroid/btc/profile/esp/include" "bt/host/bluedroid/btc/profile/esp/blufi/include" "bt/host/bluedroid/stack/include" "bt/host/bluedroid/stack/rfcomm/include" "bt/host/bluedroid/stack/gatt/include" "bt/host/bluedroid/stack/avrc/include" "bt/host/bluedroid/stack/avdt/include" "bt/host/bluedroid/stack/gap/include" "bt/host/bluedroid/stack/btm/include" "bt/host/bluedroid/stack/a2dp/include" "bt/host/bluedroid/stack/l2cap/include" "bt/host/bluedroid/stack/avct/include" "bt/host/bluedroid/stack/sdp/include" "bt/host/bluedroid/stack/smp/include" "esp_http_client/include" "esp_http_client/lib/include" "esp_hid/include" "lwip/include" "lwip/lwip/src/include" "lwip/port/esp32/include" "esp_system/include" "esp_system/port/include" "protocomm/include" "tcp_transport/include" "cbor/port/include" "freertos/include" "freertos/port/xtensa/include" "freertos/port/riscv/include" "bootloader_support/include" "esp32/include" "xtensa/include" "xtensa/esp32/include" "xtensa/esp32s3/include" "xtensa/esp32s2/include" "freemodbus/common/include" "freemodbus/modbus/include" "esp_https_ota/include" "esp_timer/include" "ulp/include" "ulp/ulp_riscv/include" "esp_hw_support/include" "esp_rom/include" "wpa_supplicant/include" "wpa_supplicant/port/include" "esptool_py/esptool/flasher_stub/include" "openssl/include" "riscv/include" "soc/include" "soc/esp32/include" "soc/esp32c3/include" "soc/esp32s3/include" "soc/esp32s2/include" "spiffs/include" "unity/include" "nghttp/nghttp2/third-party/llhttp/include" "nghttp/nghttp2/third-party/mruby/include" "nghttp/nghttp2/third-party/mruby/mrbgems/mruby-io/include" "nghttp/nghttp2/third-party/mruby/mrbgems/mruby-time/include" "nghttp/port/include" "tinyusb/additions/include" "tinyusb/tinyusb/hw/mcu/nordic/nrf5x/s140_nrf52_6.1.1_API/include" "tinyusb/tinyusb/hw/bsp/esp32s2_saola_1/led_strip/include" "tinyusb/tinyusb/hw/bsp/fomu/include" "sdmmc/include" "idf_test/include" "esp_websocket_client/include" "jsmn/include" "perfmon/include" "esp_ipc/include" "esp_netif/include" "efuse/include" "efuse/esp32/include" "efuse/test/include" "efuse/esp32c3/include" "efuse/esp32s3/include" "efuse/esp32s2/include" "expat/port/include" "esp_serial_slave_link/include" "nvs_flash/include" "esp_https_server/include" "heap/include" "esp_wifi/include" "esp_wifi/esp32/include" "esp_wifi/esp32s3/include" "esp_wifi/esp32s2/include" "espcoredump/include" "esp32c3/include" "pthread/include" "log/include" "spi_flash/include" "spi_flash/sim/stubs/freertos/include" "spi_flash/sim/stubs/bootloader_support/include" "spi_flash/sim/stubs/esp_timer/include" "spi_flash/sim/stubs/soc/include" "spi_flash/sim/stubs/sdmmc/include" "spi_flash/sim/stubs/newlib/include" "spi_flash/sim/stubs/log/include" "spi_flash/sim/stubs/vfs/include" "spi_flash/sim/stubs/driver/include" "esp_http_server/include" "tcpip_adapter/include" "mdns/include" "esp_pm/include" "wifi_provisioning/include" "esp_ringbuf/include" "esp32s3/include" "hal/include" "hal/esp32/include" "hal/esp32c3/include" "hal/esp32s3/include" "hal/esp32s2/include" "esp_event/include" "coap/port/include" "coap/libcoap/include" "esp32s2/include" "vfs/include" "esp_gdbstub/include" "libsodium/libsodium/src/libsodium/include" "esp_local_ctrl/include" "mqtt/esp-mqtt/include" "mqtt/esp-mqtt/lib/include" "driver/include" "driver/esp32/include" "driver/test/include" "driver/test/touch_sensor_test/include" "driver/test/param_test/include" "driver/esp32c3/include" "driver/esp32s3/include" "driver/esp32s2/include" "esp_adc_cal/include" "app_update/include" "mbedtls/esp_crt_bundle/include" "mbedtls/port/include" "mbedtls/mbedtls/include" "asio/port/include" "asio/asio/asio/include" "wear_levelling/include" "esp_common/include")))))
+		   (setq-local company-clang-arguments
+					   (map 'list
+							(lambda
+							  (a)
+							  (concat "-I" a))
+							flycheck-clang-include-path)
+					   flycheck-gcc-include-path flycheck-clang-include-path))
+	 (org-image-actual-height . 200)))
  '(send-mail-function 'smtpmail-send-it))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 )
