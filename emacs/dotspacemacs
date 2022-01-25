@@ -286,17 +286,12 @@ It should only modify the values of Spacemacs settings."
 								:weight normal
 								:width normal
 								:powerline-scale 1.1)
-							   ("Symbola"
+							   ("MesloLGS NF"
 								:size 10.0
 								:weight normal
 								:width normal
 								:powerline-scale 1.1)
 							   ("Fira Mono"
-								:size 10.0
-								:weight normal
-								:width normal
-								:powerline-scale 1.1)
-							   ("MesloLGS NF"
 								:size 10.0
 								:weight normal
 								:width normal
@@ -602,7 +597,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (set-fontset-font t 'unicode "Symbola")
+  ;(set-fontset-font t 'unicode "Symbola")
   )
 
 
