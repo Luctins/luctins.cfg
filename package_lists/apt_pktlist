@@ -51,3 +51,7 @@ bat
 fusesmb
 exiftool
 moreutils
+cargo
+doas
+ripgrep
+gnome-tweaks

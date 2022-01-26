@@ -1,14 +1,8 @@
-com.spotify.Client
 com.uploadedlobster.peek
 org.audacityteam.Audacity
 org.flameshot.Flameshot
 org.gimp.GIMP
-org.gnome.Boxes
 org.geogebra.GeoGebra
-org.kde.krita
 org.octave.Octave 
-org.openshot.OpenShot
-org.signal.Signal
 org.videolan.VLC
-org.inkscape.Inkscape
-com.github.reds.LogisimEvolution
+om.github.reds.LogisimEvolution

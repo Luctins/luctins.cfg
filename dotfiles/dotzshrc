@@ -113,6 +113,11 @@ if [[ -f ~/.aliases ]]; then
 	source ~/.aliases
 fi
 
+#load aliases
+if [[ -f ~/.aliases_shared ]]; then
+	source ~/.aliases_shared
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
