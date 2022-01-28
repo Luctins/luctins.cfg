@@ -7,7 +7,7 @@
 
 #backend: Clipboard
 backend: Clipboard
-fast_inject: true
+fast_inject: false
 
 matches:
 #text matches
