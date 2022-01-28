@@ -1,0 +1,2 @@
+PATH="$PATH:$HOME/.platformio/penv/bin/"
+PATH="$PATH:$HOME/.cargo/bin"

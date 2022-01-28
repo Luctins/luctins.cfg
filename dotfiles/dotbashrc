@@ -133,6 +133,11 @@ if [ -f "~/.aliases_shared" ]; then
 	. ~/.aliases_shared
 fi
 
+#load environment variables
+if [[ -f ~/.env ]]; then
+	source ~/.env
+fi
+
 
 VISUAL=/usr/bin/vim
 EDITOR=$VISUAL
