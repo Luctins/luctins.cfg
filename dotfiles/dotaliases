@@ -1,3 +1,4 @@
+# -*- mode: sh;
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
 
 alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
@@ -34,10 +35,10 @@ alias setmbhigh='ddcutil -d 1 setvcp 10 50& ddcutil -d 2 setvcp 10 50&'
 alias setmbmid='ddcutil -d 1 setvcp 10 37& ddcutil -d 2 setvcp 10 37&'
 alias setmblow='ddcutil -d 1 setvcp 10 25& ddcutil -d 2 setvcp 10 25&'
 
+function see-later() {
+	echo -e "* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$2][$1]]" ) :see_later:\n:PROPERTIES:\n:CREATED: <$(date +"%F %a %H:%M" )>\n:END:\n$3" | tee -a ~/org/see-later.org
+}
 
 alias s='source'
 alias bat='batcat'
 alias restart-gnome-shell='killall -9 gnome-shell'
-
-
-
