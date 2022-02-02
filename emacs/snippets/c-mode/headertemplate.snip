@@ -1,10 +1,10 @@
 # -*- mode: snippet -*-
-# name: C header
+# name: Header template
 # key: headertemplate
 # group: template
 # --
-#ifndef __`(replace-regexp-in-string "\\." "_" (upcase (nth 0 (last (split-string buffer-file-name "/")))))`__
-#define __`(replace-regexp-in-string "\\." "_" (upcase (nth 0 (last (split-string buffer-file-name "/")))))  `__
+#ifndef __`(replace-regexp-in-string "\\.\\|-" "_" (upcase (nth 0 (last (split-string buffer-file-name "/")))))`__
+#define __`(replace-regexp-in-string "\\.\\|-" "_" (upcase (nth 0 (last (split-string buffer-file-name "/")))))`__
 
 /*--- Includes----------------------------------------------------------------*/
 
@@ -18,3 +18,5 @@ $0
 
 #endif /* __`(replace-regexp-in-string "\\.\\|-" "_" (upcase (nth 0 (last (split-string buffer-file-name "/")))))  `__ */
 /*------------------------------------ EOF ------------------------------------*/
+
+
