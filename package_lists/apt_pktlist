@@ -70,7 +70,6 @@ libxdo3
 libnotify-bin
 xclip
 xsel
-
 rename
 clang
 pavucontrol
@@ -80,3 +79,9 @@ libclang-dev
 llvm
 network-manager-l2tp network-manager-l2tp-gnome
 ccls
+virt-manager
+clang libclang-dev
+gitk arp-scan llvm llvm-dev cmake cmake-dev moreutils
+cu wireless-tools microcom libudev-dev
+wmctrl
+p7zip
