@@ -2,7 +2,7 @@
 # name: Kconfig item
 # key: cfg
 # --
-config CONFIG_${1}
-int "${0}"
-default  ${2}
-range ${3} ${4}
+config ${1:$$(if (boundp 'kconfig-namespaces) (yas-choose-value kconfig-namespaces) ("Namespace"))}_$2
+int " ${0:desc}"
+default  $3
+range $4 $5
