@@ -214,7 +214,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-startup-lists '(
 								(todos . 5)
 								(recents-by-project . (5 . 3))
-								;(recents . 7)
+								(recents . 7)
 								;(bookmarks . 3)
 								)
 
@@ -613,6 +613,12 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
 
   (spacemacs/enable-transparency)
   (spacemacs/toggle-fill-column-indicator-on)
