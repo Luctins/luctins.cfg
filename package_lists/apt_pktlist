@@ -85,3 +85,4 @@ gitk arp-scan llvm llvm-dev cmake cmake-dev moreutils
 cu wireless-tools microcom libudev-dev
 wmctrl
 p7zip
+cdecl
