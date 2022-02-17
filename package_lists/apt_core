@@ -1,0 +1,9 @@
+emacs
+powertop
+hddtemp
+smartmontools
+testdisk
+nvme-cli
+ddcutil
+moreutils
+doas

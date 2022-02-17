@@ -1,2 +1,22 @@
 build_essential
-clang llvm ccls
+clang
+libclang-dev
+libudev-dev
+llvm
+ccls
+subversion
+microcom
+minicom
+cu
+wireless-tools
+cmake
+mlocate
+markdown
+zsh-syntax-highlighting
+wireshark
+arp-scan
+winbind
+clojure
+cdecl
+llvm
+gitk
