@@ -56,9 +56,7 @@ doas
 ripgrep
 gnome-tweaks
 ripgrep
-copyq
 luatex
-lualatex
 texlive
 texlive-latex-base
 texlive-latex-recommended
@@ -81,7 +79,7 @@ network-manager-l2tp network-manager-l2tp-gnome
 ccls
 virt-manager
 clang libclang-dev
-gitk arp-scan llvm llvm-dev cmake cmake-dev moreutils
+gitk arp-scan llvm llvm-dev cmake  moreutils
 cu wireless-tools microcom libudev-dev
 wmctrl
 p7zip
