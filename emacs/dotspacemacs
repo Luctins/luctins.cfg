@@ -44,7 +44,11 @@ This function should only modify configuration layer settings."
 		  org-roam-directory "~/org/roam/"
 		  )
 	 html
-	 (c-c++ :variables c-c++-backend 'lsp-ccls)
+	 (c-c++ :variables
+			c-c++-backend 'lsp-ccls
+			lsp-enable-file-watchers nil
+			lsp-enable-indentation nil
+			)
 	 javascript
 	 octave
 	 rust
