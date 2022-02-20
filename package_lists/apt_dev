@@ -20,3 +20,4 @@ clojure
 cdecl
 llvm
 gitk
+doxygen

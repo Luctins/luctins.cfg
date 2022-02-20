@@ -13,4 +13,4 @@ texlive-latex-base
 texlive-latex-recommended
 texlive-latex-extra
 fonts-crosextra-carlito
-texlive-fonts-extra
+texlive-fonts-extragraphviz
