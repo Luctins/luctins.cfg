@@ -653,10 +653,8 @@ you should place your code here."
 
   (setq yas-visit-from-menu t)
 
-  (map 'list (lambda (path)
-			   (if (file-readable-p path)
-				   (add-to-list 'yas-snippet-dirs (expand-file-name path))))
-	   '("~/config/emacs/snippets" "/home/config-files/emacs/snippets"))
+  (add-to-list 'yas-snippet-dirs
+			   (concat (string-trim-right (file-truename "~/.spacemacs") "[^/]+") "snippets"))
 
   ;(setq yas-snippet-dirs (remove-if-not 'file-readable-p (yas-snippet-dirs)))
   ;(add-to-list 'yas-snippet-dirs (expand-file-name "~/config/emacs/snippets" ))
