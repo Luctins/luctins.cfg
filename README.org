@@ -1,1 +1,18 @@
-# luctins.cfg - personal curated config files
+#+TITLE: Luctins.cfg - personal curated config files
+
+* Install procedure
+** TODO Run scripts
+** Manual install
++ espanso
++ MEGA
++ CopyQ
++ dropbox
++ oh-my-zsh
+** Set Hostname
+run as root:
+#+begin_src bash
+  OLD=$(cat /etc/hostname)
+  NEW=newhostname
+  echo $NEW > /etc/hostname
+  sed -i "s/${OLD}/${NEW}/g" /etc/hosts
+#+end_src
