@@ -1,4 +1,4 @@
-# -*- mode: sh;
+# -*- mode: sh -*- ;
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
 
 alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
@@ -20,9 +20,6 @@ alias grephist="cat $HISTFILE | grep"
 alias csvn='colorsvn --username=lucas.mendes'
 alias svn='svn --username=lucas.mendes'
 
-alias setm1b='ddcutil -d 1 setvcp 10'
-alias setm2b='ddcutil -d 2 setvcp 10'
-
 alias flatpakinstsys='flatpak install flathub --system'
 
 alias gimme='sudo apt install'
@@ -31,9 +28,11 @@ alias yeet='sudo apt remove'
 alias stophd='sudo hdparm -B1'
 alias pulseaudioreload="pulseaudio -k && pulseaudio --start"
 
-alias setmbhigh='ddcutil -d 1 setvcp 10 50& ddcutil -d 2 setvcp 10 50&'
-alias setmbmid='ddcutil -d 1 setvcp 10 37& ddcutil -d 2 setvcp 10 37&'
-alias setmblow='ddcutil -d 1 setvcp 10 25& ddcutil -d 2 setvcp 10 25&'
+function setmb() {
+	for monitor in {1..1}; do
+		ddcutil -d $monitor setvcp 10 "$1"
+	done
+}
 
 function see-later() {
 	echo -e "* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$2][$1]]" ) :see_later:\n:PROPERTIES:\n:CREATED: <$(date +"%F %a %H:%M" )>\n:END:\n$3" | tee -a ~/org/see-later.org
