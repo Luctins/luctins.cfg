@@ -3,6 +3,6 @@
 # key: cfg
 # --
 config ${1:$$(if (boundp 'kconfig-namespaces) (yas-choose-value kconfig-namespaces) ("Namespace"))}_$2
-int " ${0:desc}"
-default  $3
-range $4 $5
+${3:$$(yas-choose-value '("bool " "tristate " "string " "hex " "int "))} " ${4:desc}"
+${5:range $6 $7}
+default $0
