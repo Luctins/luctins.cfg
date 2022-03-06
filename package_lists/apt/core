@@ -6,4 +6,6 @@ testdisk
 nvme-cli
 ddcutil
 moreutils
-doasapt-file
+doas
+apt-file
+
