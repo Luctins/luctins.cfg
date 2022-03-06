@@ -1,7 +1,10 @@
 # -*- mode: sh -*- ;
+
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
 
 alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
+alias rmr="rm -r"
+alias rmrf="rm -rf"
 
 alias sudo='doas'
 alias fdate='date +%F'
