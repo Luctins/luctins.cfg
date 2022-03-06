@@ -6,4 +6,4 @@ testdisk
 nvme-cli
 ddcutil
 moreutils
-doas
+doasapt-file
