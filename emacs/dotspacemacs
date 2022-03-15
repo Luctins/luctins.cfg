@@ -779,7 +779,11 @@ you should place your code here."
   ;; | |  _|  \| | | | | | |\/| |/ _` | |/ / _ \
   ;; | |_| | |\  | |_| | | |  | | (_| |   <  __/
   ;;  \____|_| \_|\___/  |_|  |_|\__,_|_|\_\___|
-  (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
+  (add-hook  'makefile-mode (lambda () (setq
+										indent-tabs-mode t
+										tab-width 4
+										)
+							  ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____        _   _
