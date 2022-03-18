@@ -881,6 +881,7 @@ you should place your code here."
 								   (emacs-lisp . t)
 								   (dot . t)
 								   ))
+
   (defun my/fix-inline-images ()
 	(when org-inline-image-overlays
 	  (org-redisplay-inline-images)))
