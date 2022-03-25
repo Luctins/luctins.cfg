@@ -1,0 +1,8 @@
+parent: default
+name: email
+
+matches:
+- trigger: ":email:"
+  replace: "lucas.martinsmendes@gmail.com"
+- trigger: ":wem:"
+  replace: "lucas.mendes.macnicadhw@gmail.com"

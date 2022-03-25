@@ -1,0 +1,9 @@
+parent: default
+name: gdb
+
+matches:
+- trigger: ":dm:"
+  replace: "dump memory dump/$|$.bin 0x 0x"
+
+
+
