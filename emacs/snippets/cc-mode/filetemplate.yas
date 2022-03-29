@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: C template
-# key: template
+# name: file template
+# key: filetemplate
 # group: template
 # --
 /*--- Includes ---------------------------------------------------------------*/
