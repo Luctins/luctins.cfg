@@ -88,5 +88,5 @@ alias crg="clear; rg"
 # org
 
 function see-later() {
-	echo -e "* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$2][$1]]" ) :see_later:\n:PROPERTIES:\n:CREATED: <$(date +"%F %a %H:%M" )>\n:END:\n$3" | tee -a ~/org/see-later.org
+	echo -e "* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$2][$1]]" ) \n:PROPERTIES:\n:CREATED: <$(date +"%F %a %H:%M" )>\n:END:\n$3" | tee -a ~/org/see-later.org
 }
