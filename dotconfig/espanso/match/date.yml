@@ -1,4 +1,5 @@
 parent: default
+fast_inject: false
 
 matches:
   - trigger: ":date"
