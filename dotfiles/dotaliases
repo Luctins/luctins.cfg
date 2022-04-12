@@ -66,7 +66,7 @@ function bak() {
 		echo "missing file name"
 		return 1;
 	else
-		cp "${1}" "${1}.bak"
+		cp -r "${1}" "${1}.bak"
 	fi
 }
 
