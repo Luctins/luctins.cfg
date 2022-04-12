@@ -878,10 +878,12 @@ you should place your code here."
 
 
   ;; Babel config
-  (setq org-babel-load-languages '((gnuplot . t)
-								   (emacs-lisp . t)
-								   (dot . t)
-								   ))
+  (map 'list (lambda (lang) (add-to-list 'org-babel-load-languages lang))
+		 '((gnuplot . t)
+		   (emacs-lisp . t)
+		   (dot . t)
+		   (shell . t)
+		   ))
 
   (defun my/fix-inline-images ()
 	(when org-inline-image-overlays
