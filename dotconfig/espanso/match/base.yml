@@ -6,6 +6,8 @@
 # it gets replaced by the "replace" string.
 
 matches:
+  - trigger: ';?!;'
+    replace: '‽'
 #text matches
   - trigger: ";m;"
     fast_inject: false

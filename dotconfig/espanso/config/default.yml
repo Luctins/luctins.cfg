@@ -9,4 +9,4 @@ backend: Clipboard
 #backend: Inject
 fast_inject: false
 
-
+toggle_key: RIGHT_ALT
