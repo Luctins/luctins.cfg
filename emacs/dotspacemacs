@@ -735,7 +735,7 @@ you should place your code here."
 			  (auto-fill-mode)
 			  (evil-close-folds)
 			  (flyspell-mode-off)
-			  (setq-local fill-column 100)
+										;(setq-local fill-column 100)
 			  ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -925,31 +925,29 @@ you should place your code here."
 same directory as the org-buffer and insert a link to this file. Depends in X.org to work (for now)"
 	(interactive)
 	(if (string= major-mode "org-mode")
-		(let ((folder-name (concat (file-name-sans-extension (buffer-file-name)) "-orgimg"))
-			  (img-format "image/png"))
+		(let* ((folder-name (concat (file-name-sans-extension (buffer-file-name)) "-orgimg"))
+			   (img-format "image/png"))
 		  ;; TODO: add switch to detect Xorg or wayland session using (getenv "XDG_SESSION_TYPE")
-		  (if (member img-format
-					   (split-string
-						(shell-command-to-string
-						 "timeout 0.05 xclip -selection clipboard -t TARGETS -o")
-						"\n"))
-			   (progn
-				 (let (filename)
-				   (format  "%s/%s.%s" folder-name
-							(make-temp-name (format-time-string "%Y%m%d_%H%M%S_"))
-							(nth 0 (cdr (split-string "image/png" "/")))
-							))
-				 (if (not (file-directory-p folder-name)) (make-directory folder-name nil))
-				 (shell-command
-				  (format "timeout 0.05 xclip -selection clip -t %s -o >> %s" img-format filename) nil)
-				 (insert (concat "[[./" (file-relative-name filename) "]]"))
-				 (org-display-inline-images)
-				 )
-			 (message "clipboard does not contain a image!")
-			 )
+		  (if (member img-format (split-string
+								  (shell-command-to-string
+								   "timeout 0.05 xclip -selection clipboard -t TARGETS -o") "\n"))
+			  (let ((filename (format "%s/%s.%s"
+									  folder-name
+									  (make-temp-name (format-time-string "%Y%m%d_%H%M%S_"))
+									  (nth 0 (cdr (split-string img-format "/"))))))
+				(progn
+				  (if (not (file-directory-p folder-name)) (make-directory folder-name nil))
+				  (shell-command
+				   (format "timeout 0.05 xclip -selection clip -t %s -o >> %s" img-format filename) nil)
+				  (insert (concat "[[./" (file-relative-name filename) "]]"))
+				  (org-display-inline-images)
+				  ))
+			(message "clipboard does not contain a image!")
+			)
 		  )
 	  (message "buffer is %s not org-mode" major-mode)
-	  ))
+	  )
+	)
 
   (defun luctins/org-sort-headings-todo-prio ()
 	"sort org headings first by priority then by todo order"
