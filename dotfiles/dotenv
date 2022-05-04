@@ -1,2 +1,24 @@
-PATH="$PATH:$HOME/.platformio/penv/bin/"
-PATH="$PATH:$HOME/.cargo/bin"
+# -*- mode: sh -*-
+
+ADD_TO_PATH=( "$HOME/.platformio/penv/bin/"
+			  "$HOME/.cargo/bin"
+			  "$HOME/.local/bin" )
+
+for p in ${ADD_TO_PATH[@]}; do
+	if [ -d "${p}" ] ; then
+		PATH="$PATH:$p"
+	fi
+done
+
+SOURCE_LIST=( " ~/.aliases" "~/.aliases_shared"
+			  "~/.localenv"
+			  "$HOME/.cargo/env" )
+
+for f in ${SOURCE_LIST[@]}; do
+	if [ -f "$f" ]; then
+		source "$f"
+	fi
+done
+
+VISUAL=/usr/bin/vim
+EDITOR=$VISUAL
