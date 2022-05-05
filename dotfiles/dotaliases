@@ -1,5 +1,6 @@
 # -*- mode: sh -*- ;
 
+alias xclip_in='xclip -selection clip -i'
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
 
 alias sudo='doas'
@@ -16,7 +17,7 @@ alias fdate='date +%F'
 
 alias rmr="rm -r"
 alias rmrf="rm -rf"
-alias cleanrm="sed -i.bak 's/.*rm.*//Ig' $HISTFILE"
+alias cleanrm="sed -i.bak 's/^: [0-9]+:[0-9];rm .*//Ig' $HISTFILE"
 
 alias ptop="sudo powertop"
 
@@ -90,3 +91,6 @@ alias crg="clear; rg"
 function see-later() {
 	echo -e "* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$2][$1]]" ) \n:PROPERTIES:\n:CREATED: <$(date +"%F %a %H:%M" )>\n:END:\n$3" | tee -a ~/org/see-later.org
 }
+alias slr=see-later
+
+
