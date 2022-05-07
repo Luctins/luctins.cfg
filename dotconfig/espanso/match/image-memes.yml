@@ -4,6 +4,8 @@ parent: default
 backend: Clipboard
 
 matches:
+- trigger: ';img sun what;'
+  image_path: "$CONFIG/images/sun.png"
 - trigger: ':crab knife:'
   image_path: "$CONFIG/images/crab.png"
 - trigger: ":cpik:"

@@ -10,3 +10,6 @@ backend: Clipboard
 fast_inject: false
 
 toggle_key: RIGHT_ALT
+
+search_shortcut: META+SHIFT+SPACE
+
