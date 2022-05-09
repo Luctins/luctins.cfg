@@ -3,6 +3,7 @@
 alias xclip_in='xclip -selection clip -i'
 alias editalias='$EDITOR ~/.aliases && source ~/.aliases'
 
+alias dhist='HISTFILE="/dev/null"'
 alias sudo='doas'
 
 alias xo='xdg-open'
