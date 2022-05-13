@@ -617,7 +617,8 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;(set-fontset-font t 'unicode "Symbola")
+										;(set-fontset-font t 'unicode "Symbola")
+
   )
 
 
@@ -658,6 +659,7 @@ you should place your code here."
   (use-package platformio-mode)
   (use-package kconfig-mode)
 
+  (setq fill-column 80)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
 
@@ -724,6 +726,25 @@ you should place your code here."
 			  (spacemacs/toggle-fill-column-indicator-on)
 			  (flyspell-mode-off)
 			))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ▄    ▄               ▀▀█
+  ;; ▀▄ ▄▀   ▄▄▄   ▄▄▄▄▄    █
+  ;;  ▀█▀   ▀   █  █ █ █    █
+  ;;   █    ▄▀▀▀█  █ █ █    █
+  ;;   █    ▀▄▄▀█  █ █ █    ▀▄▄
+
+  (add-hook 'yaml-mode-hook
+			(lambda ()
+			  (flyspell-mode-off)))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ▄▄▄▄▄  ▄▄   ▄ ▄▄▄▄▄
+  ;;   █    █▀▄  █   █
+  ;;   █    █ █▄ █   █
+  ;;   █    █  █ █   █
+  ;; ▄▄█▄▄  █   ██ ▄▄█▄▄
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____            _
@@ -909,11 +930,15 @@ you should place your code here."
 
   ;; Babel config
   (map 'list (lambda (lang) (add-to-list 'org-babel-load-languages lang))
-		 '((gnuplot . t)
-		   (emacs-lisp . t)
-		   (dot . t)
-		   (shell . t)
-		   ))
+	   '(
+		 (gnuplot . t)
+		 (emacs-lisp . t)
+		 (dot . t)
+		 (shell . t)
+		 (sql . t)
+		 (sqlite . t)
+		 )
+	   )
 
   (defun my/fix-inline-images ()
 	(when org-inline-image-overlays
