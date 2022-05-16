@@ -1,0 +1,7 @@
+set ts=2
+set et
+set tabstop=2
+set autoindent
+set noexpandtab
+set shiftwidth=2
+set number

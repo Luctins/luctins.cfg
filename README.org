@@ -16,3 +16,5 @@ run as root:
   echo $NEW > /etc/hostname
   sed -i "s/${OLD}/${NEW}/g" /etc/hosts
 #+end_src
+** Path mappings
+path mappings are just in the form of a bash array with src1, dest1, src2, dest2, ..., srcn, destn
