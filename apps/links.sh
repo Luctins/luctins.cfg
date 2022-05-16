@@ -42,7 +42,7 @@ for src dest in "${PATHS[@]}"; do
 			continue
 		fi
 	fi
-	echo -en "$src -> $dest   "
+	#echo -en "$src -> $dest   "
 
 	ln -vs "$src" "$dest"
 done
