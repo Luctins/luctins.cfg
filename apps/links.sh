@@ -2,11 +2,10 @@
 
 PREFIX=config/apps
 CFG_PATH=$(realpath .. | sed "s#/home/$USER/##")
-WORK_HOSTNAME=$(cat work_hostname)
 
-function env_name () {
-	[[ $(hostname) =~ '${WORK_HOSTNAME}.*' ]] && echo work || echo personal
-}
+ENV_NAME=$([[ "$(hostname)" =~ "$(cat work_hostname).*" ]] && echo work || echo personal)
+
+echo "env: $ENV_NAME"
 
 # all paths are relative to ~/
 if [ -f mappings ]; then
@@ -22,14 +21,17 @@ echo "prefix: $PREFIX"
 
 cd ~/
 
-# create link ~/config -> Dropbox/config
+# create link ~/config -> ${CFG_PATH}
 CFG_DIR=$( basename "$CFG_PATH" )
-if [ ! -f "~/$CFG_DIR" ] || [ ! -e "~/$CFG_DIR" ]; then
-	ln -s "$CFG_PATH" ~/
+echo "cfg_dir: $CFG_DIR"
+
+if [ ! -r"$CFG_DIR" ]; then
+	ln -sv "$CFG_PATH" .
 else
 	echo "cfg path link already exists"
 fi
 
+echo
 for src dest in "${PATHS[@]}"; do
 	if [ -f "$dest" ] || [ -d "$dest" ]; then
 		if [ ! -e "$dest" ]; then
