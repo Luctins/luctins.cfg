@@ -1,7 +1,16 @@
+:PROPERTIES:
 #+TITLE: Luctins.cfg - personal curated config files
+#+AUTHOR: Lucas Martins Mendes
+#+DATE:
+#+OPTIONS: toc:nil todo:nil
+#+FILETAGS: readme
+#+TAGS:
+#+STARTUP: content
+:END:
+
+
 
 * Install procedure
-** TODO Run scripts
 ** Manual install
 + espanso
 + MEGA
@@ -16,5 +25,26 @@ run as root:
   echo $NEW > /etc/hostname
   sed -i "s/${OLD}/${NEW}/g" /etc/hosts
 #+end_src
+** Softlinks
+go to apps/ and run =./links.sh=
+* Configuration
 ** Path mappings
 path mappings are just in the form of a bash array with src1, dest1, src2, dest2, ..., srcn, destn
+
+Example:
+#+begin_src bash
+  PATHS=(
+    "${PREFIX}/shell/aliases" ".aliases"
+    "${PREFIX}/shell/env" ".env"
+    "${PREFIX}/shell/vimrc" ".vimrc"
+    "${PREFIX}/shell/zsh/zshrc" ".zshrc"
+    "${PREFIX}/shell/zsh/oh-my-zsh" ".oh-my-zsh"
+    "${PREFIX}/shell/zsh/p10k.zsh" ".p10k.zsh"
+    "${PREFIX}/shell/bash/bashrc" ".bashrc"
+    "${PREFIX}/shell/bash/starship/" ".config/starship"
+    "${PREFIX}/shell/aliases" ".aliases"
+    "${PREFIX}/shell/env" ".env"
+    "${PREFIX}/shell/vimrc" ".vimrc"
+    "${PREFIX}/emacs/spacemacs" ".spacemacs"
+)
+#+end_src
