@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: Line 80 divider
+# name: Fill-column divider
 # key: ldiv
 # group: style
 # --
-/*--- ${1:Title} ${1:$(make-string (- 71 (string-width yas-text)) ?-)}*/
+/*--- ${1:Title} ${1:$(make-string (- fill-column (string-width yas-text) 9) ?-)}*/

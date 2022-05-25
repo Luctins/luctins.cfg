@@ -1,11 +1,11 @@
 # -*- mode: snippet -*-
-# name: Orgmode header
+# name: header generic
 # key: header
-# group: template
+# group: metadata
 # --
 :PROPERTIES:
 #+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
-#+AUTHOR: `user-full-name`
+
 #+DATE:`(format-time-string " %Y-%m-%d %T")`
 #+OPTIONS: toc:nil todo:nil $2
 #+FILETAGS: ${3:$$(yas-choose-value org-tag-alist)}
