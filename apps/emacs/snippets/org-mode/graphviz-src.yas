@@ -1,9 +1,10 @@
 # -*- mode: snippet -*-
 # name: dot
 # key: <dot
+# group: source-code
 # --
-#+begin_src dot :file ${1:output}.png :cmdline -Kdot -Tpng
-digraph ${2:name} {
+#+begin_src dot :file ${1:output}.png :cmdline -K${2:$$(yas-choose-value '(dot neato fdp sfdp circo twopi osage patchwork)) } -Tpng
+${3:digraph ${4:name} {
 $0
-}
+}}
 #+end_src

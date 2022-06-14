@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: latex comment
 # key: %l
+# group: latex
 # --
 #+latex: %

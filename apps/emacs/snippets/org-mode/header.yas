@@ -1,17 +1,15 @@
 # -*- mode: snippet -*-
-# name: header generic
+# name: header-generic
 # key: header
 # group: metadata
 # --
 :PROPERTIES:
 #+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
-
 #+DATE:`(format-time-string " %Y-%m-%d %T")`
-#+OPTIONS: toc:nil todo:nil $2
-#+FILETAGS: ${3:$$(yas-choose-value org-tag-alist)}
-#+TAGS: $4
-#+TODO: TODO TEST WAIT | DONE WTDO
-#+STARTUP: ${5:$$(yas-choose-value '("content" "overview" "showall" "showeverything"))}
+${2:#+OPTIONS: toc:nil todo:nil
+}#+FILETAGS: ${3:$$(yas-choose-value org-tag-alist)}
+${4:#+TAGS: $5
+}#+STARTUP: ${6:$$(yas-choose-value '("content" "overview" "showall" "showeverything"))}
 :END:
 
 $0
