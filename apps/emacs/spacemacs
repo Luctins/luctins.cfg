@@ -50,7 +50,9 @@ This function should only modify configuration layer settings."
 	 better-defaults
 	 git
 	 version-control
-	 (spell-checking :variables spell-checking-enable-by-default nil)
+	 (spell-checking :variables
+					 spell-checking-enable-by-default nil
+					 spell-checking-enable-auto-dictionary t)
 	 syntax-checking
 	 rust
 	 (latex :variables
@@ -657,7 +659,7 @@ you should place your code here."
   (set-keyboard-coding-system 'utf-8)
   (set-language-environment 'utf-8)
 
-  (set-fontset-font t nil (font-spec :size 10 :name "MesloLGS NF"))
+  (set-fontset-font t '(?⠀ . ?⣿) (font-spec :size 10 :name "MesloLGS NF"))
 
   (spacemacs/enable-transparency)
   (spacemacs/toggle-fill-column-indicator-on)
@@ -675,6 +677,15 @@ you should place your code here."
   (use-package kconfig-mode)
 
   (setq fill-column 80)
+
+  (with-eval-after-load "ispell"
+	(setq ispell-program-name "hunspell")
+	;; ispell-set-spellchecker-params has to be called
+	;; before ispell-hunspell-add-multi-dic will work
+	(ispell-set-spellchecker-params)
+	(ispell-hunspell-add-multi-dic "pt_BR,en_GB")
+	(setq ispell-dictionary "pt_BR,en_GB"))
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
 
@@ -685,7 +696,7 @@ you should place your code here."
   ;;   | |/ ___ \ ___) | | | | | |_) | |_) |  __/ |_
   ;;   |_/_/   \_\____/|_| |_|_| .__/| .__/ \___|\__|
   ;;                           |_|   |_|
-(use-package yasnippet)
+  (use-package yasnippet)
   (yas-global-mode t)   ;; Enable it globally
 
   (defun buffer-mode (&optional buffer-or-name)
@@ -739,7 +750,6 @@ you should place your code here."
   (add-hook 'prog-mode-hook
 			(lambda ()
 			  (spacemacs/toggle-fill-column-indicator-on)
-			  ;;(flyspell-mode-off)
 			))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -863,6 +873,17 @@ you should place your code here."
 		(anaconda-eldoc-mode)
 		(auto-fill-mode)
 		))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;  _         _____   __  __
+  ;; | |    __ |_   _|__\ \/ /
+  ;; | |   / _` || |/ _ \\  /
+  ;; | |__| (_| || |  __//  \
+  ;; |_____\__,_||_|\___/_/\_\
+  (add-hook 'latex-mode-hook
+			(lambda ()
+			  (flyspell-mode-on)
+			  ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ___  ____   ____
