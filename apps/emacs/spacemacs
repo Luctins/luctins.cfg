@@ -33,61 +33,60 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(php
-	 systemd
-	 emacs-lisp
-	 treemacs
-	 multiple-cursors
-	 lsp
-	 html
-	 javascript
-	 octave
-	 csv
-	 markdown
-	 yaml
-	 lua
-	 helm
-	 auto-completion
-	 better-defaults
-	 git
-	 version-control
-	 (spell-checking :variables
-					 spell-checking-enable-by-default nil
-					 spell-checking-enable-auto-dictionary t)
-	 syntax-checking
-	 rust
-	 (latex :variables
-			latex-enable-auto-fill nil
-			latex-enable-magic t
-			latex-enable-folding t
-			latex-build-command 'latexmk
-			latex-refresh-preview t
-			)
-	 (org :variables
-		  org-enable-roam-support t
-		  org-enable-trello-support t
-		  org-roam-v2-ack t
-		  org-roam-directory "~/org/roam/"
-		  org-tags-column -80
-		  )
-	 (c-c++ :variables
-			c-c++-backend 'lsp-ccls
-			lsp-enable-file-watchers nil
-			lsp-enable-indentation nil
-			)
-	 (python :variables
-			 python-backend 'anaconda
-			 python-indent 4
-			 python-indent-offset 4
-			 indent-tabs-mode t
-			 tab-width 4
+   systemd
+   emacs-lisp
+   (treemacs :variables
+             treemacs-use-follow-mode t
+             treemacs-use-all-the-icons-theme t)
 
-			 )
-	 (shell :variables
-			 shell-default-height 30
-			 shell-default-position 'bottom
-			 )
-	  ;yasnippet
-	  )
+   multiple-cursors
+   lsp
+   html
+   javascript
+   octave
+   csv
+   markdown
+   yaml
+   lua
+   helm
+   auto-completion
+   better-defaults
+   git
+   version-control
+   (spell-checking :variables
+           spell-checking-enable-by-default nil
+           spell-checking-enable-auto-dictionary t)
+   syntax-checking
+   rust
+   (latex :variables
+      latex-enable-auto-fill nil
+      latex-enable-magic t
+      latex-enable-folding t
+      latex-build-command 'latexmk
+      latex-refresh-preview t
+      )
+   (org :variables
+      org-enable-roam-support t
+      org-enable-trello-support t
+      org-roam-v2-ack t
+      org-roam-directory "~/org/roam/"
+      org-tags-column -80
+      )
+   (c-c++ :variables
+      c-c++-backend 'lsp-ccls
+      lsp-enable-file-watchers nil
+      lsp-enable-indentation nil
+      )
+   (python :variables
+       python-backend 'anaconda
+       python-sort-imports-on-save t
+       )
+   (shell :variables
+       shell-default-height 30
+       shell-default-position 'bottom
+       )
+    ;yasnippet
+    )
 
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -98,23 +97,23 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-									  arduino-mode
-									  org-autolist
-									  gcode-mode
-									  yasnippet
-									  drag-stuff
-									  nodemcu-mode
-									  gnuplot-mode
-									  graphviz-dot-mode
-									  gnu-elpa-keyring-update
-									  ;rtags
-									  ;rtags-xref
-									  ;company-rtags
-									  ;flycheck-rtags
-									  platformio-mode
-									  kconfig-mode
-									  conda
-									  )
+                    arduino-mode
+                    org-autolist
+                    gcode-mode
+                    yasnippet
+                    drag-stuff
+                    nodemcu-mode
+                    gnuplot-mode
+                    graphviz-dot-mode
+                    gnu-elpa-keyring-update
+                    ;rtags
+                    ;rtags-xref
+                    ;company-rtags
+                    ;flycheck-rtags
+                    platformio-mode
+                    kconfig-mode
+                    conda
+                    )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -240,11 +239,11 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '(
-								(todos . 5)
-								(recents-by-project . (5 . 3))
-								(recents . 7)
-								;(bookmarks . 3)
-								)
+                (todos . 5)
+                (recents-by-project . (5 . 3))
+                (recents . 7)
+                ;(bookmarks . 3)
+                )
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -284,15 +283,15 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-						 spacemacs-dark
-						 inkpot
-						 nano
-						 ;nano-light
-						 ;nano
-						 ;warm-night
-						 ;melancholy
-						 dracula
-						 spacemacs-light)
+             spacemacs-dark
+             inkpot
+             nano
+             ;nano-light
+             ;nano
+             ;warm-night
+             ;melancholy
+             dracula
+             spacemacs-light)
 
    doom-modeline-minor-modes t
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -312,22 +311,22 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '(
-							   ("Source Code Pro"
-								:size 10.0
-								:weight normal
-								:width normal)
-								;:powerline-scale 1.1)
-							   ("MesloLGS NF"
-								:size 10.0
-								;:weight normal
-								;:width normal
-								:powerline-scale 1.1)
-							   ("Fira Mono"
-								:size 10.0
-								:weight normal
-								:width normal
-								:powerline-scale 1.1)
-							   )
+                 ("Source Code Pro"
+                :size 10.0
+                :weight normal
+                :width normal)
+                ;:powerline-scale 1.1)
+                 ("MesloLGS NF"
+                :size 10.0
+                ;:weight normal
+                ;:width normal
+                :powerline-scale 1.1)
+                 ("Fira Mono"
+                :size 10.0
+                :weight normal
+                :width normal
+                :powerline-scale 1.1)
+                 )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -610,15 +609,15 @@ See the header of this file for more information."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Personal Info
   (setq user-name (getenv "USER_FULL_NAME")
-		user-email (getenv "USER_EMAIL"))
+    user-email (getenv "USER_EMAIL"))
 
   (setq magit-commit-arguments '("-S"))
   (setq tramp-default-method "ssh")
 
   (setq tab-width 4
-		hs-hide-comments-when-hiding-all nil ; don't fold comments
-		drag-stuff-global-mode t
-		hide-ifdef-shadow t)
+    hs-hide-comments-when-hiding-all nil ; don't fold comments
+    drag-stuff-global-mode t
+    hide-ifdef-shadow t)
   )
 
 
@@ -628,12 +627,12 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-										;(set-fontset-font t 'unicode "Symbola")
+                    ;(set-fontset-font t 'unicode "Symbola")
   (custom-set-variables
    '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3")))
   ;(setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
 
-
+  ;(setq flycheck-global-modes '(org-mode latex-mode))
   )
 
 
@@ -663,7 +662,6 @@ you should place your code here."
 
   (spacemacs/enable-transparency)
   (spacemacs/toggle-fill-column-indicator-on)
-  (flyspell-mode 0)
 
   (use-package arduino-mode)
   (use-package org-autolist)
@@ -679,12 +677,12 @@ you should place your code here."
   (setq fill-column 80)
 
   (with-eval-after-load "ispell"
-	(setq ispell-program-name "hunspell")
-	;; ispell-set-spellchecker-params has to be called
-	;; before ispell-hunspell-add-multi-dic will work
-	(ispell-set-spellchecker-params)
-	(ispell-hunspell-add-multi-dic "pt_BR,en_GB")
-	(setq ispell-dictionary "pt_BR,en_GB"))
+  (setq ispell-program-name "hunspell")
+  ;; ispell-set-spellchecker-params has to be called
+  ;; before ispell-hunspell-add-multi-dic will work
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "pt_BR,en_GB")
+  (setq ispell-dictionary "pt_BR,en_GB"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
@@ -700,18 +698,18 @@ you should place your code here."
   (yas-global-mode t)   ;; Enable it globally
 
   (defun buffer-mode (&optional buffer-or-name)
-	"Returns the major mode associated with a buffer.
+  "Returns the major mode associated with a buffer.
    If buffer-or-name is nil return current buffer's mode. used by yasnippet"
   (buffer-local-value 'major-mode
-			(if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
+      (if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
 
   (defun yas/org-very-safe-expand ()
-	(let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
+  (let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
 
   (setq yas-visit-from-menu t)
 
   (add-to-list 'yas-snippet-dirs
-			   (concat (string-trim-right (file-truename "~/.spacemacs") "[^/]+") "snippets"))
+         (concat (string-trim-right (file-truename "~/.spacemacs") "[^/]+") "snippets"))
 
   ;(setq yas-snippet-dirs (remove-if-not 'file-readable-p (yas-snippet-dirs)))
   ;(add-to-list 'yas-snippet-dirs (expand-file-name "~/config/emacs/snippets" ))
@@ -726,7 +724,7 @@ you should place your code here."
   (global-set-key (kbd "C-c e") 'yas-expand)
 
   (yas-reload-all)
-										;(yas-global-mode t)
+                    ;(yas-global-mode t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; All mode hooks
@@ -748,9 +746,9 @@ you should place your code here."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
   (add-hook 'prog-mode-hook
-			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)
-			))
+      (lambda ()
+        (spacemacs/toggle-fill-column-indicator-on)
+      ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; __   __              _
@@ -760,7 +758,7 @@ you should place your code here."
   ;;   |_|\__,_|_| |_| |_|_|
   ;; (add-hook 'yaml-mode-hook
   ;;			(lambda ()
-  ;;			  (flyspell-mode-off)))
+  ;; ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  _       _
@@ -776,12 +774,11 @@ you should place your code here."
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
   (add-hook 'rust-mode-hook
-			(lambda ()
-			  (auto-fill-mode)
-			  (evil-close-folds)
-			  ;;(flyspell-mode-off)
-			  (setq-local fill-column 100)
-			  ))
+      (lambda ()
+        (auto-fill-mode)
+        (evil-close-folds)
+        (setq-local fill-column 100)
+        ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____
@@ -790,43 +787,42 @@ you should place your code here."
   ;;  | |___
   ;;  \____|
   (add-hook 'c-mode-common-hook
-			 (lambda ()
-			   (hide-ifdef-mode)
-			   ;(rtags-start-process-unless-running)
-			   ;(flycheck-mode t)
-			   (evil-close-folds)
-			   (auto-fill-mode)
-			   (hide-ifdefs)
-			   ;;(flyspell-mode-off)
-			   (platformio-conditionally-enable)
-			   (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
-			   ))
+       (lambda ()
+         (hide-ifdef-mode)
+         ;(rtags-start-process-unless-running)
+         ;(flycheck-mode t)
+         (evil-close-folds)
+         (auto-fill-mode)
+         (hide-ifdefs)
+         (platformio-conditionally-enable)
+         (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
+         ))
 
   (setq c-syntactic-indentation t
-		c-default-style "linux"
-		c-basic-offset 4
-		c-tab-always-indent t
-		indent-tabs-mode nil
+    c-default-style "linux"
+    c-basic-offset 4
+    c-tab-always-indent t
+    indent-tabs-mode nil
    )
 
   (defun trim-at-col (line)
-	"trim C comments at a specified column"
-	(interactive (list (if current-prefix-arg
-						   (read-from-minibuffer "line to trim at: ") nil)))
-	(end-of-line)
-	(backward-char 9)
-	(setq c (- (point) (if line line '80)))
-	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-	)
+  "trim C comments at a specified column"
+  (interactive (list (if current-prefix-arg
+               (read-from-minibuffer "line to trim at: ") nil)))
+  (end-of-line)
+  (backward-char 9)
+  (setq c (- (point) (if line line '80)))
+  (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+  )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Kconfig
   (add-hook 'kconfig-mode-hook
-			(lambda ()
-			  (setq-local
-			   indent-tabs-mode t
-			   )
-			  ))
+      (lambda ()
+        (setq-local
+         indent-tabs-mode t
+         )
+        ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Objdump mode
@@ -841,12 +837,12 @@ you should place your code here."
   ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
   ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
   (add-hook 'asm-mode-hook
-			(lambda ()
-			  (setq tab-width 8
-					electric-indent-mode nil
-					indent-tabs-mode t)
-			  (auto-fill-mode)
-			  ))
+      (lambda ()
+        (setq tab-width 8
+          electric-indent-mode nil
+          indent-tabs-mode t)
+        (auto-fill-mode)
+        ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____ _   _ _   _   __  __       _
@@ -855,10 +851,10 @@ you should place your code here."
   ;; | |_| | |\  | |_| | | |  | | (_| |   <  __/
   ;;  \____|_| \_|\___/  |_|  |_|\__,_|_|\_\___|
   (add-hook  'makefile-mode (lambda () (setq
-										indent-tabs-mode t
-										tab-width 4
-										)
-							  ))
+                    indent-tabs-mode t
+                    tab-width 4
+                    )
+                ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____        _   _
@@ -868,22 +864,26 @@ you should place your code here."
   ;; |_|    \__, |\__|_| |_|\___/|_| |_|
   ;;        |___/
   (add-hook 'python-mode-hook
-	  (lambda ()
-		(spacemacs/toggle-fill-column-indicator-on)
-		(anaconda-eldoc-mode)
-		(auto-fill-mode)
-		))
+    (lambda ()
+    (spacemacs/toggle-fill-column-indicator-on)
+    (anaconda-eldoc-mode)
+    (auto-fill-mode)
+    (setq indent-tabs-mode nil
+          tab-width 4
+          python-indent-offset 4)
+    ))
 
+  (setq python-indent-offset 4)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  _         _____   __  __
   ;; | |    __ |_   _|__\ \/ /
   ;; | |   / _` || |/ _ \\  /
   ;; | |__| (_| || |  __//  \
   ;; |_____\__,_||_|\___/_/\_\
-  (add-hook 'latex-mode-hook
-			(lambda ()
-			  (flyspell-mode-on)
-			  ))
+  (add-hook 'LaTeX-mode-hook
+      (lambda ()
+        (flyspell-mode)
+       ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ___  ____   ____
@@ -892,162 +892,163 @@ you should place your code here."
   ;; | |_| |  _ <| |_| |
   ;;  \___/|_| \_\\____|
   (setq  org-confirm-babel-evaluate nil
-		 org-tag-alist
-		 '(
-		   (work . w)
-		   (personal . p)
-		   (college . c)
-		   (leisure . l)
-		   (finance . f)
-		   shopping
-		   maintenance
-		   selfcare
-		   )
-		 org-image-actual-height 400
-		 org-startup-with-inline-images t
-		 org-directory "~/org/"
-		 org-agenda-files '( "~/org/" )
-		 org-default-notes-file (concat org-directory "todo.org")
-		 org-startup-folded t
-		 org-catch-invisible-edits t ;; Very usefull to avoid destroying stuff accidentally
-		 org-agenda-start-on-weekday 1 ;; set week to start on monday
-		 org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
-		 org-todo-keyword-faces
-		 '(
-		   ("TODO" . org-todo)
-		   ("WAIT" . (:foreground "#F0C674" :weight bold))
-		   ("WTDO" . org-done)
-		   ("TEST" . (:foreground "#6eb0e9" :weight bold))
-		   ("TFIX" . (:foreground "#b34e6b" :weight bold))
-		   ("DONE" . org-done)
-		   )
-		 org-latex-packages-alist
-		 '(
-		   (" " "indentfirst" " ")
-										;("margin=2cm" "geometry" nil) ; removed because of conflicts
-		   )
-		 org-capture-templates
-		 '(
-		   ("t" "TODO Item" entry (file "~/org/inbox.org") "* TODO %?\n:PROPERTIES:\n:CREATED: %T\n:END:")
-		   ("s" "See Later" entry (file "~/org/see-later.org") )
-		   ("n" "Quick Note" entry (file "~/org/inbox.org") "* %T %? :note:")
-		   )
-		 org-format-latex-options '(:scale 1.5)
-		 ;;org-roam-directory (file-truename "~/org")
-		 )
-
+     org-tag-alist
+     '(
+       (personal . p)
+       (work . w)
+       (college . c)
+       (leisure . l)
+       (finance . f)
+       (shopping . s)
+       (maintenance . m)
+       (selfcare . s)
+       )
+     org-image-actual-height 400
+     org-startup-with-inline-images t
+     org-directory "~/org/"
+     org-agenda-files '( "~/org/" )
+     org-default-notes-file (concat org-directory "todo.org")
+     org-startup-folded t
+     org-catch-invisible-edits t ;; Very usefull to avoid destroying stuff accidentally
+     org-agenda-start-on-weekday 1 ;; set week to start on monday
+     org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
+     org-todo-keyword-faces
+     '(
+       ("TODO" . org-todo)
+       ("WAIT" . (:foreground "#F0C674" :weight bold))
+       ("WTDO" . org-done)
+       ("TEST" . (:foreground "#6eb0e9" :weight bold))
+       ("TFIX" . (:foreground "#b34e6b" :weight bold))
+       ("DONE" . org-done)
+       )
+     org-latex-packages-alist
+     '(
+       (" " "indentfirst" " ")
+                    ;("margin=2cm" "geometry" nil) ; removed because of conflicts
+       )
+     org-capture-templates
+     '(
+       ("s" "See Later" entry (file "~/org/see-later.org") "* TODO %? :see_later:\n:PROPERTIES:\n:CREATED: %U\n:END:")
+       ("t" "TODO Item" entry (file "~/org/inbox.org") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
+       ("n" "Quick Note" entry (file "~/org/inbox.org") "* %T %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
+       )
+     org-format-latex-options '(:scale 1.5)
+     ;;org-roam-directory (file-truename "~/org")
+     )
 
   (add-hook 'org-mode-hook
-			(lambda ()
-			  (yas-minor-mode)
-			  (make-variable-buffer-local 'yas/trigger-key)
-			  (setq-local yas/trigger-key [tab])
-			  (setq indent-tabs-mode nil)
-			  (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-			  (define-key yas/keymap [tab] 'yas/next-field)
-			  (flyspell-mode-on)
-			  (flycheck-mode 1)
-			  (flyspell-mode-on)
-			  (org-autolist-mode)
-			  ;(org-bullets-mode)
-			  (org-indent-mode)
-			  (visual-line-mode)
-			  (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
-			  (local-set-key [c-x c-c c-r] 'org-preview-latex-default-process)
-			  ))
+      (lambda ()
+        (yas-minor-mode)
+        (make-variable-buffer-local 'yas/trigger-key)
+        (setq-local yas/trigger-key [tab])
+        ;(setq indent-tabs-mode nil)
+        (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+        (define-key yas/keymap [tab] 'yas/next-field)
+        (flyspell-mode)
+        (org-autolist-mode)
+        (org-indent-mode)
+        ;(org-bullets-mode)
+        (visual-line-mode)
+        (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
+        (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
+        ))
+
+  ;(add-hook 'org-mode-hook #'flyspell-mode)
+
   ;; lualatex preview
   (setq org-latex-pdf-process
-		'("lualatex -shell-escape -interaction nonstopmode %f"
-		  "lualatex -shell-escape -interaction nonstopmode %f"))
+    '("lualatex -shell-escape -interaction nonstopmode %f"
+      "lualatex -shell-escape -interaction nonstopmode %f"))
 
   (setq luamagick '(luamagick :programs ("lualatex" "convert")
-							  :description "pdf > png"
-							  :message "you need to install lualatex and imagemagick."
-							  :use-xcolor t
-							  :image-input-type "pdf"
-							  :image-output-type "png"
-							  :image-size-adjust (1.0 . 1.0)
-							  :latex-compiler ("lualatex -interaction nonstopmode -output-directory %o %f")
-							  :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))
+                :description "pdf > png"
+                :message "you need to install lualatex and imagemagick."
+                :use-xcolor t
+                :image-input-type "pdf"
+                :image-output-type "png"
+                :image-size-adjust (1.0 . 1.0)
+                :latex-compiler ("lualatex -interaction nonstopmode -output-directory %o %f")
+                :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))
 
   (add-to-list 'org-preview-latex-process-alist luamagick)
+  (define-key org-mode-map (kbd "<M-return> i c") 'luctins/org-insert-created-drawer)
 
   (setq org-preview-latex-default-process 'luamagick)
 
 
   ;; Babel config
   (map 'list (lambda (lang) (add-to-list 'org-babel-load-languages lang))
-	   '(
-		 (gnuplot . t)
-		 (emacs-lisp . t)
-		 (dot . t)
-		 (shell . t)
-		 (sql . t)
-		 (sqlite . t)
-		 )
-	   )
+     '(
+     (gnuplot . t)
+     (emacs-lisp . t)
+     (dot . t)
+     (shell . t)
+     (sql . t)
+     (sqlite . t)
+     )
+     )
 
   (defun my/fix-inline-images ()
-	(when org-inline-image-overlays
-	  (org-redisplay-inline-images)))
+  (when org-inline-image-overlays
+    (org-redisplay-inline-images)))
 
   (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
 
   (defun luctins/org-insert-image-from-clipboard ()
-	"Take a screenshot into a time stamped unique-named file in the
+  "Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file. Depends in X.org to work (for now)"
-	(interactive)
-	(if (string= major-mode "org-mode")
-		(let* ((folder-name (concat (file-name-sans-extension (buffer-file-name)) "-orgimg"))
-			   (img-format "image/png"))
-		  ;; TODO: add switch to detect Xorg or wayland session using (getenv "XDG_SESSION_TYPE")
-		  (if (member img-format (split-string
-								  (shell-command-to-string
-								   "timeout 0.05 xclip -selection clipboard -t TARGETS -o") "\n"))
-			  (let ((filename (format "%s/%s.%s"
-									  folder-name
-									  (make-temp-name (format-time-string "%Y%m%d_%H%M%S_"))
-									  (nth 0 (cdr (split-string img-format "/"))))))
-				(progn
-				  (if (not (file-directory-p folder-name)) (make-directory folder-name nil))
-				  (shell-command
-				   (format "timeout 0.05 xclip -selection clip -t %s -o >> %s" img-format filename) nil)
-				  (insert (concat "[[./" (file-relative-name filename) "]]"))
-				  (org-display-inline-images)
-				  ))
-			(message "clipboard does not contain a image!")
-			)
-		  )
-	  (message "buffer is %s not org-mode" major-mode)
-	  )
-	)
+  (interactive)
+  (if (string= major-mode "org-mode")
+    (let* ((folder-name (concat (file-name-sans-extension (buffer-file-name)) "-orgimg"))
+         (img-format "image/png"))
+      ;; TODO: add switch to detect Xorg or wayland session using (getenv "XDG_SESSION_TYPE")
+      (if (member img-format (split-string
+                  (shell-command-to-string
+                   "timeout 0.05 xclip -selection clipboard -t TARGETS -o") "\n"))
+        (let ((filename (format "%s/%s.%s"
+                    folder-name
+                    (make-temp-name (format-time-string "%Y%m%d_%H%M%S_"))
+                    (nth 0 (cdr (split-string img-format "/"))))))
+        (progn
+          (if (not (file-directory-p folder-name)) (make-directory folder-name nil))
+          (shell-command
+           (format "timeout 0.05 xclip -selection clip -t %s -o >> %s" img-format filename) nil)
+          (insert (concat "[[./" (file-relative-name filename) "]]"))
+          (org-display-inline-images)
+          ))
+      (message "clipboard does not contain a image!")
+      )
+      )
+    (message "buffer is %s not org-mode" major-mode)
+    )
+  )
 
   (defun luctins/org-sort-headings-todo-prio ()
-	"sort org headings first by priority then by todo order"
-	(interactive)
-	(org-sort-entries t ?p )
-	(org-sort-entries t ?o ))
+  "sort org headings first by priority then by todo order"
+  (interactive)
+  (org-sort-entries t ?p )
+  (org-sort-entries t ?o ))
 
   (defun luctins/org-insert-created-drawer ()
-	(interactive)
-	(org-set-property "CREATED" (concat "<" (format-time-string "%F") ">"))
-	)
+  (interactive)
+  (org-set-property "CREATED" (concat "[" (format-time-string "%F") "]"))
+  )
 
   (defun dfeich/org-export-delete-commented-cols (back-end)
-	"Delete columns $2 to $> marked as `<#>' on a row with `/' in $1.
-	If you want a non-empty column $1 to be deleted make it $2 by
-	inserting an empty column before and adding `/' in $1."
-	(while (re-search-forward "^[ \t]*| +/ +|\\(.*|\\)? +\\(<#>\\) *|" nil t)
-	  (goto-char (match-beginning 2))
-	  (org-table-delete-column)
-	  (beginning-of-line)))
+  "Delete columns $2 to $> marked as `<#>' on a row with `/' in $1.
+  If you want a non-empty column $1 to be deleted make it $2 by
+  inserting an empty column before and adding `/' in $1."
+  (while (re-search-forward "^[ \t]*| +/ +|\\(.*|\\)? +\\(<#>\\) *|" nil t)
+    (goto-char (match-beginning 2))
+    (org-table-delete-column)
+    (beginning-of-line)))
 
   (add-hook 'org-export-before-processing-hook #'dfeich/org-export-delete-commented-cols)
 
   ;; Keybinds
   (global-set-key (kbd "M-m b t")
-				  (lambda () (interactive)
-					(find-file org-default-notes-file)))
+          (lambda () (interactive)
+          (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
 
   (spacemacs/set-leader-keys "n l" 'org-roam-buffer-toggle)
@@ -1074,10 +1075,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
   (add-hook 'prog-mode-hook
-			(lambda ()
-			  (spacemacs/toggle-fill-column-indicator-on)
-			  ;;(flyspell-mode-off)
-			))
+      (lambda ()
+        (spacemacs/toggle-fill-column-indicator-on)
+        ;;(flyspell-mode-off)
+      ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____            _
@@ -1086,10 +1087,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
   (add-hook 'rust-mode-hook
-			(lambda ()
-			  (auto-fill-mode)
-			  (evil-close-folds)
-			  ))
+      (lambda ()
+        (auto-fill-mode)
+        (evil-close-folds)
+        ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____
@@ -1098,34 +1099,34 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  | |___
   ;;  \____|
   (add-hook 'c-mode-common-hook
-			 (lambda ()
-			   ;(rtags-start-process-unless-running)
-			   ;(lsp-deferred)
-			   (hide-ifdef-mode)
-			   (flycheck-mode t)
-			   (flyspell-prog-mode)
-			   (evil-close-folds)
-			   (auto-fill-mode)
-			   (platformio-conditionally-enable)
-			   (hide-ifdefs)
-			   ))
+       (lambda ()
+         ;(rtags-start-process-unless-running)
+         ;(lsp-deferred)
+         (hide-ifdef-mode)
+         (flycheck-mode t)
+         (flyspell-prog-mode)
+         (evil-close-folds)
+         (auto-fill-mode)
+         (platformio-conditionally-enable)
+         (hide-ifdefs)
+         ))
 
   (setq c-syntactic-indentation t
-		c-default-style "linux"
-		c-basic-offset 4
-		c-tab-always-indent t
-		indent-tabs-mode nil
+    c-default-style "linux"
+    c-basic-offset 4
+    c-tab-always-indent t
+    indent-tabs-mode nil
    )
 
   (defun trim-at-col (line)
-	"trim C comments at a specified column"
-	(interactive (list (if current-prefix-arg
-						   (read-from-minibuffer "line to trim at: ") nil)))
-	(end-of-line)
-	(backward-char 9)
-	(setq c (- (point) (if line line '80)))
-	(if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-	)
+  "trim C comments at a specified column"
+  (interactive (list (if current-prefix-arg
+               (read-from-minibuffer "line to trim at: ") nil)))
+  (end-of-line)
+  (backward-char 9)
+  (setq c (- (point) (if line line '80)))
+  (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+  )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Objdump mode
@@ -1140,12 +1141,12 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
   ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
   (add-hook 'asm-mode-hook
-			(lambda ()
-			  (setq tab-width 8
-					electric-indent-mode nil
-					indent-tabs-mode t)
-			  (auto-fill-mode)
-			  ))
+      (lambda ()
+        (setq tab-width 8
+          electric-indent-mode nil
+          indent-tabs-mode t)
+        (auto-fill-mode)
+        ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____ _   _ _   _   __  __       _
@@ -1163,12 +1164,12 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;; |_|    \__, |\__|_| |_|\___/|_| |_|
   ;;        |___/
   (add-hook 'python-mode-hook
-	  (lambda ()
-		(spacemacs/toggle-fill-column-indicator-on)
-		(anaconda-eldoc-mode)
-		(auto-fill-mode)
-		(conda-env-activate-path "~/.anaconda3")
-		))
+    (lambda ()
+    (spacemacs/toggle-fill-column-indicator-on)
+    (anaconda-eldoc-mode)
+    (auto-fill-mode)
+    (conda-env-activate-path "~/.anaconda3")
+    ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Company mode
@@ -1176,9 +1177,9 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 
   ;; Set company mode to not suggest numbers
   (push (apply-partially #'cl-remove-if
-						 (lambda (c)
-						   (string-match-p "[0-9]+" c)))
-		company-transformers)
+             (lambda (c)
+               (string-match-p "[0-9]+" c)))
+    company-transformers)
 
   ;;;;;;;;;;;;;;;;;;;;
   ;; EVil
@@ -1195,11 +1196,11 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key [C-mouse-1] 'mc/add-cursor-on-click)
 
   ;; Isto e' para habilitar o dicionario em portugues brasileiro
-  (setq ispell-dictionary "brasileiro")
-  (setq ispell-alternate-dictionary "english")
+  ;(setq ispell-dictionary "brasileiro")
+  ;(setq ispell-alternate-dictionary "english")
 
   ;(setq ispell-dictionary-alist (list (map 'list  'list (list "brasileiro" "english"))))
-  (setq flyspell-issue-message-flag nil)
+  ;(setq flyspell-issue-message-flag nil)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; General Shortcuts
