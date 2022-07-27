@@ -4,8 +4,12 @@
 # group: latex
 # --
 #+LATEX: \begin{minipage}{${1:0.49}\textwidth}%
+
 $0
-#+LATEX: \end{minipage}%
-#+LATEX: \begin{minipage}{${1:$(- 1.01 (string-to-number yas-text) 0.01)}\textwidth}%
+
+#+LATEX: \end{minipage}\hfill%
+#+LATEX: \begin{minipage}{${1:$(format "%0.2f" (- 1.00 (string-to-number yas-text) 0.02))}\textwidth}%
+
+
 
 #+LATEX: \end{minipage}%
