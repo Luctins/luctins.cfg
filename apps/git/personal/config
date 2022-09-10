@@ -1,10 +1,12 @@
 [user]
 	email = lucas.martinsmendes@gmail.com
 	name = luctins
-	signingkey = 9EC27C7CC5EF0E68DDA78876D9AB6F9C1814EDFD
+	signingkey = 9EC27C7CC5EF0E68DDA78876D9AB6F9C1814EDFD7DC6A0DA34E77755
 [pull]
 	rebase = true
 [commit]
 	gpgsign = true
 [init]
 	defaultBranch = main
+[alias]
+	root = rev-parse --show-toplevel
