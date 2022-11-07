@@ -72,6 +72,15 @@ This function should only modify configuration layer settings."
       org-roam-v2-ack t
       org-roam-directory "~/org/roam/"
       org-tags-column -80
+      org-babel-load-languages
+      '(
+        (gnuplot . t)
+        (emacs-lisp . t)
+        (dot . t)
+        (shell . t)
+        (sql . t)
+        (sqlite . t)
+        )
       )
    (c-c++ :variables
       c-c++-backend 'lsp-ccls
@@ -79,7 +88,7 @@ This function should only modify configuration layer settings."
       lsp-enable-indentation nil
       )
    (python :variables
-       python-backend 'anaconda
+       ;python-backend '
        python-sort-imports-on-save t
        )
    (shell :variables
@@ -107,6 +116,7 @@ This function should only modify configuration layer settings."
                     gnuplot-mode
                     graphviz-dot-mode
                     gnu-elpa-keyring-update
+                    markdown-preview-eww
                     ;rtags
                     ;rtags-xref
                     ;company-rtags
@@ -321,22 +331,29 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '(
-                 ("Source Code Pro"
-                :size 10.0
-                :weight normal
-                :width normal)
-                ;:powerline-scale 1.1)
-                 ("MesloLGS NF"
-                :size 10.0
-                ;:weight normal
-                ;:width normal
-                :powerline-scale 1.1)
-                 ("Fira Mono"
-                :size 10.0
-                :weight normal
-                :width normal
-                :powerline-scale 1.1)
-                 )
+                               ("Monocraft"
+                                :size 12.0
+                                ;; :weight normal
+                                ;; :width normal
+                                :powerline-scale 1.1)
+                               ("Source Code Pro"
+                                :size 10.0
+                                :weight normal
+                                :width normal
+                                ;; :powerline-scale 1.1
+                                )
+                               ("MesloLGS NF"
+                                :size 10.0
+                                ;; :weight normal
+                                ;; :width normal
+                                :powerline-scale 1.1
+                                )
+                               ("Fira Mono"
+                                :size 10.0
+                                :weight normal
+                                :width normal
+                                :powerline-scale 1.1)
+                               )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -453,6 +470,11 @@ It should only modify the values of Spacemacs settings."
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 95
+
+   ;; A value from the range (0..100), in increasing opacity, which describes the
+   ;; transparency level of a frame background when it's active or selected. Transparency
+   ;; can be toggled through `toggle-background-transparency'. (default 90)
+   dotspacemacs-background-transparency 90
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -632,7 +654,6 @@ See the header of this file for more information."
     hide-ifdef-shadow t)
   )
 
-
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
@@ -675,26 +696,26 @@ you should place your code here."
 
   (spacemacs/enable-transparency)
 
-  (use-package arduino-mode)
-  (use-package org-autolist)
-  (use-package gcode-mode)
-  (use-package drag-stuff)
-  (use-package nodemcu-mode)
-  (use-package gnuplot-mode)
-  (use-package graphviz-dot-mode)
-  (use-package gnu-elpa-keyring-update)
-  (use-package platformio-mode)
-  (use-package kconfig-mode)
+  ;; (use-package arduino-mode)
+  ;; (use-package org-autolist)
+  ;; (use-package gcode-mode)
+  ;; (use-package drag-stuff)
+  ;; (use-package nodemcu-mode)
+  ;; (use-package gnuplot-mode)
+  ;; (use-package graphviz-dot-mode)
+  ;; (use-package gnu-elpa-keyring-update)
+  ;; (use-package platformio-mode)
+  ;; (use-package kconfig-mode)
 
   (setq fill-column 80)
 
-  ;(with-eval-after-load "ispell"
-  ;(setq ispell-program-name "hunspell")
-  ;; ispell-set-spellchecker-params has to be called
-  ;; before ispell-hunspell-add-multi-dic will work
-  ;(ispell-set-spellchecker-params)
-  ;(ispell-hunspell-add-multi-dic "pt_BR,en_GB")
-  ;(setq ispell-dictionary "pt_BR,en_GB"))
+  ;; (with-eval-after-load "ispell"
+  ;;   (setq ispell-program-name "hunspell")
+  ;;   ;; ispell-set-spellchecker-params has to be called
+  ;;   ;; before ispell-hunspell-add-multi-dic will work
+  ;;   (ispell-set-spellchecker-params)
+  ;;   (ispell-hunspell-add-multi-dic "pt_BR,en_GB")
+  ;;   (setq ispell-dictionary "pt_BR,en_GB"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
@@ -801,6 +822,9 @@ you should place your code here."
         (evil-close-folds)
         (setq-local fill-column 100)
         ))
+  ;; (define-key rust-mode-map (kbd "C-<Return>") (if (nth 4 (syntax-ppss))
+  ;;                                                   (insert "\n///"))
+  ;;   )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____
@@ -930,35 +954,70 @@ you should place your code here."
      org-directory "~/org/"
      org-agenda-files '( "~/org/" )
      org-default-notes-file (concat org-directory "todo.org")
-     org-archive-location (concat org-directory "archive.org::* from %s")
+     org-archive-location (concat org-directory "archive.org::datetree/* from %s")
      org-startup-folded t
      org-catch-invisible-edits t ;; Very usefull to avoid destroying stuff accidentally
      org-agenda-start-on-weekday 1 ;; set week to start on monday
      org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
+     org-expiry-created-property-name "CREATED" ; Name of property when an item is created
+     org-expiry-inactive-timestamps   t         ; Don't have everything in the agenda view
+     org-priority-faces
+     '(
+       (?A . (org-todo))
+       (?B . (:foreground "#F0C674" :weight bold)) ;; Yellow
+       (?C . (:foreground "#70C3DC" :weight bold)) ;; Blue
+       )
      org-todo-keyword-faces
      '(
        ("TODO" . org-todo)
        ("WAIT" . (:foreground "#F0C674" :weight bold))
-       ("WTDO" . org-done)
        ("TEST" . (:foreground "#6eb0e9" :weight bold))
        ("TFIX" . (:foreground "#b34e6b" :weight bold))
        ("DONE" . org-done)
+       ("WTDO" . org-done)
        )
-     ;; org-agenda-custom-commands
-     ;; '(
-     ;;   ("x" todo )
-     ;;   )
+     org-agenda-custom-commands
+     '(
+       ("t" "Agenda + Overdue"
+        ((agenda "" ((org-agenda-overriding-header "Overdue")
+                     (org-agenda-time-grid nil)
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-show-all-dates nil)
+                     (org-agenda-format-date "")  ;; Skip the date
+                     (org-agenda-span 1)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-entry-types '(:deadline :scheduled))
+                     (org-scheduled-past-days 999)
+                     (org-deadline-past-days 999)
+                     (org-deadline-warning-days 0))
+                 )
+         (agenda "" ((org-agenda-overriding-header "Next 7 Days")
+                     (org-agenda-span 7)
+                     (org-agenda-time-grid nil)
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-show-all-dates t)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-entry-types '(:deadline :scheduled))
+                     (org-scheduled-past-days 0)
+                     (org-deadline-past-days 0)
+                     (org-deadline-warning-days 0)
+                     )
+                 )
+         )
+        )
+       )
      org-latex-packages-alist
      '(
        (" " "indentfirst" " ")
-                    ;("margin=2cm" "geometry" nil) ; removed because of conflicts
+       (" " "hyperref" "colorlinks=true")
+       ;; ("margin=2cm" "geometry" nil) ; removed because of conflicts
        )
      org-capture-templates
      '(
-       ("t" "TODO Item" entry (file+headline "~/org/todo.org" "Inbox") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
-       ("s" "See Later" entry (file+headline "~/org/todo.org" "Inbox") "* TODO %? :see_later:\n:PROPERTIES:\n:CREATED: %U\n:END:")
-       ("j" "Journal" entry (file+datetree "~/org/journal.org") "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
-       ;("n" "Quick Note" entry (file "~/org/inbox.org") "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
+       ("t" "TODO Item" entry (file+headline "~/org/todo.org" "Inbox") (file "templates/todo.org"))
+       ("s" "See Later" entry (file+headline "~/org/todo.org" "Inbox") (file "templates/see-later.org"))
+       ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org"))
+       ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org"))
        )
      org-format-latex-options '(:scale 1.5)
      ;;org-roam-directory (file-truename "~/org")
@@ -982,40 +1041,29 @@ you should place your code here."
         (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
         ))
 
-                                        ;(add-hook 'org-mode-hook #'flyspell-mode)
+  ;; (add-hook 'org-mode-hook #'flyspell-mode)
 
-  ;; lualatex preview
   (setq org-latex-pdf-process
     '("lualatex -shell-escape -interaction nonstopmode %f"
       "lualatex -shell-escape -interaction nonstopmode %f"))
 
-  (setq luamagick '(luamagick :programs ("lualatex" "convert")
-                :description "pdf > png"
-                :message "you need to install lualatex and imagemagick."
-                :use-xcolor t
-                :image-input-type "pdf"
-                :image-output-type "png"
-                :image-size-adjust (1.0 . 1.0)
-                :latex-compiler ("lualatex -interaction nonstopmode -output-directory %o %f")
-                :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))
+  ;; ;; lualatex preview
+  ;; (setq luamagick '(luamagick :programs ("lualatex" "convert")
+  ;;               :description "pdf > png"
+  ;;               :message "you need to install lualatex and imagemagick."
+  ;;               :use-xcolor t
+  ;;               :image-input-type "pdf"
+  ;;               :image-output-type "png"
+  ;;               :image-size-adjust (1.0 . 1.0)
+  ;;               :latex-compiler ("lualatex -interaction nonstopmode -output-directory %o %f")
+  ;;               :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O")))
 
-  (add-to-list 'org-preview-latex-process-alist luamagick)
+  ;; (add-to-list 'org-preview-latex-process-alist luamagick)
 
-                                        ; (define-key org-mode-map
-                                        ; (kbd "<M-return> i c") 'luctins/org-insert-created-drawer)
+  ;;(setq org-preview-latex-default-process 'luamagick)
 
-  (setq org-preview-latex-default-process 'luamagick)
-  ;; Babel config
-  (map 'list (lambda (lang) (add-to-list 'org-babel-load-languages lang))
-     '(
-     (gnuplot . t)
-     (emacs-lisp . t)
-     (dot . t)
-     (shell . t)
-     (sql . t)
-     (sqlite . t)
-     )
-     )
+  ;; (define-key org-mode-map
+  ;; (kbd "<M-return> i c") 'luctins/org-insert-created-drawer)
 
   (defun my/fix-inline-images ()
   (when org-inline-image-overlays
@@ -1153,7 +1201,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
                (read-from-minibuffer "line to trim at: ") nil)))
   (end-of-line)
   (backward-char 9)
-  (setq c (- (point) (if line line '80)))
+  (setq c (- (point) (if line line 'fill-column)))
   (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
   )
 
@@ -1209,6 +1257,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
              (lambda (c)
                (string-match-p "[0-9]+" c)))
     company-transformers)
+
+  ;; Misc bindings for a ergonomic mouse that I use
+  ; (global-set-key (kbd "<mouse-9>") 'scroll-up-command)
+  ; (global-set-key (kbd "<mouse-8>") 'scroll-down-command)
 
   ;;;;;;;;;;;;;;;;;;;;
   ;; EVil
@@ -1273,15 +1325,12 @@ This function is called at the very end of Spacemacs initialization."
  '(custom-safe-themes
    '("aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files
-   '("/home/luctins/org/archive.org" "/home/luctins/org/scratch.org" "/home/luctins/org/see-later.org" "/home/luctins/org/todo.org"))
- '(org-trello-current-prefix-keybinding "C-c o")
  '(package-selected-packages
-   '(bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+   '(markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values 'nil)
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types '((comp) (use-package) (use-package)))
- '(warning-suppress-types '((use-package) (use-package))))
+ '(warning-suppress-types '((comp) (comp) (use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
