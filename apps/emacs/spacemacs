@@ -57,7 +57,7 @@ This function should only modify configuration layer settings."
    version-control
    (spell-checking :variables
            spell-checking-enable-by-default nil
-           spell-checking-enable-auto-dictionary t)
+           spell-checking-enable-auto-dictionary nil)
    syntax-checking
    rust
    (latex :variables
@@ -455,12 +455,12 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
-   ;; (default nil) (Emacs 24.4+ only)
+   ;; (default t) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
 
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
-   ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
-   ;; borderless fullscreen. (default nil)
+   ;; variable with `dotspacemacs-maximized-at-startup' to obtain fullscreen
+   ;; without external boxes. Also disables the internal border. (default nil)
    dotspacemacs-undecorated-at-startup nil
 
    ;; A value from the range (0..100), in increasing opacity, which describes
@@ -653,6 +653,7 @@ See the header of this file for more information."
   (setq tab-width 4
         hs-hide-comments-when-hiding-all nil ; don't fold comments
         drag-stuff-global-mode t)
+
   )
 
 (defun dotspacemacs/user-init ()
@@ -967,13 +968,17 @@ you should place your code here."
          org-tag-alist
          '(
            (personal . p)
-           (work . w)
+           (work . w) ; work tasks that i *do not* want to see in off says
+           (p_work) ; entries/tasks that are mixed personal/work and aren't associated with a specific project, mainly admin
            (college . c)
            (leisure . l)
            (finance . f)
            (shopping . s)
            (maintenance . m)
            (selfcare . s)
+           (errand . e)
+           (agregator)
+           (recurrent)
            )
          calendar-week-start-day 1
          org-startup-with-inline-images t
@@ -1002,34 +1007,61 @@ you should place your code here."
            ("DONE" . org-done)
            ("WTDO" . org-done)
            )
+
+         org-agenda-sorting-strategy
+         '(
+           (todo todo-state-down category-keep)
+           (todo priority-down category-keep)
+           (agenda habit-down time-up priority-down category-keep)
+           (tags priority-down category-keep)
+           (search category-keep)
+         )
+
          org-agenda-custom-commands
          '(("t" "Agenda + Overdue"
             (
-             (tags-todo "SCHEDULED<\"<today>\""
-                        ((org-agenda-overriding-header "Overdue")
-                         (org-agenda-time-grid nil)
-                         (org-agenda-start-on-weekday nil)
-                         (org-agenda-show-all-dates nil)
-                         (org-agenda-format-date "")  ;; Skip the date
-                         (org-agenda-span 1)
-                         (org-agenda-skip-function
-                          '(org-agenda-skip-entry-if 'todo 'done))
-                         (org-agenda-entry-types '(:deadline :scheduled))
-                         (org-scheduled-past-days 999)
-                         (org-deadline-past-days 999)
-                         (org-deadline-warning-days 0)
-                         ))
+             (agenda ""
+                     ((org-agenda-overriding-header "Overdue")
+                      (org-agenda-time-grid nil)
+                      (org-agenda-start-day "-1d") ; skip due today, shown below
+                      (org-agenda-start-on-weekday nil)
+                      (org-agenda-show-all-dates nil)
+                      (org-agenda-format-date "")  ;; Skip the date
+                      (org-agenda-span 1)
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                      (org-agenda-entry-types '(:deadline :scheduled))
+                      (org-scheduled-past-days 999)
+                      (org-deadline-past-days 999)
+                      (org-deadline-warning-days 0)
+                      ))
 
-             (agenda "" ((org-agenda-overriding-header "Next 7 Days")
-                         (org-agenda-span 7)
-                         (org-agenda-time-grid nil)
-                         (org-agenda-start-on-weekday nil)
-                         (org-agenda-show-all-dates t)
-                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                         (org-agenda-entry-types '(:deadline :scheduled))
-                         (org-scheduled-past-days 0)
-                         (org-deadline-past-days 0)
-                         (org-deadline-warning-days 0)))
+             (agenda ""
+                     ((org-agenda-overriding-header "Next 7 Days")
+                      (org-agenda-span 7)
+                      (org-agenda-time-grid nil)
+                      (org-agenda-start-on-weekday nil)
+                      (org-agenda-show-all-dates t)
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                      (org-agenda-entry-types '(:deadline :scheduled))
+                      (org-scheduled-past-days 0)
+                      (org-deadline-past-days 0)
+                      (org-deadline-warning-days 3)))
+
+             ;; (tags-todo "SCHEDULED<\"<today>\""
+             ;;            ((org-agenda-overriding-header "Overdue2")
+             ;;             (org-agenda-time-grid nil)
+             ;;             (org-agenda-start-on-weekday nil)
+             ;;             (org-agenda-show-all-dates nil)
+             ;;             (org-agenda-format-date "")  ;; Skip the date
+             ;;             (org-agenda-span 1)
+             ;;             (org-agenda-skip-function
+             ;;              '(org-agenda-skip-entry-if 'todo 'done))
+             ;;             (org-agenda-entry-types '(:deadline :scheduled))
+             ;;             (org-scheduled-past-days 999)
+             ;;             (org-deadline-past-days 999)
+             ;;             (org-deadline-warning-days 0)
+             ;;             ))
+
              )
             ))
      org-latex-packages-alist
@@ -1061,13 +1093,14 @@ you should place your code here."
         (org-expiry-insinuate)
         (make-variable-buffer-local 'yas/trigger-key)
         (setq-local yas/trigger-key [tab])
-        (setq org-image-actual-height 400)
+        (setq org-image-actual-width 500)
         (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
         (define-key yas/keymap [tab] 'yas/next-field)
         (flyspell-mode)
         (org-autolist-mode)
         (org-indent-mode)
         ;(org-bullets-mode)
+
         (visual-line-mode)
         (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
         (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
@@ -1348,14 +1381,19 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
  '(custom-safe-themes
-   '("aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+   '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    '(toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values 'nil)
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types '((comp) (use-package) (use-package)))
- '(warning-suppress-types '((comp) (comp) (use-package) (use-package))))
+ '(warning-suppress-types
+   '((org-element-cache)
+     (comp)
+     (comp)
+     (use-package)
+     (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
