@@ -26,10 +26,14 @@ run as root:
   sed -i "s/${OLD}/${NEW}/g" /etc/hosts
 #+end_src
 ** Softlinks
-go to apps/ and run =./links.sh=
+go to [[./apps/]] and run =./links.sh=
 * Configuration
 ** Path mappings
-path mappings are just in the form of a bash array with src1, dest1, src2, dest2, ..., srcn, destn
+path mappings are just in the form of a bash array in the format:
+- src1, dest1,
+- src2, dest2,
+- ...,
+- srcn, destn
 
 Example:
 #+begin_src bash
