@@ -1,0 +1,171 @@
+# -*- mode: sh -*- ;
+# vim: ft=bash
+
+alias xclip_in='xclip -selection clip -i' \
+    ls='ls --group-directories-first --color=tty' \
+    rm_deadlinks="zsh -c 'rm -v -- *(-@D)'" \
+    xo='xdg-open' \
+    jf='journalctl -efb' \
+    crg="clear; rg" \
+    rmr="rm -r" \
+    rmrf="rm -rf" \
+    fdate='date +%F' \
+    ptop="sudo powertop" \
+    rgrep='rgrep --color' \
+    grephist="cat $HISTFILE | grep" \
+    csvn='colorsvn --username=lucas.mendes' \
+    stop_hd='sudo hdparm -B1' \
+    cleanrm="sed -i.bak 's/^: [0-9]+:[0-9];rm .*//Ig' $HISTFILE" \
+    pulseaudio_reload="pulseaudio -k && pulseaudio --start" \
+    restart_gnome_shell='killall -9 gnome-shell' \
+    hist_disable="HISTFILE_old=$HISTFILE; HISTFILE=/dev/null" \
+    hist_enable="HISTFILE=$HISTFILE_old;" \
+    nvidia_run="_NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia" \
+    w_nvstat="watch -n 1 nvidia-smi" \
+    w_temp="watch -n 1 sensors" \
+    grepalias="alias | grep" \
+    flatpaku="flatpak --user" \
+    systemctlu="systemctl --user" \
+    rgall="rg --no-ignore" \
+    cdtmpd='cd $(mktemp -d)' \
+    watchtemp='watch -n 0.5 sensors' \
+    wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"' \
+    psed='perl -p -W' \
+    c=cargo \
+		rgi='rg -i' \
+
+if [[ -n "$(which lsd)" ]]; then
+	alias ls=lsd
+fi
+
+if [[ -n "$( which rmtrash 2>&/dev/null )" ]]; then
+	alias rm=rmtrash
+fi
+
+################################################################################
+# Functions
+function editalias () {
+  vim "/home/$USER/.aliases" && source "/home/$USER/.aliases"
+}
+
+function ct() {
+cargo test $1 -- --nocapture --color=always
+}
+
+function bak() {
+  for t in $@; do
+    case $t in
+      -u)
+        UNBAK=1
+        ;;
+      *)
+        if (( $UNBAK )); then
+          if [[ "$t" =~ "[^.]*.bak" ]]; then
+            tu="${t#.bak}"
+
+            if [ -f "$tu" ]; then
+              mv -v "$tu" "$tu.old";
+            fi
+
+            mv -v "$tu" "$t"
+            return 0
+          else
+            echo "input file is not a backup file"
+          fi
+          break;
+        fi
+        ;;
+
+    esac
+  done
+  if [ -z "$1" ]; then
+    echo "missing file name"
+    return 1;
+  else
+    cp -r "${1}" "${1}.bak"
+  fi
+}
+
+function setmb() {
+  for monitor in {1..1}; do
+    ddcutil -d $monitor setvcp 10 "$1"
+  done
+}
+
+function finddefine() {
+  rg "#define[ ]+${1}"
+}
+
+function upscale() {
+  convert $1 -resize 200% -sharpen 10 $(basename ${1/.png/__resized.png})
+}
+
+util_explode_video() {
+  D=$(mktmp -d)
+  ffmpeg -i "$1" "$D/%08d.png"
+  echo	frames at $D
+}
+
+function cdr {
+  if [ -z "$1" ]; then
+    echo 'missing arg'
+    return 1
+  fi
+  cd $(realpath $1)
+}
+
+case $SHELL in
+  */zsh)
+    compdef '_path_files -g "*(@)" ' cdr
+    ;;
+  **)
+    ;;
+esac
+
+# Project tools
+PROJ_DIR="/home/luctins/plinks"
+function cdp () {
+  cdr "$PROJ_DIR/$1"
+}
+
+function addp {
+  ln -s $(realpath ${1:-.}) "$PROJ_DIR/$2"
+}
+
+
+# missing completion
+case $SHELL in
+  */zsh)
+    compdef "_path_files -W $PROJ_DIR/" cdp
+    ;;
+  **)
+    ;;
+esac
+
+function _delhist_1l () {
+  sed -i "$(wc -l $HISTFILE | cut -f 1 -d ' ' )d" $HISTFILE
+}
+
+function videotogif () {
+  ffmpeg -i "$1" $2 "${1/%.*/.gif}"
+}
+
+function see-later() {
+ # not working yet
+ #   xdg-open 'org-protocol://capture://p/URL/TITLE/BODY/'
+ #
+   echo -e "\
+* TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$1][$2]]" ) $([[ ! -z "$3" ]] && echo ":$3:" )
+:PROPERTIES:
+  :CREATED: [$(date +"%F %a %H:%M" )]
+:END:" | tee -a ~/org/inbox.org
+  _delhist_1l
+}
+
+alias slr=see-later
+
+case $SHELL in
+    *zsh)
+        compdef "_path_files -W /home/luctins/.config/espanso/" "espanso edit"
+    ;;
+esac
