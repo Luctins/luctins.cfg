@@ -993,6 +993,27 @@ you should place your code here."
   ;; | | | | |_) | |  _
   ;; | |_| |  _ <| |_| |
   ;;  \___/|_| \_\\____|
+  (defun timestamp-midnight (timestamp)
+    (let ((decoded (decode-time timestamp)))
+      (setf (nth 0 decoded) 0)
+      (setf (nth 1 decoded) 0)
+      (setf (nth 2 decoded) 0)
+      (apply #'encode-time decoded)))
+
+  (defun org-agenda-skip-if-scheduled-earlier ()
+    "If this function returns nil, the current match should not be skipped.
+Otherwise, the function must return a position from where the search
+should be continued."
+    (ignore-errors
+      (let ((subtree-end (save-excursion (org-end-of-subtree t)))
+            (scheduled-seconds (org-time-string-to-seconds (org-entry-get nil "SCHEDULED")))
+            (now (time-to-seconds (timestamp-midnight (current-time)))))
+        (and scheduled-seconds
+             (>= scheduled-seconds now)
+             subtree-end))))
+
+
+
   (setq  org-confirm-babel-evaluate nil
          org-tag-alist
          '(
@@ -1052,21 +1073,20 @@ you should place your code here."
          '(("t" "Agenda + Overdue"
             (
              (agenda ""
-                     ((org-agenda-overriding-header "Overdue")
+                     (
+                      (org-agenda-overriding-header "Overdue")
                       (org-agenda-entry-types '(:deadline :scheduled))
-                      ;; FIXME: if this is less than today, it makes
-                      ;; org-agenda ignore overdue items if set to anything other than NIL
-                      ;; (org-agenda-start-day "-1d") ; skip due today, shown below
+                      ;(org-agenda-start-day "-1d") ; skip due today, shown below
                       (org-scheduled-past-days 10000)
                       (org-deadline-past-days 10000)
+                      ; (org-deadline-warning-days 0)
                       (org-agenda-span 1)
-                      (org-deadline-warning-days 0)
-                      (org-agenda-time-grid nil)
                       (org-agenda-start-on-weekday nil)
                       (org-agenda-show-all-dates nil)
+                      (org-agenda-time-grid nil)
                       (org-agenda-format-date "")  ;; Skip the date
-                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                      ;; (org-agenda-skip-function '(org-agenda-skip-if-scheduled-later )
+                      ;(org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                      (org-agenda-skip-function 'org-agenda-skip-if-scheduled-earlier)
                       ))
 
              (agenda ""
@@ -1083,6 +1103,7 @@ you should place your code here."
 
              )
             ))
+
      org-latex-packages-alist
      '(
        (" " "indentfirst" " ")
@@ -1389,7 +1410,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 ;; variable definitions.
 
 (defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
+  "Emacs custom settings
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
