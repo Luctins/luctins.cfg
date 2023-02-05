@@ -1,7 +1,7 @@
 [user]
-	email = lucas.martinsmendes@gmail.com
+	email = contact@luctins.me
 	name = luctins
-	signingkey = 9EC27C7CC5EF0E68DDA78876D9AB6F9C1814EDFD
+	signingkey = 2F1C34F8F874E110!
 [pull]
 	rebase = true
 [commit]
