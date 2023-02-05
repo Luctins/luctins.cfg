@@ -38,7 +38,7 @@ if [[ -n "$(which lsd)" ]]; then
 	alias ls=lsd
 fi
 
-if [[ -n "$( which rmtrash 2>&/dev/null )" ]]; then
+if [[ ! -n "$( which rmtrash 2>&/dev/null )" ]]; then
 	alias rm=rmtrash
 fi
 
