@@ -33,12 +33,13 @@ alias xclip_in='xclip -selection clip -i' \
     psed='perl -p -W' \
     c=cargo \
 		rgi='rg -i' \
+		rrm='/bin/rm' \
 
 if [[ -n "$(which lsd)" ]]; then
 	alias ls=lsd
 fi
 
-if [[ ! -n "$( which rmtrash 2>&/dev/null )" ]]; then
+if [[ -n "$( which rmtrash 2>&/dev/null )" ]]; then
 	alias rm=rmtrash
 fi
 
