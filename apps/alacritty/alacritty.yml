@@ -63,7 +63,7 @@ window:
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background and no title bar buttons
   decorations: full
- 
+
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -92,7 +92,7 @@ window:
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark`
   # and `light`. Set this to `None` to use the default theme variant.
-gtk_theme_variant: dark
+gtk_theme_variant: None
 
 #scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -298,7 +298,7 @@ colors:
 # Bell
 #
 # The bell is rung every time the BEL control character is received.
-#bell:
+bell:
   # Visual Bell Animation
   #
   # Animation effect for flashing the screen when the visual bell is rung.
@@ -314,7 +314,7 @@ colors:
   #   - EaseOutExpo
   #   - EaseOutCirc
   #   - Linear
-  #animation: EaseOutExpo
+  animation: EaseOutExpo
 
   # Duration of the visual bell flash in milliseconds. A `duration` of `0` will
   # disable the visual bell animation.
@@ -408,6 +408,7 @@ colors:
 #    - --login
 shell:
   program: tmux
+  #program: /home/luctins/.cargo/bin/nu
 
 # Startup directory
 #

@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: Latex Beamer Column
+# key: lcolumn
+# group: latex
+# --
+#+LATEX: \begin{column}{${1:0.49}\textwidth}%
+
+$0
+
+#+LATEX: \end{column}\hfill%
+#+LATEX: \begin{column}{${1:$(format "%0.2f"(- 1.00 (string-to-number yas-text) 0.02))}\textwidth}%
+
+
+
+#+LATEX: \end{column}%

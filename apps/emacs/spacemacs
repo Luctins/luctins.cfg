@@ -46,7 +46,6 @@ This function should only modify configuration layer settings."
      markdown
      yaml
      lua
-
      git
      helm
      auto-completion
@@ -54,6 +53,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      version-control
      syntax-checking
+     debug
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures nil
                     )
@@ -64,8 +64,9 @@ This function should only modify configuration layer settings."
                )
 
      (spell-checking :variables
-                     spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary nil
+                     spell-checking-enable-by-default nil
+                     enable-flyspell-auto-completion t
                      )
 
      (latex :variables
@@ -92,15 +93,18 @@ This function should only modify configuration layer settings."
             (sqlite . t)
             )
           )
+
      (c-c++ :variables
             c-c++-backend 'lsp-ccls
             lsp-enable-file-watchers nil
             lsp-enable-indentation nil
             )
+
      (python :variables
                                         ;python-backend '
              python-sort-imports-on-save t
              )
+
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
@@ -342,6 +346,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '(
+
                                ("Source Code Pro"
                                 :size 10.0
                                 :weight normal
@@ -363,6 +368,12 @@ It should only modify the values of Spacemacs settings."
                                 :powerline-scale 1.1
                                 )
 
+                               ("Monocraft"
+                                :size 12.0
+                                ;; :weight normal
+                                ;; :width normal
+                                :powerline-scale 1.1)
+
                                ("Fira Mono"
                                 :size 10.0
                                 :weight normal
@@ -375,11 +386,6 @@ It should only modify the values of Spacemacs settings."
                                 ;; :width normal
                                 :powerline-scale 1.1)
 
-                               ("Monocraft"
-                                :size 12.0
-                                ;; :weight normal
-                                ;; :width normal
-                                :powerline-scale 1.1)
                                )
 
    ;; The leader key (default "SPC")
@@ -671,6 +677,7 @@ See the header of this file for more information."
   ;; Personal Info
   (setq user-name (getenv "USER_FULL_NAME")
     user-email (getenv "USER_EMAIL"))
+  (setq epa-file-encrypt-to '("lucas.martinsmendes@gmail.com"))
 
   (setq magit-commit-arguments '("-S"))
   (setq tramp-default-method "ssh")
@@ -693,6 +700,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;(setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
 
   ;(setq flycheck-global-modes '(org-mode latex-mode))
+  (setq fill-column 80)
 
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
@@ -729,11 +737,39 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;;  __  __ _
+  ;; |  \/  (_)___  ___
+  ;; | |\/| | / __|/ __|
+  ;; | |  | | \__ \ (__
+  ;; |_|  |_|_|___/\___|
+
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (set-language-environment 'utf-8)
+
+  (spacemacs/enable-transparency)
+
+
+  ;;  ____             _ _    ____ _               _    _
+  ;; / ___| _ __   ___| | |  / ___| |__   ___  ___| | _(_)_ __   __ _
+  ;; \___ \| '_ \ / _ \ | | | |   | '_ \ / _ \/ __| |/ / | '_ \ / _` |
+  ;;  ___) | |_) |  __/ | | | |___| | | |  __/ (__|   <| | | | | (_| |
+  ;; |____/| .__/ \___|_|_|  \____|_| |_|\___|\___|_|\_\_|_| |_|\__, |
+  ;;       |_|                                                  |___/
+  (with-eval-after-load "ispell"
+    (setq ispell-program-name "hunspell")
+    ;; ispell-set-spellchecker-params has to be called
+    ;; before ispell-hunspell-add-multi-dic will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "pt_BR,en_GB")
+    ;; (setq ispell-dictionary "pt_BR,en_GB")
+    )
+
+  ;; Isto e' para habilitar o dicionario em portugues brasileiro
+  ;; (setq ispell-dictionary "brasileiro")
+  ;; (setq ispell-alternate-dictionary "english")
 
   ;; (use-package ligature
   ;;   :config
@@ -759,36 +795,6 @@ you should place your code here."
   ;;   ;; Enables ligature checks globally in all buffers. You can also do it
   ;;   ;; per mode with `ligature-mode'.
   ;;   (global-ligature-mode t))
-
-  (spacemacs/enable-transparency)
-
-  ;; (use-package arduino-mode)
-  ;; (use-package org-autolist)
-  ;; (use-package gcode-mode)
-  ;; (use-package drag-stuff)
-  ;; (use-package nodemcu-mode)
-  ;; (use-package gnuplot-mode)
-  ;; (use-package graphviz-dot-mode)
-  ;; (use-package gnu-elpa-keyring-update)
-  ;; (use-package platformio-mode)
-  ;; (use-package kconfig-mode)
-
-  (setq fill-column 80)
-
-  ;; Isto e' para habilitar o dicionario em portugues brasileiro
-  (setq ispell-dictionary "brasileiro")
-  (setq ispell-alternate-dictionary "english")
-
-  ;; (setq ispell-dictionary-alist (list (map 'list  'list (list "brasileiro" "english"))))
-  ;; (setq flyspell-issue-message-flag nil)
-
-  ;; (with-eval-after-load "ispell"
-  ;;   (setq ispell-program-name "hunspell")
-  ;;   ;; ispell-set-spellchecker-params has to be called
-  ;;   ;; before ispell-hunspell-add-multi-dic will work
-  ;;   (ispell-set-spellchecker-params)
-  ;;   (ispell-hunspell-add-multi-dic "pt_BR,en_GB")
-  ;;   (setq ispell-dictionary "pt_BR,en_GB"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
@@ -843,7 +849,8 @@ you should place your code here."
   ;;   /  \|  _ <  __/  _|
   ;;  /_/\_\_| \_\___|_|
   (add-to-list 'xref-after-jump-hook
-               #'(lambda () (save-excursion (evil-open-fold-rec))) ;; add function to make sure a fold is open before going to it
+               ;; add function to make sure a fold is open before going to it
+               #'(lambda () (save-excursion (evil-open-fold-rec)))
                nil)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -890,7 +897,7 @@ you should place your code here."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  _       _
   ;; (_)_ __ (_)
-  ;; | | '_ \| |
+  ;; | |  _ \| |
   ;; | | | | | |
   ;; |_|_| |_|_|
 
@@ -1140,6 +1147,8 @@ should be continued."
                       (org-agenda-format-date "")  ;; Skip the date
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                       (org-agenda-skip-function 'org-agenda-skip-if-scheduled-earlier)
+                      ;; Filter out errands
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ".*:errand:.*"))
                       ))
 
              (agenda ""
@@ -1477,7 +1486,7 @@ This function is called at the very end of Spacemacs initialization."
    '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+   '(dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values 'nil)
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types
@@ -1489,7 +1498,8 @@ This function is called at the very end of Spacemacs initialization."
      (use-package)
      (use-package)))
  '(warning-suppress-types
-   '((lsp-mode)
+   '((emacs)
+     (lsp-mode)
      (org-element-cache)
      (comp)
      (comp)

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Inline TODO
+# key: ito
+# group: todo
+# --
+\inlineTODO{$0}

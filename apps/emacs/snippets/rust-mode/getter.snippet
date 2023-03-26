@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: getter
+# key: fget_
+# --
+pub fn get_$1(&self) -> ${2:${1:$(string-inflection-upper-camelcase-function yas-text)}} {
+    self.$1
+}

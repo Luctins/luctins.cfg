@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: header-doc
+# key: header
+# group: metadata
+# --
+:PROPERTIES:
+#+TITLE: ${1:`(upcase-initials (replace-regexp-in-string "[-_]" " " (file-name-sans-extension (file-name-nondirectory buffer-file-name))))`}
+#+AUTHOR: ${2:`user-name`}
+#+EMAIL: ${3:`user-email`}
+#+DATE:`(format-time-string " %Y-%m-%d %T")`
+#+OPTIONS: toc:nil todo:nil $4
+#+FILETAGS: ${5:$$(yas-choose-value org-tag-alist)}
+#+STARTUP: ${6:$$(yas-choose-value '("content" "overview" "showall" "showeverything"))}
+:END:
