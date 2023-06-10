@@ -34,6 +34,8 @@ alias xclip_in='xclip -selection clip -i' \
     c=cargo \
 		rgi='rg -i' \
 		rrm='/bin/rm' \
+		ecl='emacsclient -nw -c' \
+
 
 if [[ -n "$(which lsd)" ]]; then
 	alias ls=lsd
@@ -49,8 +51,12 @@ function editalias () {
   vim "/home/$USER/.aliases" && source "/home/$USER/.aliases"
 }
 
-function ct() {
-cargo test $1 -- --nocapture --color=always
+# function ct() {
+# cargo test $1 -- --nocapture --color=always
+# }
+
+function rg-repo() {
+  rg $@ $(git root)
 }
 
 function bak() {
