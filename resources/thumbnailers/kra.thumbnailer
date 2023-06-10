@@ -1,0 +1,4 @@
+[Thumbnailer Entry]
+TryExec=unzip
+Exec=sh -c "unzip -p %i preview.png > %o"
+MimeType=application/x-krita;

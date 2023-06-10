@@ -1,0 +1,4 @@
+[Thumbnailer Entry]
+TryExec=xcf2png
+Exec=sh -c "xcf2png %i -o - | convert -scale 512x%s - png:%o"
+MimeType=image/x-xcf;
