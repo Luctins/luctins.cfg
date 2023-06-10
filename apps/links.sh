@@ -8,8 +8,8 @@ ENV_NAME=$([[ "$(hostname)" =~ "$(cat work_hostname.priv).*" ]] && echo work || 
 echo "env: $ENV_NAME"
 
 # all paths are relative to ~/
-if [ -f mappings ]; then
-	source mappings
+if [ -f mappings.priv ]; then
+	source mappings.priv
 else
 	echo 'please define path mappings'
 fi

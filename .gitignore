@@ -1,3 +1,4 @@
 .stignore
 .stversions
 **.priv
+**.bak
