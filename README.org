@@ -7,26 +7,11 @@
 #+TAGS:
 #+STARTUP: content
 :END:
+ x
+* Set-up
+1) Copy and edit the sample ./apps/mappings.sample to match your installed applications
+2) Go to [[./apps/]] and run =./links.sh=
 
-
-
-* Install procedure
-** Manual install
-+ espanso
-+ MEGA
-+ CopyQ
-+ dropbox
-+ oh-my-zsh
-** Set Hostname
-run as root:
-#+begin_src bash
-  OLD=$(cat /etc/hostname)
-  NEW=newhostname
-  echo $NEW > /etc/hostname
-  sed -i "s/${OLD}/${NEW}/g" /etc/hosts
-#+end_src
-** Softlinks
-go to [[./apps/]] and run =./links.sh=
 * Configuration
 ** Path mappings
 path mappings are just in the form of a bash array in the format:
