@@ -1,7 +1,8 @@
 # -*- mode: sh -*- ;
 # vim: ft=bash
 
-alias xclip_in='xclip -selection clip -i' \
+alias \
+		xclip_in='xclip -selection clip -i' \
     ls='ls --group-directories-first --color=tty' \
     rm_deadlinks="zsh -c 'rm -v -- *(-@D)'" \
     xo='xdg-open' \
@@ -36,27 +37,54 @@ alias xclip_in='xclip -selection clip -i' \
 		rrm='/bin/rm' \
 		ecl='emacsclient -nw -c' \
 
+MAYBE_ALIAS=(\
+	"ls" "lsd"\
+	"rm" "rmtrash"\
+);
 
-if [[ -n "$(which lsd)" ]]; then
-	alias ls=lsd
-fi
+function set_aliases_if_exists {
+	while :; do
+		case "$1 $2" in
+			"* *")
+				if [ -n "$(which $2)" ]; then
+    			alias $1=$2
+				else
+    			echo "invalid alias: $1 -> $2"
+				fi
+				shift
+				shift
+			;;
 
-if [[ -n "$(which rmtrash 2>&/dev/null )" ]]; then
-	alias rm=rmtrash
-fi
+			*)
+				break
+			;;
+		esac
+	done
+}
+
+set_aliases_if_exists ${MAYBE_ALIAS[@]}
 
 ################################################################################
 # Functions
+
 function editalias () {
-  vim "/home/$USER/.aliases" && source "/home/$USER/.aliases"
+  $EDITOR "/home/$USER/.aliases" && source "/home/$USER/.aliases"
 }
 
 # function ct() {
 # cargo test $1 -- --nocapture --color=always
 # }
 
+function cdmk() {
+	mkdir $1
+	cd $1
+}
 function rg-repo() {
   rg $@ $(git root)
+}
+
+function old() {
+	mv "${1}" "${1}.old"
 }
 
 function bak() {
@@ -141,13 +169,13 @@ function addp {
 
 
 # missing completion
-case $SHELL in
-  */zsh)
-    compdef "_path_files -W $PROJ_DIR/" cdp
-    ;;
-  **)
-    ;;
-esac
+#case $SHELL in
+#  */zsh)
+#    compdef "_path_files -W $PROJ_DIR/" cdp
+#    ;;
+#  **)
+#    ;;
+#esac
 
 function _delhist_1l () {
   sed -i "$(wc -l $HISTFILE | cut -f 1 -d ' ' )d" $HISTFILE
