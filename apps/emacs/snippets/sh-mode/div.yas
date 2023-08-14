@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Divider
+# key: div
+# --
+# ${1:Title} ${1:$(make-string (- fill-column (string-width yas-text) 3) ?-)}
+$0
