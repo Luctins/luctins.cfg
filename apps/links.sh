@@ -1,6 +1,7 @@
 #!/bin/env zsh
 
-PREFIX=config/apps
+PREFIX="/home/$USER/config/apps"
+
 CFG_PATH=$(realpath .. | sed "s#/home/$USER/##")
 
 ENV_NAME=$([[ "$(hostname)" =~ "$(cat work_hostname.priv).*" ]] && echo work || echo personal)
@@ -32,17 +33,17 @@ else
 fi
 
 echo
-for src dest in "${PATHS[@]}"; do
-	if [ -f "$dest" ] || [ -d "$dest" ]; then
-		if [ ! -e "$dest" ]; then
-			echo 'broken symlink, removing'
-			rm -v "$dest"
-		else
-			echo "File '$dest' already exists, skip"
-			continue
-		fi
-	fi
-	#echo -en "$src -> $dest   "
 
-	ln -vs "$src" "$dest"
+for src dest in "${PATHS[@]}"; do
+	  if [ -f "$dest" ] || [ -d "$dest" ]; then
+		    if [ ! -e "$dest" ]; then
+			      echo 'broken symlink, removing'
+			      rm -v "$dest"
+		    else
+			      echo "File '$dest' already exists, skip"
+			      continue
+		    fi
+    else
+	      ln -vs "$src" "$dest"
+	  fi
 done
