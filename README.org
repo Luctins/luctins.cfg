@@ -7,7 +7,7 @@
 #+TAGS:
 #+STARTUP: content
 :END:
- x
+
 * Set-up
 1) Copy and edit the sample ./apps/mappings.sample to match your installed applications
 2) Go to [[./apps/]] and run =./links.sh=
