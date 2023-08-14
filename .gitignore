@@ -3,3 +3,4 @@
 **.priv
 **.bak
 .#spacemacs
+**/apps/espanso/match/packages/**
