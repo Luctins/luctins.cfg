@@ -1,8 +1,8 @@
-# -*- mode: sh -*- ;
+# -*- mode: sh, tab-size: 4 -*- ;
 # vim: ft=bash
 
 alias \
-		xclip_in='xclip -selection clip -i' \
+    xclip_in='xclip -selection clip -i' \
     ls='ls --group-directories-first --color=tty' \
     rm_deadlinks="zsh -c 'rm -v -- *(-@D)'" \
     xo='xdg-open' \
@@ -33,36 +33,33 @@ alias \
     wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"' \
     psed='perl -p -W' \
     c=cargo \
-		rgi='rg -i' \
-		rrm='/bin/rm' \
-		ecl='emacsclient -nw -c' \
+    rgi='rg -i' \
+    rrm='/bin/rm' \
+    ecl='emacsclient -nw -c' \
+    ldocker=lazydocker
 
-MAYBE_ALIAS=(\
-	"ls" "lsd"\
-	"rm" "rmtrash"\
+declare -A MAYBE_ALIAS=(
+	[ls]=lsd
+	[rm]=rmtrash
 );
 
-function set_aliases_if_exists {
-	while :; do
-		case "$1 $2" in
-			"* *")
-				if [ -n "$(which $2)" ]; then
-    			alias $1=$2
-				else
-    			echo "invalid alias: $1 -> $2"
-				fi
-				shift
-				shift
-			;;
+declare -A MAYBE_ALIAS_ARG=(
+	[lsd]="--group-dirs=first"
+);
 
-			*)
-				break
-			;;
-		esac
-	done
-}
+case $SHELL in
+    */zsh)
+        for name cmd in ${(@kv)MAYBE_ALIAS}; do
+            # echo "name: $name, cmd: $cmd"
 
-set_aliases_if_exists ${MAYBE_ALIAS[@]}
+            if [ -n "$(which $cmd)" ]; then
+            	alias $name="$cmd ${MAYBE_ALIAS_ARG[$cmd]}"
+	        else
+            	echo "command '$cmd' not present for alias '$name'"
+	        fi
+        done
+        ;;
+esac
 
 ################################################################################
 # Functions
