@@ -1,6 +1,5 @@
 set ts=4
 set et
-set tabstop=2
 set autoindent
 set noexpandtab
 set shiftwidth=2
