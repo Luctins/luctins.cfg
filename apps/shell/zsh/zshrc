@@ -85,7 +85,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions emacs rust python ripgrep svn man colored-man-pages env docker)
+plugins=(git zsh-autosuggestions rust python ripgrep svn node man colored-man-pages env docker)
 
 source $ZSH/oh-my-zsh.sh
 

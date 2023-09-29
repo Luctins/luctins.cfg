@@ -68,6 +68,21 @@ function editalias () {
   $EDITOR "/home/$USER/.aliases" && source "/home/$USER/.aliases"
 }
 
+
+set-display-brightness() {
+	  case $1 in
+		    all)
+		        for d in {1..2}; do
+		            ddcutil -d $d setvcp 10 $2&
+		        done
+		        ;;
+	      *)
+            ddcutil -d $1 setvcp 10 $2
+            ;;
+    esac
+
+}
+
 # function ct() {
 # cargo test $1 -- --nocapture --color=always
 # }
