@@ -42,6 +42,7 @@ This function should only modify configuration layer settings."
      octave
      javascript
      csv
+     julia
      markdown
      yaml
      lua
@@ -59,7 +60,7 @@ This function should only modify configuration layer settings."
      ;;                  syntax-checking-enable-tooltips nil)
 
      (auto-completion :variables
-                      auto-completion-return-key-behavior nil
+                      auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-sort-by-usage t
                       auto-completion-private-snippets-directory nil
@@ -69,13 +70,14 @@ This function should only modify configuration layer settings."
           lsp-rust-server 'rust-analyzer
           lsp-lens-enable t
           lsp-rust-analyzer-server-display-inlay-hints t
-          lsp-ui-doc-enable nil
-          lsp-ui-sideline-show-hover nil
+          lsp-ui-doc-enable t
+          lsp-ui-sideline-show-hover t
           )
 
      (typescript :variables
-                 typescript-linter 'tslint
+                 typescript-linter 'eslint
                  typescript-backend 'tide
+                 tide-tsserver-executable "/usr/local/bin/tsserver"
                  )
 
      (org :variables
@@ -92,6 +94,7 @@ This function should only modify configuration layer settings."
             (dot . t)
             (shell . t)
             (sql . t)
+            (julia . t)
             (sqlite . t)
             (scad . t)
             )
