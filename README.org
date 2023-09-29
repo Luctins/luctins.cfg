@@ -8,13 +8,17 @@
 #+STARTUP: content
 :END:
 
+
+
 * Set-up
 1) Copy and edit the sample ./apps/mappings.sample to match your installed applications
 2) Go to [[./apps/]] and run =./links.sh=
 
 * Configuration
 ** Path mappings
-path mappings are just in the form of a bash array in the format:
+All config files are soft linked to a =~/config= folder
+
+Path mappings are just in the form of a bash array in the format:
 - src1, dest1,
 - src2, dest2,
 - ...,
