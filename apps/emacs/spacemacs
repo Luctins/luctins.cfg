@@ -67,9 +67,13 @@ This function should only modify configuration layer settings."
                       )
 
      (lsp :variables
-          lsp-rust-server 'rust-analyzer
           lsp-lens-enable t
+
+          lsp-rust-server 'rust-analyzer
           lsp-rust-analyzer-server-display-inlay-hints t
+          lsp-rust-analyzer-check-all-targets nil
+          ;; lsp-rust-analyzer-expand-macro t
+
           lsp-ui-doc-enable t
           lsp-ui-sideline-show-hover t
           )
@@ -124,6 +128,7 @@ This function should only modify configuration layer settings."
             )
 
      (c-c++ :variables
+            ;; c-c++-backend 'lsp-clangd
             c-c++-backend 'lsp-ccls
             lsp-enable-file-watchers nil
             lsp-enable-indentation nil
@@ -711,7 +716,8 @@ See the header of this file for more information."
 
   (setq tab-width 4
         hs-hide-comments-when-hiding-all nil ; don't fold comments
-        drag-stuff-global-mode t)
+        drag-stuff-global-mode t
+        )
 
   )
 
@@ -923,9 +929,9 @@ you should place your code here."
             (lambda ()
                (origami-mode)
                (spacemacs/toggle-fill-column-indicator-on)
-               )
-            )
+               ))
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;      _ ____   ___  _   _
   ;;     | / ___| / _ \| \ | |
   ;;  _  | \___ \| | | |  \| |
@@ -934,6 +940,8 @@ you should place your code here."
   (add-hook 'json-mode-hook
             (lambda ()
               (setq tab-width 2n)
+              (ispell-change-dictionary "en")
+              (flyspell-mode-on)
               ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -967,6 +975,7 @@ you should place your code here."
 
   (defun luctins/cc-mode-continue-comment ()
     (interactive)
+    ;; check inside comment first
     (if (nth 4 (syntax-ppss))
         (let ((prev-pos (point)) (co (concat "\n"
                           (save-match-data
@@ -995,8 +1004,7 @@ you should place your code here."
   (add-hook 'typescript-mode-hook
             (lambda ()
               (setq fill-column 100)
-              )
-            )
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____
@@ -1008,12 +1016,13 @@ you should place your code here."
        (lambda ()
          (hide-ifdef-mode)
          ;(rtags-start-process-unless-running)
-         ;(flycheck-mode t)
+         (flyspell-mode-off)
          (evil-close-folds)
          (auto-fill-mode)
          (hide-ifdefs)
          (platformio-conditionally-enable)
          (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
+         (setq tab-width 4)
          ))
 
   (setq c-syntactic-indentation t
@@ -1047,7 +1056,7 @@ you should place your code here."
   ;; Objdump mode
 
   ;; set to read only by default
-  (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
+  (add-to-list 'auto-mode-alist '("\\.objdump\\'" . asm-mode))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;     _                           _     _
@@ -1293,8 +1302,8 @@ should be continued."
   ;; (kbd "<M-return> i c") 'luctins/org-insert-created-drawer)
 
   (defun my/fix-inline-images ()
-  (when org-inline-image-overlays
-    (org-redisplay-inline-images)))
+    (when org-inline-image-overlays
+      (org-redisplay-inline-images)))
 
   (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
 
@@ -1324,6 +1333,20 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
             )
           )
       (message "buffer is %s not org-mode" major-mode)
+      )
+    )
+
+  (defun luctins/org-archive-done ()
+    "Clean up all DONE/WTDO items on a org buffer"
+    (interactive)
+    (let ((prev-pos (point)))
+      (org-archive-all-matches
+       (lambda (start end)
+         (let ((pos (org-entry-is-done-p))) ;; (re-search-forward "^\\*+ DONE\\|WTDO" end t 1)))
+           (if pos (flash-region start end))
+           )
+         ))
+      (goto-char prev-pos)
       )
     )
 
@@ -1480,10 +1503,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-company-mode)
 
   ;; Set company mode to not suggest numbers
-  (push (apply-partially #'cl-remove-if
-             (lambda (c)
-               (string-match-p "[0-9]+" c)))
-    company-transformers)
+  ;; (push (apply-partially #'cl-remove-if
+  ;;            (lambda (c)
+  ;;              (string-match-p "[0-9]+" c)))
+  ;;   company-transformers)
 
   ;; Misc bindings for a ergonomic mouse that I use
   (global-set-key (kbd "<mouse-9>") 'previous-buffer)
@@ -1546,7 +1569,49 @@ This function is called at the very end of Spacemacs initialization."
    '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+   '(ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+ '(safe-local-variable-values 'nil)
+ '(send-mail-function 'smtpmail-send-it)
+ '(warning-suppress-log-types
+   '((emacsql)
+     (emacs)
+     (lsp-mode)
+     (org-element-cache)
+     (comp)
+     (comp)
+     (use-package)
+     (use-package)))
+ '(warning-suppress-types
+   '((emacs)
+     (lsp-mode)
+     (org-element-cache)
+     (comp)
+     (comp)
+     (use-package)
+     (use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+)
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
+ '(custom-safe-themes
+   '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   '(flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values 'nil)
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types
