@@ -34,17 +34,51 @@ alias \
     psed='perl -p -W' \
     c=cargo \
     rgi='rg -i' \
-    rrm='/bin/rm' \
     ecl='emacsclient -nw -c' \
-    ldocker=lazydocker
+    ldocker=lazydocker \
+	tp="trash-put" \
+	tpr="trash-put -r" \
+	ssh-remove-known-host='ssh-keygen -R' \
+	gitka="gitk --all &" \
+
+# Optional Aliases
+function rm_replacement {
+	for arg in "$@"; do
+      if [[ ! -h "$arg" ]]; then
+          echo "'$arg' is not a link, please use trash-put or \\\\rm if really needed"
+          return
+      fi
+	done
+
+  rm $@
+}
+
+function zoxide_query() {
+	DEST=$(zoxide query -i)
+	cd $DEST	
+}
+
+# Map of aliases to aliases based if the destination binary exists
 
 declare -A MAYBE_ALIAS=(
 	[ls]=lsd
-	[rm]=rmtrash
+	[rm]=trash-put
+	[tree]=lsd
+	[cat]=bat
+	[j]=z
+	[ji]=zoxide
 );
 
+# replacement destination for commands
+# (check whether the first destination exists but alias to this)
+declare -A MAYBE_ALIAS_DEST=(
+	[rm]=rm_replacement
+	[ji]=zoxide_query
+)
+
 declare -A MAYBE_ALIAS_ARG=(
-	[lsd]="--group-dirs=first"
+	[ls]="--group-dirs=first"
+	[tree]='--tree'
 );
 
 case $SHELL in
@@ -52,11 +86,15 @@ case $SHELL in
         for name cmd in ${(@kv)MAYBE_ALIAS}; do
             # echo "name: $name, cmd: $cmd"
 
-            if [ -n "$(which $cmd)" ]; then
-            	alias $name="$cmd ${MAYBE_ALIAS_ARG[$cmd]}"
-	        else
-            	echo "command '$cmd' not present for alias '$name'"
-	        fi
+            if type -f $cmd >/dev/null ; then
+                if [ -n "${MAYBE_ALIAS_DEST[$name]}" ]; then
+					          alias $name="${MAYBE_ALIAS_DEST[$name]} ${MAYBE_ALIAS_ARG[$name]}"
+                else
+                    alias $name="$cmd ${MAYBE_ALIAS_ARG[$name]}"
+                fi
+	          else
+            	  # echo "command '$cmd' not present for alias '$name'"
+	          fi
         done
         ;;
 esac
