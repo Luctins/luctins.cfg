@@ -1,0 +1,3 @@
+[submodule "scripts/text"]
+	path = scripts/text
+	url = git@github.com:Luctins/text-manipulation-scripts
