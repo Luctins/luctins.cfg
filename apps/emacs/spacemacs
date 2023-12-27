@@ -1034,14 +1034,14 @@ you should place your code here."
    )
 
   (defun trim-at-col (line)
-  "trim C comments at a specified column"
-  (interactive (list (if current-prefix-arg
-               (read-from-minibuffer "line to trim at: ") nil)))
-  (end-of-line)
-  (backward-char 9)
-  (setq c (- (point) (if line line '80)))
-  (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-  )
+    "trim C comments at a specified column"
+    (interactive (list (if current-prefix-arg
+                           (read-from-minibuffer "line to trim at: ") nil)))
+    (end-of-line)
+    (backward-char 9)
+    (setq c (- (point) (if line line '80)))
+    (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+    )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Kconfig
@@ -1056,7 +1056,25 @@ you should place your code here."
   ;; Objdump mode
 
   ;; set to read only by default
-  (add-to-list 'auto-mode-alist '("\\.objdump\\'" . asm-mode))
+  (add-to-list 'auto-mode-alist '("\\.objdump" . asm-mode))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;    _                 ____
+  ;;   (_)___  ___  _ __ | ___|
+  ;;   | / __|/ _ \| '_ \|___ \
+  ;;   | \__ \ (_) | | | |___) |
+  ;;  _/ |___/\___/|_| |_|____/
+  ;; |__/
+  (add-to-list 'auto-mode-alist '("\\.json5" . jsonc-mode))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;    _
+  ;;   (_)___  ___  _ __   ___
+  ;;   | / __|/ _ \| '_ \ / __|
+  ;;   | \__ \ (_) | | | | (__
+  ;;  _/ |___/\___/|_| |_|\___|
+  ;; |__/
+  (add-to-list 'auto-mode-alist '("tsconfig.json" . jsonc-mode))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;     _                           _     _
@@ -1137,8 +1155,6 @@ should be continued."
         (and scheduled-seconds
              (>= scheduled-seconds now)
              subtree-end))))
-
-
 
   (setq  org-confirm-babel-evaluate nil
          org-tag-alist
@@ -1382,6 +1398,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (spacemacs/set-leader-keys "n f" 'org-roam-node-find)
   (spacemacs/set-leader-keys "n i" 'org-roam-node-insert)
 
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; All mode hooks
 
@@ -1398,6 +1415,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
    ;;	(defun xxxx ()
    ;;	 (setq-local header-line-format
    ;;				 (string-join (-map #'treemacs-workspace->name treemacs--workspaces) " » "))))
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
@@ -1493,10 +1511,38 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (add-hook 'python-mode-hook
     (lambda ()
     (spacemacs/toggle-fill-column-indicator-on)
-    (anaconda-eldoc-mode)
     (auto-fill-mode)
-    (conda-env-activate-path "~/.anaconda3")
+    ; (anaconda-eldoc-mode)
+    ; (conda-env-activate-path "~/.anaconda3")
     ))
+
+
+  ;; _____              __  __
+  ;; |_   _| __ ___  ___|  \/  | __ _  ___ ___
+  ;;   | || '__/ _ \/ _ \ |\/| |/ _` |/ __/ __|
+  ;;   | || | |  __/  __/ |  | | (_| | (__\__ \
+  ;;   |_||_|  \___|\___|_|  |_|\__,_|\___|___/
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (defvar treemacs-json-icon (text-properties-at 0 (treemacs-get-icon-value "json" nil)))
+  ;; (treemacs-define-custom-image-icon
+  ;;  (elt
+  ;;   (first (rest (text-properties-at 0 (treemacs-get-icon-value "json" nil))))
+  ;;   4
+  ;;   )
+  ;;  "json5" "jsonc" "env" "nvmrc"
+  ;;  )
+  ;; (treemacs-map-icons-with-auto-mode-alist
+  ;;  '(".env")
+  ;;  '(
+  ;;    (environment-mode . ,(treemacs-get-icon-value "json"))
+  ;;    )
+  ;;  )
+  ;; (treemacs-map-icons-with-auto-mode-alist
+  ;;  '(".json5")
+  ;;  '(
+  ;;    (jsonc-mode . ,(treemacs-get-icon-value "json"))
+  ;;    )
+  ;;  )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Company mode
