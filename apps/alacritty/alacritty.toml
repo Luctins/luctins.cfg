@@ -1,0 +1,31 @@
+gtk_theme_variant = "None"
+
+[bell]
+animation = "EaseOutExpo"
+
+[colors.normal]
+black = "#1d1f21"
+blue = "#3465A4"
+cyan = "#8abeb7"
+green = "#b5bd68"
+magenta = "#b294bb"
+red = "#cc6666"
+white = "#c5c8c6"
+yellow = "#f0c674"
+
+[font.normal]
+family = "MesloLGS NF"
+
+[mouse]
+hide_when_typing = true
+
+[shell]
+program = "tmux"
+
+[window]
+decorations = "full"
+opacity = 0.95
+
+[window.padding]
+x = 1
+y = 1
