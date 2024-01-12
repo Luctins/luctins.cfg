@@ -1,4 +1,4 @@
-gtk_theme_variant = "None"
+# gtk_theme_variant = "None"
 
 [bell]
 animation = "EaseOutExpo"
