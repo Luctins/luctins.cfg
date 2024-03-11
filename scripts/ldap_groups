@@ -1,0 +1,1065 @@
+# extended LDIF
+#
+# LDAPv3
+# base <ou=Groups,ou=Macnica,dc=macnica,dc=local> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# Groups, Macnica, macnica.local
+dn: OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+distinguishedName: OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152403.0Z
+whenChanged: 20140604180612.0Z
+uSNCreated: 12735
+uSNChanged: 376706
+name: Groups
+objectGUID:: WWhWDAVZ5kOpEQg+szUk1w==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=macnica,D
+ C=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 20130222152403.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Sales Procedures, Groups, Macnica, macnica.local
+dn: CN=Sales Procedures,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Sales Procedures
+member: CN=Paula Reis,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Lennert,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduardo Bachmann,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Camile Piccoli Mathozo da Silva,OU=Users,OU=Macnica,DC=macnica,DC=l
+ ocal
+member: CN=Fabricio Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Franciele Nornberg,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Vladimir Nicolau Duk,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Francesco Guidotto,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Leandro Marques,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Clodoaldo Labritz,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Sales Procedures,OU=Groups,OU=Macnica,DC=macnica,DC=loca
+ l
+instanceType: 4
+whenCreated: 20220818180303.0Z
+whenChanged: 20230314202408.0Z
+uSNCreated: 4576995
+uSNChanged: 4932128
+name: Sales Procedures
+objectGUID:: mVriQLwbRkmn7poXJVEvVA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wQQUAAA==
+sAMAccountName: Sales Procedures
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# IT Domain Admins, Groups, Macnica, macnica.local
+dn: CN=IT Domain Admins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: IT Domain Admins
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=IT Domain Admins,OU=Groups,OU=Macnica,DC=macnica,DC=loca
+ l
+instanceType: 4
+whenCreated: 20220818183340.0Z
+whenChanged: 20231109135629.0Z
+uSNCreated: 4577050
+memberOf: CN=Local Machine Admins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+memberOf: CN=Remote Desktop Users,CN=Builtin,DC=macnica,DC=local
+memberOf: CN=Backup Operators,CN=Builtin,DC=macnica,DC=local
+memberOf: CN=Administrators,CN=Builtin,DC=macnica,DC=local
+uSNChanged: 5795709
+name: IT Domain Admins
+objectGUID:: bq0pmUI03U2FljMAPK1Fig==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wQgUAAA==
+adminCount: 1
+sAMAccountName: IT Domain Admins
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20221125121239.0Z
+dSCorePropagationData: 16010101000000.0Z
+
+# Local Machine Admins, Groups, Macnica, macnica.local
+dn: CN=Local Machine Admins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Local Machine Admins
+member: CN=IT Domain Admins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Local Machine Admins,OU=Groups,OU=Macnica,DC=macnica,DC=
+ local
+instanceType: 4
+whenCreated: 20130307182320.0Z
+whenChanged: 20221125115735.0Z
+uSNCreated: 41862
+memberOf: CN=Administrators,CN=Builtin,DC=macnica,DC=local
+uSNChanged: 4660551
+name: Local Machine Admins
+objectGUID:: DPgjPx1r+kWmjXZ2dmbMEg==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wigQAAA==
+adminCount: 1
+sAMAccountName: Local Machine Admins
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 20130308134209.0Z
+dSCorePropagationData: 16010101000000.0Z
+
+# Process Managers, Groups, Macnica, macnica.local
+dn: CN=Process Managers,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Process Managers
+distinguishedName: CN=Process Managers,OU=Groups,OU=Macnica,DC=macnica,DC=loca
+ l
+instanceType: 4
+whenCreated: 20230123130638.0Z
+whenChanged: 20230123130638.0Z
+uSNCreated: 4735050
+uSNChanged: 4735050
+name: Process Managers
+objectGUID:: xv2s77oIGk6VkpLjPFE/Dw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wVQUAAA==
+sAMAccountName: Process Managers
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Specific, Groups, Macnica, macnica.local
+dn: OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Specific
+distinguishedName: OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20140604180612.0Z
+whenChanged: 20140604180612.0Z
+uSNCreated: 376704
+uSNChanged: 376705
+name: Specific
+objectGUID:: Sn+aMWf790GSdWmjt9jexw==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=macnica,D
+ C=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# WikiAdmins, Specific, Groups, Macnica, macnica.local
+dn: CN=WikiAdmins,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiAdmins
+member: CN=Jessica de Sa Xavier,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiAdmins,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,D
+ C=local
+instanceType: 4
+whenCreated: 20231004151427.0Z
+whenChanged: 20231108225050.0Z
+uSNCreated: 5580880
+uSNChanged: 5788161
+name: WikiAdmins
+objectGUID:: s1e0U4Cm+Uul2ar/xUWeLQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wawUAAA==
+sAMAccountName: WikiAdmins
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# Bugzilla Access, Specific, Groups, Macnica, macnica.local
+dn: CN=Bugzilla Access,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Bugzilla Access
+member: CN=Bugzilla,OU=System,OU=Macnica,DC=macnica,DC=local
+member: CN=Tiago Cesar Busatta,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=
+ local
+distinguishedName: CN=Bugzilla Access,OU=Specific,OU=Groups,OU=Macnica,DC=macn
+ ica,DC=local
+instanceType: 4
+whenCreated: 20170630195903.0Z
+whenChanged: 20220304172810.0Z
+uSNCreated: 1006616
+uSNChanged: 4409287
+name: Bugzilla Access
+objectGUID:: ZbQxbOAcik6gYW4p2xjMWg==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wzgQAAA==
+sAMAccountName: Bugzilla Access
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# R&D Management, Specific, Groups, Macnica, macnica.local
+dn: CN=R&D Management,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: R&D Management
+member: CN=Paula Reis,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Jean da Costa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Vladimir Nicolau Duk,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=R&D Management,OU=Specific,OU=Groups,OU=Macnica,DC=macni
+ ca,DC=local
+instanceType: 4
+whenCreated: 20140604180712.0Z
+whenChanged: 20231122203124.0Z
+uSNCreated: 376708
+memberOf: CN=WikSDGAdmin,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 5921003
+name: R&D Management
+objectGUID:: 0XO8vGblpE2T+i79v5KvkQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wrQQAAA==
+sAMAccountName: R&D Management
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Training Organization, Specific, Groups, Macnica, macnica.local
+dn: CN=Training Organization,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=lo
+ cal
+objectClass: top
+objectClass: group
+cn: Training Organization
+member: CN=Cintia Pires Miranda,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Training Organization,OU=Specific,OU=Groups,OU=Macnica,D
+ C=macnica,DC=local
+instanceType: 4
+whenCreated: 20140624185746.0Z
+whenChanged: 20220425121408.0Z
+uSNCreated: 386773
+uSNChanged: 4456844
+name: Training Organization
+objectGUID:: ZXxhY0+7Nk6uI8bwuW2aow==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wrgQAAA==
+sAMAccountName: Training Organization
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Administrative-Finance Publisher, Specific, Groups, Macnica, macnica.local
+dn: CN=Administrative-Finance Publisher,OU=Specific,OU=Groups,OU=Macnica,DC=ma
+ cnica,DC=local
+objectClass: top
+objectClass: group
+cn: Administrative-Finance Publisher
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Administrative-Finance Publisher,OU=Specific,OU=Groups,O
+ U=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20231101203559.0Z
+whenChanged: 20231122204459.0Z
+uSNCreated: 5727265
+uSNChanged: 5921110
+name: Administrative-Finance Publisher
+objectGUID:: SghnNTuxcUKNv8kmqSJhOQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wbQUAAA==
+sAMAccountName: Administrative-Finance Publisher
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# Marketing Publisher, Specific, Groups, Macnica, macnica.local
+dn: CN=Marketing Publisher,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=loca
+ l
+objectClass: top
+objectClass: group
+cn: Marketing Publisher
+member: CN=Vitor Machado,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Nicolas Pereira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Jessica de Sa Xavier,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Elediana Fatima Quadros,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Franciele Nornberg,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Cintia Pires Miranda,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Marketing Publisher,OU=Specific,OU=Groups,OU=Macnica,DC=
+ macnica,DC=local
+instanceType: 4
+whenCreated: 20161216124900.0Z
+whenChanged: 20240108205704.0Z
+uSNCreated: 919530
+uSNChanged: 6415274
+name: Marketing Publisher
+objectGUID:: TiyvcH2Z9kWb0/rGv4apnw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wyAQAAA==
+sAMAccountName: Marketing Publisher
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# r&d read-only, Specific, Groups, Macnica, macnica.local
+dn: CN=r&d read-only,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: r&d read-only
+member: CN=Eduardo Bachmann,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=r&d read-only,OU=Specific,OU=Groups,OU=Macnica,DC=macnic
+ a,DC=local
+instanceType: 4
+whenCreated: 20231127181707.0Z
+whenChanged: 20231127200933.0Z
+uSNCreated: 5967173
+uSNChanged: 5968048
+name: r&d read-only
+objectGUID:: WoMw+EeECE64y2Z3pFh3gg==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wgQUAAA==
+sAMAccountName: r&d read-only
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# Administrative Limited, Specific, Groups, Macnica, macnica.local
+dn: CN=Administrative Limited,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=l
+ ocal
+objectClass: top
+objectClass: group
+cn: Administrative Limited
+member: CN=Elediana Fatima Quadros,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Administrative Limited,OU=Specific,OU=Groups,OU=Macnica,
+ DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20230320173355.0Z
+whenChanged: 20230831170012.0Z
+uSNCreated: 4954425
+uSNChanged: 5472450
+name: Administrative Limited
+objectGUID:: 7j3BjZEn1kiaKg/kKGTL1Q==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wXAUAAA==
+sAMAccountName: Marketing Limited
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Bonobo Git, Specific, Groups, Macnica, macnica.local
+dn: CN=Bonobo Git,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Bonobo Git
+member: CN=R&D,OU=Groups,OU=Macnica,DC=macnica,DC=local
+member: CN=Administrator,CN=Users,DC=macnica,DC=local
+distinguishedName: CN=Bonobo Git,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,D
+ C=local
+instanceType: 4
+whenCreated: 20160906140022.0Z
+whenChanged: 20220304172539.0Z
+uSNCreated: 862199
+uSNChanged: 4409281
+name: Bonobo Git
+objectGUID:: 6CSXiEB3/UOd+CaJOWwZtQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wwgQAAA==
+sAMAccountName: Bonobo Git Users
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20160906140048.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Bonobo Git Admins, Specific, Groups, Macnica, macnica.local
+dn: CN=Bonobo Git Admins,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Bonobo Git Admins
+member: CN=Ian Koerich Maciel,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=l
+ ocal
+member: CN=Tiago Cesar Busatta,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=
+ local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Bonobo Git Admins,OU=Specific,OU=Groups,OU=Macnica,DC=ma
+ cnica,DC=local
+instanceType: 4
+whenCreated: 20160906140720.0Z
+whenChanged: 20220304172707.0Z
+uSNCreated: 862211
+uSNChanged: 4409285
+name: Bonobo Git Admins
+objectGUID:: YbQb+OQDwUe91vsS07tHrQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wwwQAAA==
+sAMAccountName: Bonobo Git Admins
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Wiki, Groups, Macnica, macnica.local
+dn: OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Wiki
+distinguishedName: OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20231114142245.0Z
+whenChanged: 20231114142246.0Z
+uSNCreated: 5852014
+uSNChanged: 5852015
+name: Wiki
+objectGUID:: 9u10SndJeEmYOrrtj/aVFw==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=macnica,D
+ C=local
+dSCorePropagationData: 20231114142246.0Z
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiSDG, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiSDG,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiSDG
+member: CN=R&D,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiSDG,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20231114142339.0Z
+whenChanged: 20231124222750.0Z
+uSNCreated: 5852028
+uSNChanged: 5939297
+name: WikiSDG
+objectGUID:: 8qvGcvINU0qVhg/7M4dYmA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wdAUAAA==
+sAMAccountName: WikiSDG
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikSDGAdmin, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikSDGAdmin,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikSDGAdmin
+member: CN=R&D Management,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikSDGAdmin,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=l
+ ocal
+instanceType: 4
+whenCreated: 20231114142404.0Z
+whenChanged: 20231124222801.0Z
+uSNCreated: 5852032
+uSNChanged: 5939304
+name: WikSDGAdmin
+objectGUID:: B8TTmLtwMUKnFxAqHPTq6Q==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wdQUAAA==
+sAMAccountName: WikSDGAdmin
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiADM, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiADM,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiADM
+member: CN=Finance,OU=Groups,OU=Macnica,DC=macnica,DC=local
+member: CN=Administrative,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiADM,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20231114142445.0Z
+whenChanged: 20231124215401.0Z
+uSNCreated: 5852045
+uSNChanged: 5939058
+name: WikiADM
+objectGUID:: k/UGCcI31k+Y5NkCkvRuIw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wdgUAAA==
+sAMAccountName: WikiADM
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiADMAdmin, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiADMAdmin,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiADMAdmin
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiADMAdmin,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=
+ local
+instanceType: 4
+whenCreated: 20231114142525.0Z
+whenChanged: 20231124215504.0Z
+uSNCreated: 5852062
+uSNChanged: 5939070
+name: WikiADMAdmin
+objectGUID:: NUsO/d5K5E+uUqSzYy3vbw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8weAUAAA==
+sAMAccountName: WikiADMAdmin
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiMKT, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiMKT,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiMKT
+member: CN=Marketing,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiMKT,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20231114142542.0Z
+whenChanged: 20231124222739.0Z
+uSNCreated: 5852074
+uSNChanged: 5939294
+name: WikiMKT
+objectGUID:: TSZog1kxKEeXYTYkKKP7Fw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8weQUAAA==
+sAMAccountName: WikiMKT
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiSales, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiSales,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiSales
+member: CN=IOT_AI,OU=Groups,OU=Macnica,DC=macnica,DC=local
+member: CN=Sales,OU=Groups,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiSales,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=loc
+ al
+instanceType: 4
+whenCreated: 20231114142656.0Z
+whenChanged: 20231124222727.0Z
+uSNCreated: 5852099
+uSNChanged: 5939286
+name: WikiSales
+objectGUID:: rF/DFnJn0ECEl/1Vn5oClA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wfAUAAA==
+sAMAccountName: WikiSales
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# WikiAdmins, Wiki, Groups, Macnica, macnica.local
+dn: CN=WikiAdmins,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: WikiAdmins
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=WikiAdmins,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=lo
+ cal
+instanceType: 4
+whenCreated: 20231114143009.0Z
+whenChanged: 20231124222629.0Z
+uSNCreated: 5852129
+uSNChanged: 5939275
+name: WikiAdmins
+objectGUID:: hb6lwPf33kqjJQFyLIYxaQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wfwUAAA==
+sAMAccountName: WikiAdmin
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 16010101000000.0Z
+
+# CRM Users, Groups, Macnica, macnica.local
+dn: CN=CRM Users,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: CRM Users
+member: CN=Paula Reis,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabricio Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Clodoaldo Labritz,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=CRM Users,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20230223125742.0Z
+whenChanged: 20230223205238.0Z
+uSNCreated: 4848056
+uSNChanged: 4849414
+name: CRM Users
+objectGUID:: dSjZpQPqSUWCIDG5xHhXww==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wVwUAAA==
+sAMAccountName: CRM Users
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# IOT_AI, Groups, Macnica, macnica.local
+dn: CN=IOT_AI,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: IOT_AI
+member: CN=Carlos Belo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Ameliza Souza Correa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gabriel Lucas Oliveira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Lennert,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduardo Bachmann,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduar Francis Andrighetti,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabricio Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Hazael Batista,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=IOT_AI,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20220106205255.0Z
+whenChanged: 20240108211851.0Z
+uSNCreated: 4364080
+memberOf: CN=WikiSales,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 6415485
+name: IOT_AI
+objectGUID:: zoqP/G4wqkay59d4Li0ydA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wLAUAAA==
+sAMAccountName: IOT
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# R&D, Groups, Macnica, macnica.local
+dn: CN=R&D,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: R&D
+member: CN=Bruno Jaques,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Paula Reis,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gabriel Lucas Oliveira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Pierre-Eloy Sylvestre,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduar Francis Andrighetti,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Jean da Costa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Odair Silva,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Hazael Batista,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI 2,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+member:: Q049Sm/Do28gUGF1bG8gQmVydG9saW5pIFNlaG4sT1U9VXNlcnMsT1U9TWFjbmljYSxEQ
+ z1tYWNuaWNhLERDPWxvY2Fs
+member: CN=Vladimir Nicolau Duk,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=William Simon Gutstein,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gustavo Leao Moreira,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=R&D,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152444.0Z
+whenChanged: 20231212213112.0Z
+uSNCreated: 12738
+memberOf: CN=WikiSDG,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+memberOf: CN=Bonobo Git,OU=Specific,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 6184066
+name: R&D
+objectGUID:: Nr6Xr0rI4kaf+iQvgTE7qA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wTwQAAA==
+sAMAccountName: R&D
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Marketing, Groups, Macnica, macnica.local
+dn: CN=Marketing,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Marketing
+member: CN=Vitor Machado,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Nicolas Pereira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Jessica de Sa Xavier,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Thomas Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Lennert,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Elediana Fatima Quadros,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Teste,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabricio Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Franciele Nornberg,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Cintia Pires Miranda,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Marketing,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152453.0Z
+whenChanged: 20240108204828.0Z
+uSNCreated: 12742
+memberOf: CN=WikiMKT,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 6415181
+name: Marketing
+objectGUID:: FRfrSzQubkGwIwvNvxeztQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wUAQAAA==
+sAMAccountName: Marketing
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Administrative, Groups, Macnica, macnica.local
+dn: CN=Administrative,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Administrative
+member: CN=Luis Filipe Rocha,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Aline Martins,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Giselly Machado,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Thomas Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Adriely Siegel Laske,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Administrative,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152512.0Z
+whenChanged: 20231116193023.0Z
+uSNCreated: 12746
+memberOf: CN=WikiADM,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 5870244
+name: Administrative
+objectGUID:: iwzX8TKuv0m2jHcD+uHRBA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wUQQAAA==
+sAMAccountName: Administrative
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Sales, Groups, Macnica, macnica.local
+dn: CN=Sales,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Sales
+member: CN=Carlos Belo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Vitor Machado,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Nicolas Pereira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Arielly Amaral,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Paula Reis,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Ameliza Souza Correa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Lennert,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduardo Bachmann,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Camile Piccoli Mathozo da Silva,OU=Users,OU=Macnica,DC=macnica,DC=l
+ ocal
+member: CN=Jean da Costa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabricio Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Franciele Nornberg,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Vladimir Nicolau Duk,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Carla Vinter,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Francesco Guidotto,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Leandro Marques,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Clodoaldo Labritz,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gustavo Leao Moreira,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Sales,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152518.0Z
+whenChanged: 20240109150513.0Z
+uSNCreated: 12750
+memberOf: CN=WikiSales,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 6422555
+name: Sales
+objectGUID:: 0Tcu6nzrfkGs/aMsOyrNDg==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wUgQAAA==
+sAMAccountName: Sales
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Training, Groups, Macnica, macnica.local
+dn: CN=Training,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Training
+member: CN=Franciele Nornberg,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Cintia Pires Miranda,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=William Simon Gutstein,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Training,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152523.0Z
+whenChanged: 20231122203016.0Z
+uSNCreated: 12754
+uSNChanged: 5920982
+name: Training
+objectGUID:: p5WFiwAUYEuZpGnttu/VIw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wUwQAAA==
+sAMAccountName: Training
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Presidency, Groups, Macnica, macnica.local
+dn: CN=Presidency,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Presidency
+member: CN=Liv TI 2,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Fabio Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Presidency,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222152537.0Z
+whenChanged: 20230814124736.0Z
+uSNCreated: 12762
+uSNChanged: 5445153
+name: Presidency
+objectGUID:: ay5wyHI9AEmSn2jlaeT9fA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wVQQAAA==
+sAMAccountName: Presidency
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Support, Groups, Macnica, macnica.local
+dn: CN=Support,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Support
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=William Simon Gutstein,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gustavo Leao Moreira,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Support,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222162733.0Z
+whenChanged: 20220425121243.0Z
+uSNCreated: 13029
+uSNChanged: 4456818
+name: Support
+objectGUID:: eD/JM4B/IU6ohX7qBSRskQ==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wbgQAAA==
+sAMAccountName: Support
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# IT Members, Groups, Macnica, macnica.local
+dn: CN=IT Members,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: IT Members
+member: CN=Dataroute,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=IT Members,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20130222162740.0Z
+whenChanged: 20231211214412.0Z
+uSNCreated: 13033
+uSNChanged: 6164893
+name: IT Members
+objectGUID:: mLLSyuoFc0ePk7hfzxI5ew==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8wbwQAAA==
+adminCount: 1
+sAMAccountName: IT Members
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 20220425122606.0Z
+dSCorePropagationData: 20140604180612.0Z
+dSCorePropagationData: 16010101000000.0Z
+
+# Git, Groups, Macnica, macnica.local
+dn: CN=Git,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Git
+member: CN=Git LDAP,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gabriel Lucas Oliveira,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Pierre-Eloy Sylvestre,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Eduar Francis Andrighetti,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Jean da Costa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Odair Silva,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Hazael Batista,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+member:: Q049Sm/Do28gUGF1bG8gQmVydG9saW5pIFNlaG4sT1U9VXNlcnMsT1U9TWFjbmljYSxEQ
+ z1tYWNuaWNhLERDPWxvY2Fs
+member: CN=Vladimir Nicolau Duk,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=William Simon Gutstein,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Gustavo Leao Moreira,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Git,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20200506144227.0Z
+whenChanged: 20231212213112.0Z
+uSNCreated: 3951497
+uSNChanged: 6184069
+name: Git
+objectGUID:: or3F3rnh3kanETyG0wp8Cg==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8w+gQAAA==
+sAMAccountName: Git
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# GitAdmins, Groups, Macnica, macnica.local
+dn: CN=GitAdmins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: GitAdmins
+member: CN=Git LDAP,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Lucas Martins Mendes,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Liv TI,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Neimar Duarte,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Valter Toffolo,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=GitAdmins,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20200506144238.0Z
+whenChanged: 20231211214631.0Z
+uSNCreated: 3951501
+uSNChanged: 6164940
+name: GitAdmins
+objectGUID:: e0ZGdh5Q1UeSJhtg8JCMlA==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8w+wQAAA==
+sAMAccountName: GitAdmins
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# R&D.old, Groups, Macnica, macnica.local
+dn: CN=R&D.old,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: R&D.old
+member: CN=Leticia2 Coelho2,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=loc
+ al
+member: CN=Leticia Coelho,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Juliana Sartori,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=loca
+ l
+member: CN=Matheus Berthol de Oliveira,OU=_disabled,OU=Users,OU=Macnica,DC=mac
+ nica,DC=local
+member: CN=Marco Antonio de Oliveira,OU=_disabled,OU=Users,OU=Macnica,DC=macni
+ ca,DC=local
+member: CN=Lucas Rotava,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Pablo Pereira Pires,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,DC=
+ local
+member: CN=Bruno Fernando Fornari,OU=_disabled,OU=Users,OU=Macnica,DC=macnica,
+ DC=local
+member: CN=Fernando Souza de Andrade,OU=_disabled,OU=Users,OU=Macnica,DC=macni
+ ca,DC=local
+distinguishedName: CN=R&D.old,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20200626215708.0Z
+whenChanged: 20220304154248.0Z
+uSNCreated: 3966104
+uSNChanged: 4409192
+name: R&D.old
+objectGUID:: VwPxd4VLDUuvE5mZwbb2Yw==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8w/AQAAA==
+sAMAccountName: R&D.old
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173222.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# Finance, Groups, Macnica, macnica.local
+dn: CN=Finance,OU=Groups,OU=Macnica,DC=macnica,DC=local
+objectClass: top
+objectClass: group
+cn: Finance
+member: CN=Luis Filipe Rocha,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Aline Martins,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Giselly Machado,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Thomas Petrassem de Sousa,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Caroline Rodrigues Doerner,OU=Users,OU=Macnica,DC=macnica,DC=local
+member: CN=Karolina Guizoni,OU=Users,OU=Macnica,DC=macnica,DC=local
+distinguishedName: CN=Finance,OU=Groups,OU=Macnica,DC=macnica,DC=local
+instanceType: 4
+whenCreated: 20200629194333.0Z
+whenChanged: 20231122203016.0Z
+uSNCreated: 3966870
+memberOf: CN=WikiADM,OU=Wiki,OU=Groups,OU=Macnica,DC=macnica,DC=local
+uSNChanged: 5920985
+name: Finance
+objectGUID:: kfMzdfdOQ0y212Iy0Epnig==
+objectSid:: AQUAAAAAAAUVAAAAR6GYU92JzI1c6h8w/QQAAA==
+sAMAccountName: Finance
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=macnica,DC=local
+dSCorePropagationData: 20230831173224.0Z
+dSCorePropagationData: 20230831173221.0Z
+dSCorePropagationData: 16010101000417.0Z
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 39
+# numEntries: 38
