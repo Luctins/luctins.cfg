@@ -1,5 +1,5 @@
 [submodule "scripts/text"]
-	path = scripts/text
+	path = scripts/text/convert
 	url = git@github.com:Luctins/text-manipulation-scripts
 [submodule "scripts/image/texture-gen.git"]
 	path = scripts/image/texture-gen.git
