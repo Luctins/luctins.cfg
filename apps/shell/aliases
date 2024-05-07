@@ -161,6 +161,35 @@ function cdmk() {
 	mkdir $1
 	cd $1
 }
+
+function repo-tool() {
+    local program=${1?"missing \$1: script name"}
+	  shift
+    local tools_dir=$(git root)/.repo_tools
+
+    if [ -f "$tools_dir/$program" ]; then
+        $tools_dir/$program $@
+    else
+        echo "no tool named $program"
+        echo -e "options are:\n $(ls $tools_dir)"
+    fi
+}
+_repo-tool() {
+    repo=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+    _arguments "1:tool-name:_path_files -W '$repo/.repo_tools'"
+
+    return 0
+}
+compdef _repo-tool repo-tool
+
+# add-zsh-hook chpwd enable-repo-tool-completion
+# function enable-repo-tool-completion() {
+#     local repo
+#     compdef "_path_files -w '$repo/.repo_tools/'" repo-tool
+#     # echo repo is: $repo
+#     # compdef '_path_files -g "$(git status 2>&1>/dev/null && ls $(git root)/.repo_tools/)" ' repo-tool
+# }
+
 function rg-repo() {
   rg $@ $(git root)
 }
