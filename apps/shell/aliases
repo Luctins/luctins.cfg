@@ -36,10 +36,15 @@ alias \
     rgi='rg -i' \
     ecl='emacsclient -nw -c' \
     ldocker=lazydocker \
-	tp="trash-put" \
-	tpr="trash-put -r" \
-	ssh-remove-known-host='ssh-keygen -R' \
-	gitka="gitk --all &" \
+	  tp="trash-put" \
+	  tpr="trash-put -r" \
+	  ssh-remove-known-host='ssh-keygen -R' \
+	  gitka="gitk --all &" \
+	  binspect="tmux split && tmux break-pane && tmux send-keys 'bacon' Enter && tmux split" \
+	  doco='docker compose' \
+  	editor='$EDITOR' \
+    vis-gui='kitty --class="Audio visualizer" -o font_size=1 vis'
+
 
 # Optional Aliases
 function rm_replacement {
@@ -50,12 +55,12 @@ function rm_replacement {
       fi
 	done
 
-  rm $@
+  \rm $@
 }
 
 function zoxide_query() {
 	DEST=$(zoxide query -i)
-	cd $DEST	
+	cd $DEST
 }
 
 # Map of aliases to aliases based if the destination binary exists
@@ -63,7 +68,7 @@ function zoxide_query() {
 declare -A MAYBE_ALIAS=(
 	[ls]=lsd
 	[rm]=trash-put
-	[tree]=lsd
+# 	[tree]=lsd
 	[cat]=bat
 	[j]=z
 	[ji]=zoxide
@@ -78,7 +83,7 @@ declare -A MAYBE_ALIAS_DEST=(
 
 declare -A MAYBE_ALIAS_ARG=(
 	[ls]="--group-dirs=first"
-	[tree]='--tree'
+# 	[tree]='--tree'
 );
 
 case $SHELL in
@@ -107,7 +112,34 @@ function editalias () {
 }
 
 
-set-display-brightness() {
+function rust-version-increment() {
+    MANIFEST="./Cargo.toml"
+    [ ! -f "$MANIFEST" ] && echo "Cannot find manifest ('$MANIFEST')" && return 1
+
+    F='-p -W -i -0777 -e'
+    E='(\[package\][^\]]+)^\s*version\s*=\s*"([0-9]+)\.([0-9]+)\.([0-9]+)([^"]*)"'
+
+    case $1 in
+        maj|major)
+            perl $F "s/$E/\"\${1}version = \\\"\" . (\$2 + 1) . \".\" .  \$3      . \".\" .  \$4      . \$5 . q#\"#/me" $MANIFEST
+            ;;
+
+        min|minor)
+            perl $F "s/$E/\"\${1}version = \\\"\" .  \$2      . \".\" . (\$3 + 1) . \".\" .  \$4      . \$5 . q#\"#/me" $MANIFEST
+            ;;
+
+        pat|patch)
+            perl $F "s/$E/\"\${1}version = \\\"\" .  \$2      . \".\" .  \$3      . \".\" . (\$4 + 1) . \$5 . q#\"#/me" $MANIFEST
+            ;;
+
+        *)
+            echo "options are 'major', 'minor', and 'patch'"
+            return 1
+            ;;
+    esac
+}
+
+function set-display-brightness() {
 	  case $1 in
 		    all)
 		        for d in {1..2}; do
