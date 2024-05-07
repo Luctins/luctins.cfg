@@ -13,9 +13,13 @@
 
 export EDITOR=vim
 
-HISTFILESIZE=50000000
+# 5mb should be plenty
+HISTFILESIZE=5000000
+export HISTFILESIZE
 
-HISTSIZE=100000
+# 10m lines
+HISTSIZE=10000000
+export HISTSIZE
 
 unsetopt share_history
 setopt INC_APPEND_HISTORY_TIME
@@ -134,7 +138,7 @@ if [[ -f ${zsh_syntax_h} ]]; then
   source ${zsh_syntax_h};
 fi
 
-if [[ -n $(which zoxide) ]]; then
+if type -f zoxide 1>/dev/null; then
 	eval "$(zoxide init zsh)"
 fi
 
@@ -146,7 +150,7 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-if [[ -n $(which direnv) ]]; then
+if type -f direnv 1>/dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
