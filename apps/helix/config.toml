@@ -1,0 +1,10 @@
+theme = "base16_default"
+
+[editor]
+mouse = true
+line-number= "absolute"
+
+[editor.cursor-shape]
+normal = "underline"
+insert = "bar"
+select = "block"
