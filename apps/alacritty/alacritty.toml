@@ -17,15 +17,16 @@ yellow = "#f0c674"
 family = "MesloLGS NF"
 
 [mouse]
-hide_when_typing = true
+hide_when_typing = false
 
 [shell]
 program = "tmux"
 
 [window]
-decorations = "full"
+dynamic_padding = false
+decorations = "Full"
 opacity = 0.95
 
 [window.padding]
-x = 1
-y = 1
+x = 2
+y = 10
