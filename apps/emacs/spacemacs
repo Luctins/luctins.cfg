@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
      php
      systemd
      emacs-lisp
+     git
      html
      octave
      javascript
@@ -46,7 +47,6 @@ This function should only modify configuration layer settings."
      markdown
      yaml
      lua
-     git
      helm
      better-defaults
      multiple-cursors
@@ -100,7 +100,6 @@ This function should only modify configuration layer settings."
             (sql . t)
             (julia . t)
             (sqlite . t)
-            (scad . t)
             )
           )
 
@@ -155,24 +154,24 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-                    org-roam-ui
-                    scad-mode
-                    arduino-mode
-                    dockerfile-mode
-                    org-autolist
-                    gcode-mode
-                    yasnippet
-                    drag-stuff
-                    nodemcu-mode
-                    gnuplot-mode
-                    graphviz-dot-mode
-                    gnu-elpa-keyring-update
-                    markdown-preview-eww
-                    dts-mode
-                    platformio-mode
-                    kconfig-mode
-                    conda
-                    )
+                                      org-roam-ui
+                                      scad-mode
+                                      arduino-mode
+                                      dockerfile-mode
+                                      org-autolist
+                                      gcode-mode
+                                      yasnippet
+                                      drag-stuff
+                                      nodemcu-mode
+                                      gnuplot-mode
+                                      graphviz-dot-mode
+                                      gnu-elpa-keyring-update
+                                      markdown-preview-eww
+                                      dts-mode
+                                      platformio-mode
+                                      kconfig-mode
+                                      conda
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -219,14 +218,6 @@ It should only modify the values of Spacemacs settings."
    ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
    ;; (default (format "spacemacs-%s.pdmp" emacs-version))
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
-
-   ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
-   ;; possible. Set it to nil if you have no way to use HTTPS in your
-   ;; environment, otherwise it is strongly recommended to let it set to t.
-   ;; This variable has no effect if Emacs is launched with the parameter
-   ;; `--insecure' which forces the value of this variable to nil.
-   ;; (default t)
-   dotspacemacs-elpa-https t
 
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
@@ -306,11 +297,11 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '(
-                (todos . 5)
-                (recents-by-project . (5 . 3))
-                (recents . 7)
-                ;(bookmarks . 3)
-                )
+                                (todos . 5)
+                                (recents-by-project . (5 . 3))
+                                (recents . 7)
+                                        ;(bookmarks . 3)
+                                )
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -350,17 +341,17 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-             spacemacs-dark
-             inkpot
-             nano
-             ;nano-light
-             ;nano
-             ;warm-night
-             ;melancholy
-             dracula
-             spacemacs-light)
+                         spacemacs-dark
+                         inkpot
+                         nano
+                                        ;nano-light
+                                        ;nano
+                                        ;warm-night
+                                        ;melancholy
+                         dracula
+                         spacemacs-light)
 
-   doom-modeline-minor-modes t
+   ;; doom-modeline-minor-modes t
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
    ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
@@ -493,6 +484,10 @@ It should only modify the values of Spacemacs settings."
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
+   ;; It is also possible to use a posframe with the following cons cell
+   ;; `(posframe . position)' where position can be one of `center',
+   ;; `top-center', `bottom-center', `top-left-corner', `top-right-corner',
+   ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
 
@@ -624,6 +619,13 @@ It should only modify the values of Spacemacs settings."
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
    dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
 
+   ;; The backend used for undo/redo functionality. Possible values are
+   ;; `undo-fu', `undo-redo' and `undo-tree' see also `evil-undo-system'.
+   ;; Note that saved undo history does not get transferred when changing
+   ;; your undo system. The default is currently `undo-fu' as `undo-tree'
+   ;; is not maintained anymore and `undo-redo' is very basic."
+   dotspacemacs-undo-system 'undo-tree
+
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
    ;; %t - `projectile-project-name'
@@ -659,6 +661,9 @@ It should only modify the values of Spacemacs settings."
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; The variable `global-spacemacs-whitespace-cleanup-modes' controls
+   ;; which major modes have whitespace cleanup enabled or disabled
+   ;; by default.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup 'trailing
 
@@ -703,22 +708,16 @@ variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
 
-  (setq exec-path-from-shell-check-startup-files nil)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Personal Info
-  (setq user-name (getenv "USER_FULL_NAME")
-    user-email (getenv "USER_EMAIL"))
-  (setq epa-file-encrypt-to '("lucas.martinsmendes@gmail.com"))
-
-  (setq magit-commit-arguments '("-S"))
-  (setq tramp-default-method "ssh")
-
-  (setq tab-width 4
+  (setq exec-path-from-shell-check-startup-files nil
+        user-name (getenv "USER_FULL_NAME")
+        user-email (getenv "USER_EMAIL")
+        epa-file-encrypt-to '("lucas.martinsmendes@gmail.com")
+        magit-commit-arguments '("-S")
+        tramp-default-method "ssh"
+        tab-width 4
         hs-hide-comments-when-hiding-all nil ; don't fold comments
         drag-stuff-global-mode t
         )
-
   )
 
 (defun dotspacemacs/user-init ()
@@ -727,41 +726,32 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-                                        ;(set-fontset-font t 'unicode "Symbola")
-  (custom-set-variables
-   '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3")))
-                                        ;(setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
 
-                                        ;(setq flycheck-global-modes '(org-mode latex-mode))
+  ;; (custom-set-variables
+  ;;  '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3")))
+
   (setq fill-column 80)
 
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t)
-
-  ;; Force use default font for braille characters
-  (set-fontset-font t
-                    (cons (decode-char 'ucs #x2800)
-                          (decode-char 'ucs #x28ff))
-                    (font-spec :size 12
-                               :name "Fira Code"
-                               :powerline-scale 0.9
-                               :spacing ?M
-                               )
-                    )
-
-  (setq make-pointer-invisible t)
+  ;; ;; Force use default font for braille characters
+  ;; (set-fontset-font t
+  ;;                   (cons (decode-char 'ucs #x2800)
+  ;;                         (decode-char 'ucs #x28ff))
+  ;;                   (font-spec :size 12
+  ;;                              :name "Fira Code"
+  ;;                              :powerline-scale 0.9
+  ;;                              :spacing ?M
+  ;;                              )
+  ;;                   )
+  ;; (setq make-pointer-invisible t)
 
   )
-
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -778,17 +768,15 @@ you should place your code here."
   ;; | |  | | \__ \ (__
   ;; |_|  |_|_|___/\___|
 
-  (prefer-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-language-environment 'utf-8)
+  ;; (prefer-coding-system 'utf-8)
+  ;; (set-default-coding-systems 'utf-8)
+  ;; (set-terminal-coding-system 'utf-8)
+  ;; (set-keyboard-coding-system 'utf-8)
+  ;; (set-language-environment 'utf-8)
 
   (spacemacs/enable-transparency)
 
-  ;; (add-to-list 'helm-goto-line-before-hook
-  ;;              #'(lambda () (save-excursion (evil-open-fold-rec))) t)
-
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____             _ _    ____ _               _    _
   ;; / ___| _ __   ___| | |  / ___| |__   ___  ___| | _(_)_ __   __ _
   ;; \___ \| '_ \ / _ \ | | | |   | '_ \ / _ \/ __| |/ / | '_ \ / _` |
@@ -796,43 +784,9 @@ you should place your code here."
   ;; |____/| .__/ \___|_|_|  \____|_| |_|\___|\___|_|\_\_|_| |_|\__, |
   ;;       |_|                                                  |___/
 
-  ;; (with-eval-after-load "ispell"
-  ;;   (setq ispell-program-name "hunspell")
-  ;;   ;; ispell-set-spellchecker-params has to be called
-  ;;   ;; before ispell-hunspell-add-multi-dic will work
-  ;;   (ispell-set-spellchecker-params)
-  ;;   (ispell-hunspell-add-multi-dic "pt_BR,en_GB")
-  ;;   ;; (setq ispell-dictionary "pt_BR,en_GB")
-  ;;   )
-
   ;; Isto e' para habilitar o dicionario em portugues brasileiro
   (setq ispell-dictionary "brasileiro")
   (setq ispell-alternate-dictionary "english")
-
-  ;; (use-package ligature
-  ;;   :config
-  ;;   ;; Enable the "www" ligature in every possible major mode
-  ;;   (ligature-set-ligatures 't '("www"))
-  ;;   ;; Enable traditional ligature support in eww-mode, if the
-  ;;   ;; `variable-pitch' face supports it
-  ;;   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;;   ;; Enable all Cascadia Code ligatures in programming modes
-  ;;   (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-  ;;                                        ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-  ;;                                        "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-  ;;                                        "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-  ;;                                        "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-  ;;                                        "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-  ;;                                        "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-  ;;                                        "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-  ;;                                        ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-  ;;                                        "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-  ;;                                        "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-  ;;                                        "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-  ;;                                        "\\\\" "://"))
-  ;;   ;; Enables ligature checks globally in all buffers. You can also do it
-  ;;   ;; per mode with `ligature-mode'.
-  ;;   (global-ligature-mode t))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Minor modes
@@ -844,17 +798,18 @@ you should place your code here."
   ;;   | |/ ___ \ ___) | | | | | |_) | |_) |  __/ |_
   ;;   |_/_/   \_\____/|_| |_|_| .__/| .__/ \___|\__|
   ;;                           |_|   |_|
-  (use-package yasnippet)
   (yas-global-mode t)   ;; Enable it globally
 
   (defun buffer-mode (&optional buffer-or-name)
-  "Returns the major mode associated with a buffer.
+    "Returns the major mode associated with a buffer.
    If buffer-or-name is nil return current buffer's mode. used by yasnippet"
-  (buffer-local-value 'major-mode
-      (if buffer-or-name (get-buffer buffer-or-name) (current-buffer))))
+    (buffer-local-value
+     'major-mode
+     (if buffer-or-name (get-buffer buffer-or-name) (current-buffer)))
+    )
 
   (defun yas/org-very-safe-expand ()
-  (let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
+    (let ((yas/fallback-behavior 'return-nil)) (yas-expand)))
 
   (setq yas-visit-from-menu t)
 
@@ -862,14 +817,10 @@ you should place your code here."
   ;; .spacemacs -> ~/config/apps/emacs/spacemacs
   ;; so
   ;; add ~/config/apps/emacs/snippets to the list
-  (add-to-list 'yas-snippet-dirs
-         (concat
-          (string-trim-right (file-truename "~/.spacemacs") "[^/]+")
-          "snippets"))
-
-  ;(setq yas-snippet-dirs (remove-if-not 'file-readable-p (yas-snippet-dirs)))
-  ;(add-to-list 'yas-snippet-dirs (expand-file-name "~/config/emacs/snippets" ))
-  ;(add-to-list 'yas-snippet-dirs (expand-file-name "/home/config-files/emacs/snippets"))
+  (add-to-list
+   'yas-snippet-dirs
+   (concat (string-trim-right (file-truename "~/.spacemacs") "[^/]+") "snippets")
+   )
 
   ;; Bind `TAB' to `yas-expand' when snippet expansion available
   ;; (it will still call whatever is bound to it otherwise).
@@ -898,26 +849,12 @@ you should place your code here."
   ;; | |  | | (_) | (_| |  __/  _  | (_) | (_) |   <\__ \
   ;; |_|  |_|\___/ \__,_|\___|_| |_|\___/ \___/|_|\_\___/
 
-  ;; (add-hook 'treemacs-mode-hook
-  ;;			(lambda () (setq-local header-line-format (string-join (treemacs-workspace->name) ))
-
-  ;; (add-hook
-  ;;  'treemacs-mode-hook
-  ;;  (defun xxxx ()
-  ;;	 (setq-local header-line-format 'treemacs-workspace->name)))
-
-   ;; (add-hook
-   ;;	'treemacs-mode-hook
-   ;;	(defun xxxx ()
-   ;;	 (setq-local header-line-format
-   ;;				 (string-join (-map #'treemacs-workspace->name treemacs--workspaces) " » "))))
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
   (add-hook 'prog-mode-hook
             (lambda ()
               (spacemacs/toggle-fill-column-indicator-on)
-         ))
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; __   __              _
@@ -927,9 +864,9 @@ you should place your code here."
   ;;   |_|\__,_|_| |_| |_|_|
   (add-hook 'yaml-mode-hook
             (lambda ()
-               (origami-mode)
-               (spacemacs/toggle-fill-column-indicator-on)
-               ))
+              (origami-mode)
+              (spacemacs/toggle-fill-column-indicator-on)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;      _ ____   ___  _   _
@@ -942,16 +879,8 @@ you should place your code here."
               (setq tab-width 2n)
               (ispell-change-dictionary "en")
               (flyspell-mode-on)
-              ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;  _       _
-  ;; (_)_ __ (_)
-  ;; | |  _ \| |
-  ;; | | | | | |
-  ;; |_|_| |_|_|
-
-
+              )
+            )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____            _
@@ -960,28 +889,29 @@ you should place your code here."
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
   (add-hook 'rust-mode-hook
-      (lambda ()
-        (auto-fill-mode)
-        (evil-close-folds)
-        (setq-local fill-column 100)
-        (setq xref-after-jump-hook
-              '(
-                ;; add function to make sure a fold is open before going to it
-                (lambda () (save-excursion (evil-open-fold)))
-                recenter xref-pulse-momentarily))
+            (lambda ()
+              (auto-fill-mode)
+              (evil-close-folds)
+              (setq-local fill-column 100)
+              (setq xref-after-jump-hook
+                    '(
+                      ;; add function to make sure a fold is open before going to it
+                      (lambda () (save-excursion (evil-open-fold)))
+                      recenter xref-pulse-momentarily))
 
-        (define-key rust-mode-map (kbd "C-<return>") 'luctins/cc-mode-continue-comment)
-        ))
+              (define-key rust-mode-map (kbd "C-<return>") 'luctins/cc-mode-continue-comment)
+              )
+            )
 
   (defun luctins/cc-mode-continue-comment ()
     (interactive)
     ;; check inside comment first
     (if (nth 4 (syntax-ppss))
         (let ((prev-pos (point)) (co (concat "\n"
-                          (save-match-data
-                            (mwim-beginning-of-line)
-                            (re-search-forward "///?!?" (line-end-position) t 1)
-                            (match-string 0)) " ")))
+                                             (save-match-data
+                                               (mwim-beginning-of-line)
+                                               (re-search-forward "///?!?" (line-end-position) t 1)
+                                               (match-string 0)) " ")))
           (message co)
           (if (length> co 0)
               (progn (goto-char prev-pos)
@@ -1013,25 +943,25 @@ you should place your code here."
   ;;  | |___
   ;;  \____|
   (add-hook 'c-mode-common-hook
-       (lambda ()
-         (hide-ifdef-mode)
-         ;(rtags-start-process-unless-running)
-         (flyspell-mode-off)
-         (evil-close-folds)
-         (auto-fill-mode)
-         (hide-ifdefs)
-         (platformio-conditionally-enable)
-         (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
-         (setq tab-width 4)
-         ))
+            (lambda ()
+              (hide-ifdef-mode)
+                                        ;(rtags-start-process-unless-running)
+              (flyspell-mode-off)
+              (evil-close-folds)
+              (auto-fill-mode)
+              (hide-ifdefs)
+              (platformio-conditionally-enable)
+              (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
+              (setq tab-width 4)
+              ))
 
   (setq c-syntactic-indentation t
-    c-default-style "linux"
-    c-basic-offset 4
-    c-tab-always-indent t
-    indent-tabs-mode nil
-    hide-ifdef-shadow t
-   )
+        c-default-style "linux"
+        c-basic-offset 4
+        c-tab-always-indent t
+        indent-tabs-mode nil
+        hide-ifdef-shadow t
+        )
 
   (defun trim-at-col (line)
     "trim C comments at a specified column"
@@ -1046,11 +976,11 @@ you should place your code here."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Kconfig
   (add-hook 'kconfig-mode-hook
-      (lambda ()
-        (setq-local
-         indent-tabs-mode t
-         )
-        ))
+            (lambda ()
+              (setq-local
+               indent-tabs-mode t
+               )
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Objdump mode
@@ -1083,12 +1013,12 @@ you should place your code here."
   ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
   ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
   (add-hook 'asm-mode-hook
-      (lambda ()
-        (setq tab-width 8
-          electric-indent-mode nil
-          indent-tabs-mode t)
-        (auto-fill-mode)
-        ))
+            (lambda ()
+              (setq tab-width 8
+                    electric-indent-mode nil
+                    indent-tabs-mode t)
+              (auto-fill-mode)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____ _   _ _   _   __  __       _
@@ -1097,10 +1027,10 @@ you should place your code here."
   ;; | |_| | |\  | |_| | | |  | | (_| |   <  __/
   ;;  \____|_| \_|\___/  |_|  |_|\__,_|_|\_\___|
   (add-hook  'makefile-mode (lambda () (setq
-                    indent-tabs-mode t
-                    tab-width 4
-                    )
-                ))
+                                        indent-tabs-mode t
+                                        tab-width 4
+                                        )
+                              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____        _   _
@@ -1110,14 +1040,14 @@ you should place your code here."
   ;; |_|    \__, |\__|_| |_|\___/|_| |_|
   ;;        |___/
   (add-hook 'python-mode-hook
-    (lambda ()
-    (spacemacs/toggle-fill-column-indicator-on)
-    (anaconda-eldoc-mode)
-    (auto-fill-mode)
-    (setq indent-tabs-mode nil
-          tab-width 4
-          python-indent-offset 4)
-    ))
+            (lambda ()
+              (spacemacs/toggle-fill-column-indicator-on)
+              (anaconda-eldoc-mode)
+              (auto-fill-mode)
+              (setq indent-tabs-mode nil
+                    tab-width 4
+                    python-indent-offset 4)
+              ))
 
   (setq python-indent-offset 4)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1127,9 +1057,9 @@ you should place your code here."
   ;; | |__| (_| || |  __//  \
   ;; |_____\__,_||_|\___/_/\_\
   (add-hook 'LaTeX-mode-hook
-      (lambda ()
-        (flyspell-mode)
-       ))
+            (lambda ()
+              (flyspell-mode)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ___  ____   ____
@@ -1156,139 +1086,144 @@ should be continued."
              (>= scheduled-seconds now)
              subtree-end))))
 
-  (setq  org-confirm-babel-evaluate nil
-         org-tag-alist
-         '(
-           (personal . p)
-           (work . w) ; work tasks that i *do not* want to see in off says
-           (p_work) ; entries/tasks that are mixed personal/work and aren't associated with a specific project, mainly admin
-           (college . c)
-           (leisure . l)
-           (finance . f)
-           (shopping . s)
-           (maintenance . m)
-           (selfcare . s)
-           (errand . e)
-           (agregator)
-           (recurrent)
-           )
-         calendar-week-start-day 1
-         org-startup-with-inline-images t
-         org-directory "~/org/"
-         org-agenda-files '( "~/org/" )
-         org-default-notes-file (concat org-directory "todo.org")
-         org-archive-location (concat org-directory "archive/archive.org::datetree/* from %s")
-         org-startup-folded t
-         org-catch-invisible-edits t ;; Very usefull to avoid destroying stuff accidentally
-         org-agenda-start-on-weekday 1 ;; set week to start on monday
-         org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
-         org-expiry-created-property-name "CREATED" ; Name of property when an item is created
-         org-expiry-inactive-timestamps   t         ; Don't have everything in the agenda view
-         org-priority-faces
-         '(
-           (?A . (org-todo))
-           (?B . (:foreground "#F0C674" :weight bold)) ;; Yellow
-           (?C . (:foreground "#70C3DC" :weight bold)) ;; Blue
-           )
-         org-todo-keyword-faces
-         '(
-           ("TODO" . org-todo)
-           ("WAIT" . (:foreground "#F0C674" :weight bold))
-           ("TEST" . (:foreground "#6eb0e9" :weight bold))
-           ("TFIX" . (:foreground "#b34e6b" :weight bold))
-           ("DONE" . org-done)
-           ("WTDO" . org-done)
-           )
-
-         org-agenda-sorting-strategy
-         '(
-           (todo priority-down category-keep)
-           (scheduled-down)
-           (deadline-down)
-           (todo todo-state-down category-keep)
-           (agenda habit-down time-up priority-down category-keep)
-           (tags priority-down category-keep)
-           (search category-keep)
-         )
-
-         org-agenda-custom-commands
-         '(("t" "Agenda + Overdue"
-            (
-             (agenda ""
-                     (
-                      (org-agenda-overriding-header "Overdue")
-                      (org-agenda-entry-types '(:deadline :scheduled))
-                      ;(org-agenda-start-day "-1d") ; skip due today, shown below
-                      (org-scheduled-past-days 10000)
-                      (org-deadline-past-days 10000)
-                      (org-deadline-warning-days 0)
-                      (org-agenda-span 1)
-                      (org-agenda-start-on-weekday nil)
-                      (org-agenda-show-all-dates nil)
-                      (org-agenda-time-grid nil)
-                      (org-agenda-format-date "")  ;; Skip the date
-                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                      (org-agenda-skip-function 'org-agenda-skip-if-scheduled-earlier)
-                      ;; Filter out errands
-                      ; (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ".*:errand:.*"))
-                      ))
-
-             (agenda ""
-                     ((org-agenda-overriding-header "Next 7 Days")
-                      (org-agenda-span 7)
-                      (org-agenda-time-grid nil)
-                      (org-agenda-start-on-weekday nil)
-                      (org-agenda-show-all-dates t)
-                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                      (org-agenda-entry-types '(:deadline :scheduled))
-                      (org-scheduled-past-days 0)
-                      (org-deadline-past-days 0)
-                      (org-deadline-warning-days 3)))
-
-             )
-            ))
-
-     org-latex-packages-alist
-     '(
-       (" " "indentfirst" " ")
-       (" " "hyperref" "colorlinks=true")
-       ;; ("margin=2cm" "geometry" nil) ; removed because of conflicts
-       )
-     org-capture-templates
-     (-filter (lambda (arg) (file-exists-p (concat org-directory "/" (car (cdr (nth 4 arg))))))
-                   (car (list
-                         '(
-                           ("t" "TODO Item" entry (file+headline "~/org/todo.org" "Inbox") (file "templates/todo.org"))
-                           ("s" "See Later" entry (file+headline "~/org/inbox.org.org" "Inbox") (file "templates/see-later.org"))
-                           ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org")  :jump-to-captured t)
-                           ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org"))
-                           ;("p" "org-protocol template" (file+headline "~/todo.org" "Inbox") (file "templates/org-protocol.org"))
-                           ("m" "Meeting notes" entry (file+headline "~/org/meeting-notes.org" "Inbox") (file "templates/meeting-notes.org") :jump-to-captured t)
-                           )))
-                   )
-
-     org-format-latex-options '(:scale 1.5)
-     ;;org-roam-directory (file-truename "~/org")
+  ;; org variables
+  (setq
+   org-confirm-babel-evaluate nil
+   org-tag-alist
+   '(
+     (personal . p)
+     (work . w) ; work tasks that i *do not* want to see in off says
+     (p_work) ; entries/tasks that are mixed personal/work and aren't associated with a specific project, mainly admin
+     (college . c)
+     (leisure . l)
+     (finance . f)
+     (shopping . s)
+     (maintenance . m)
+     (selfcare . s)
+     (errand . e)
+     (agregator)
+     (recurrent)
+     )
+   calendar-week-start-day 1
+   org-startup-with-inline-images t
+   org-directory "~/org/"
+   org-agenda-files '( "~/org/" )
+   org-default-notes-file (concat org-directory "todo.org")
+   org-archive-location (concat org-directory "archive/archive.org::datetree/* from %s")
+   org-startup-folded t
+   org-catch-invisible-edits t ;; Very usefull to avoid destroying stuff accidentally
+   org-agenda-start-on-weekday 1 ;; set week to start on monday
+   org-todo-keywords '("TODO" "WAIT" "|" "DONE" "WTDO")
+   org-expiry-created-property-name "CREATED" ; Name of property when an item is created
+   org-expiry-inactive-timestamps   t         ; Don't have everything in the agenda view
+   org-expiry-advised-functions '(org-schedule org)
+   org-priority-faces
+   '(
+     (?A . (org-todo))
+     (?B . (:foreground "#F0C674" :weight bold)) ;; Yellow
+     (?C . (:foreground "#70C3DC" :weight bold)) ;; Blue
+     )
+   org-todo-keyword-faces
+   '(
+     ("TODO" . org-todo)
+     ("WAIT" . (:foreground "#F0C674" :weight bold))
+     ("TEST" . (:foreground "#6eb0e9" :weight bold))
+     ("TFIX" . (:foreground "#b34e6b" :weight bold))
+     ("DONE" . org-done)
+     ("WTDO" . org-done)
      )
 
-  (add-hook 'org-mode-hook
-      (lambda ()
-        (yas-minor-mode)
-        (org-expiry-insinuate)
-        (make-variable-buffer-local 'yas/trigger-key)
-        (setq-local yas/trigger-key [tab])
-        (setq org-image-actual-width 500)
-        (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-        (define-key yas/keymap [tab] 'yas/next-field)
-        (flyspell-mode)
-        (org-autolist-mode)
-        (org-indent-mode)
-        ;(org-bullets-mode)
+   org-agenda-sorting-strategy
+   '(
+     (todo priority-down category-keep)
+     (scheduled-down)
+     (deadline-down)
+     (todo todo-state-down category-keep)
+     (agenda habit-down time-up priority-down category-keep)
+     (tags priority-down category-keep)
+     (search category-keep)
+     )
 
-        (visual-line-mode)
-        (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
-        (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
-        ))
+   org-agenda-custom-commands
+   '(
+     ("t" "Agenda + Overdue"
+      (
+       (agenda ""
+               (
+                (org-agenda-overriding-header "Overdue")
+                (org-agenda-entry-types '(:deadline :scheduled))
+                                        ;(org-agenda-start-day "-1d") ; skip due today, shown below
+                (org-scheduled-past-days 10000)
+                (org-deadline-past-days 10000)
+                (org-deadline-warning-days 0)
+                (org-agenda-span 1)
+                (org-agenda-start-on-weekday nil)
+                (org-agenda-show-all-dates nil)
+                (org-agenda-time-grid nil)
+                (org-agenda-format-date "")  ;; Skip the date
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                (org-agenda-skip-function 'org-agenda-skip-if-scheduled-earlier)
+                ;; Filter out errands
+                                        ; (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ".*:errand:.*"))
+                ))
+
+       (agenda ""
+               ((org-agenda-overriding-header "Next 7 Days")
+                (org-agenda-span 7)
+                (org-agenda-time-grid nil)
+                (org-agenda-start-on-weekday nil)
+                (org-agenda-show-all-dates t)
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                (org-agenda-entry-types '(:deadline :scheduled))
+                (org-scheduled-past-days 0)
+                (org-deadline-past-days 0)
+                (org-deadline-warning-days 3)))
+
+       )
+      )
+     )
+
+   org-latex-packages-alist
+   '(
+     (" " "indentfirst" " ")
+     (" " "hyperref" "colorlinks=true")
+     ;; ("margin=2cm" "geometry" nil) ; removed because of conflicts
+     )
+
+   org-capture-templates
+   (-filter (lambda (arg) (file-exists-p (concat org-directory "/" (car (cdr (nth 4 arg))))))
+            (car (list
+                  '(
+                    ("t" "TODO Item" entry (file+headline "~/org/todo.org" "Inbox") (file "templates/todo.org"))
+                    ("s" "See Later" entry (file+headline "~/org/inbox.org.org" "Inbox") (file "templates/see-later.org"))
+                    ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org")  :jump-to-captured t)
+                    ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org"))
+                                        ;("p" "org-protocol template" (file+headline "~/todo.org" "Inbox") (file "templates/org-protocol.org"))
+                    ("m" "Meeting notes" entry (file+headline "~/org/meeting-notes.org" "Inbox") (file "templates/meeting-notes.org") :jump-to-captured t)
+                    )))
+            )
+
+   org-format-latex-options '(:scale 1.5)
+   )
+
+  (org-expiry-insinuate)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (yas-minor-mode)
+              (make-variable-buffer-local 'yas/trigger-key)
+              (setq-local yas/trigger-key [tab])
+              (setq org-image-actual-width 500)
+              (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+              (define-key yas/keymap [tab] 'yas/next-field)
+              (flyspell-mode)
+              (org-autolist-mode)
+              (org-indent-mode)
+              (visual-line-mode)
+              (local-set-key (kbd "C-c C-x s") 'org-sort-headings-todo-prio)
+              (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
+              )
+            )
 
   ;; (add-hook 'org-mode-hook #'flyspell-mode)
 
@@ -1367,31 +1302,31 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
     )
 
   (defun luctins/org-sort-headings-todo-prio ()
-  "sort org headings first by priority then by todo order"
-  (interactive)
-  (org-sort-entries t ?p )
-  (org-sort-entries t ?o ))
+    "sort org headings first by priority then by todo order"
+    (interactive)
+    (org-sort-entries t ?p )
+    (org-sort-entries t ?o ))
 
   (defun luctins/org-insert-created-drawer ()
-  (interactive)
-  (org-set-property "CREATED" (concat "[" (format-time-string "%F") "]"))
-  )
+    (interactive)
+    (org-set-property "CREATED" (concat "[" (format-time-string "%F") "]"))
+    )
 
   (defun dfeich/org-export-delete-commented-cols (back-end)
-  "Delete columns $2 to $> marked as `<#>' on a row with `/' in $1.
+    "Delete columns $2 to $> marked as `<#>' on a row with `/' in $1.
   If you want a non-empty column $1 to be deleted make it $2 by
   inserting an empty column before and adding `/' in $1."
-  (while (re-search-forward "^[ \t]*| +/ +|\\(.*|\\)? +\\(<#>\\) *|" nil t)
-    (goto-char (match-beginning 2))
-    (org-table-delete-column)
-    (beginning-of-line)))
+    (while (re-search-forward "^[ \t]*| +/ +|\\(.*|\\)? +\\(<#>\\) *|" nil t)
+      (goto-char (match-beginning 2))
+      (org-table-delete-column)
+      (beginning-of-line)))
 
   (add-hook 'org-export-before-processing-hook #'dfeich/org-export-delete-commented-cols)
 
   ;; Keybinds
   (global-set-key (kbd "M-m b t")
-          (lambda () (interactive)
-          (find-file org-default-notes-file)))
+                  (lambda () (interactive)
+                    (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
 
   (spacemacs/set-leader-keys "n l" 'org-roam-buffer-toggle)
@@ -1410,20 +1345,20 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  (defun xxxx ()
   ;;	 (setq-local header-line-format 'treemacs-workspace->name)))
 
-   ;; (add-hook
-   ;;	'treemacs-mode-hook
-   ;;	(defun xxxx ()
-   ;;	 (setq-local header-line-format
-   ;;				 (string-join (-map #'treemacs-workspace->name treemacs--workspaces) " » "))))
+  ;; (add-hook
+  ;;	'treemacs-mode-hook
+  ;;	(defun xxxx ()
+  ;;	 (setq-local header-line-format
+  ;;				 (string-join (-map #'treemacs-workspace->name treemacs--workspaces) " » "))))
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; all code-like modes
   (add-hook 'prog-mode-hook
-      (lambda ()
-        (spacemacs/toggle-fill-column-indicator-on)
-        ;;(flyspell-mode-off)
-      ))
+            (lambda ()
+              (spacemacs/toggle-fill-column-indicator-on)
+              ;;(flyspell-mode-off)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____            _
@@ -1432,10 +1367,10 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
   (add-hook 'rust-mode-hook
-      (lambda ()
-        (auto-fill-mode)
-        (evil-close-folds)
-        ))
+            (lambda ()
+              (auto-fill-mode)
+              (evil-close-folds)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____
@@ -1444,34 +1379,34 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  | |___
   ;;  \____|
   (add-hook 'c-mode-common-hook
-       (lambda ()
-         ;(rtags-start-process-unless-running)
-         ;(lsp-deferred)
-         (hide-ifdef-mode)
-         (flycheck-mode t)
-         (flyspell-prog-mode)
-         (evil-close-folds)
-         (auto-fill-mode)
-         (platformio-conditionally-enable)
-         (hide-ifdefs)
-         ))
+            (lambda ()
+                                        ;(rtags-start-process-unless-running)
+                                        ;(lsp-deferred)
+              (hide-ifdef-mode)
+              (flycheck-mode t)
+              (flyspell-prog-mode)
+              (evil-close-folds)
+              (auto-fill-mode)
+              (platformio-conditionally-enable)
+              (hide-ifdefs)
+              ))
 
   (setq c-syntactic-indentation t
-    c-default-style "linux"
-    c-basic-offset 4
-    c-tab-always-indent t
-    indent-tabs-mode nil
-   )
+        c-default-style "linux"
+        c-basic-offset 4
+        c-tab-always-indent t
+        indent-tabs-mode nil
+        )
 
   (defun trim-at-col (line)
-  "trim C comments at a specified column"
-  (interactive (list (if current-prefix-arg
-               (read-from-minibuffer "line to trim at: ") nil)))
-  (end-of-line)
-  (backward-char 9)
-  (setq c (- (point) (if line line 'fill-column)))
-  (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-  )
+    "trim C comments at a specified column"
+    (interactive (list (if current-prefix-arg
+                           (read-from-minibuffer "line to trim at: ") nil)))
+    (end-of-line)
+    (backward-char 9)
+    (setq c (- (point) (if line line 'fill-column)))
+    (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
+    )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Objdump mode
@@ -1486,12 +1421,12 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
   ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
   (add-hook 'asm-mode-hook
-      (lambda ()
-        (setq tab-width 8
-          electric-indent-mode nil
-          indent-tabs-mode t)
-        (auto-fill-mode)
-        ))
+            (lambda ()
+              (setq tab-width 8
+                    electric-indent-mode nil
+                    indent-tabs-mode t)
+              (auto-fill-mode)
+              ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;   ____ _   _ _   _   __  __       _
@@ -1509,12 +1444,12 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;; |_|    \__, |\__|_| |_|\___/|_| |_|
   ;;        |___/
   (add-hook 'python-mode-hook
-    (lambda ()
-    (spacemacs/toggle-fill-column-indicator-on)
-    (auto-fill-mode)
-    ; (anaconda-eldoc-mode)
-    ; (conda-env-activate-path "~/.anaconda3")
-    ))
+            (lambda ()
+              (spacemacs/toggle-fill-column-indicator-on)
+              (auto-fill-mode)
+                                        ; (anaconda-eldoc-mode)
+                                        ; (conda-env-activate-path "~/.anaconda3")
+              ))
 
 
   ;; _____              __  __
@@ -1575,7 +1510,7 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; General Shortcuts
 
-  ;multiframe window movement
+                                        ;multiframe window movement
   (global-set-key (kbd "M-n") 'next-multiframe-window)
 
   ;; text movement keybinds
@@ -1593,94 +1528,95 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (global-set-key (kbd "C--") 'zoom-frm-out)
 
   (global-unset-key (kbd "C-v")) ; remove annoying conflict
-)
+  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; not write anything past this comment. This is where Emacs will do
 ;; variable definitions.
 
+;; (defun dotspacemacs/emacs-custom-settings ()
+;;   "Emacs custom settings.
+;; This is an auto-generated function, do not modify its content directly, use
+;; Emacs customize menu instead.
+;; This function is called at the very end of Spacemacs initialization."
+;;   (custom-set-variables
+;;    ;; custom-set-variables was added by Custom.
+;;    ;; If you edit it by hand, you could mess it up, so be careful.
+;;    ;; Your init file should contain only one such instance.
+;;    ;; If there is more than one, they won't work right.
+;;    '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
+;;    '(custom-safe-themes
+;;      '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+;;    '(evil-want-Y-yank-to-eol nil)
+;;    '(package-selected-packages
+;;      '(ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+;;    '(safe-local-variable-values 'nil)
+;;    '(send-mail-function 'smtpmail-send-it)
+;;    '(warning-suppress-log-types
+;;      '((emacsql)
+;;        (emacs)
+;;        (lsp-mode)
+;;        (org-element-cache)
+;;        (comp)
+;;        (comp)
+;;        (use-package)
+;;        (use-package)))
+;;    '(warning-suppress-types
+;;      '((emacs)
+;;        (lsp-mode)
+;;        (org-element-cache)
+;;        (comp)
+;;        (comp)
+;;        (use-package)
+;;        (use-package))))
+;;   (custom-set-faces
+;;    ;; custom-set-faces was added by Custom.
+;;    ;; If you edit it by hand, you could mess it up, so be careful.
+;;    ;; Your init file should contain only one such instance.
+;;    ;; If there is more than one, they won't work right.
+;;    '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+;;   )
+
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
- '(custom-safe-themes
-   '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   '(ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
- '(safe-local-variable-values 'nil)
- '(send-mail-function 'smtpmail-send-it)
- '(warning-suppress-log-types
-   '((emacsql)
-     (emacs)
-     (lsp-mode)
-     (org-element-cache)
-     (comp)
-     (comp)
-     (use-package)
-     (use-package)))
- '(warning-suppress-types
-   '((emacs)
-     (lsp-mode)
-     (org-element-cache)
-     (comp)
-     (comp)
-     (use-package)
-     (use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-)
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
- '(custom-safe-themes
-   '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   '(flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
- '(safe-local-variable-values 'nil)
- '(send-mail-function 'smtpmail-send-it)
- '(warning-suppress-log-types
-   '((emacsql)
-     (emacs)
-     (lsp-mode)
-     (org-element-cache)
-     (comp)
-     (comp)
-     (use-package)
-     (use-package)))
- '(warning-suppress-types
-   '((emacs)
-     (lsp-mode)
-     (org-element-cache)
-     (comp)
-     (comp)
-     (use-package)
-     (use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
+   '(custom-safe-themes
+     '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+   '(evil-want-Y-yank-to-eol nil)
+   '(package-selected-packages
+     '(flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+   '(safe-local-variable-values 'nil)
+   '(send-mail-function 'smtpmail-send-it)
+   '(warning-suppress-log-types
+     '((emacsql)
+       (emacs)
+       (lsp-mode)
+       (org-element-cache)
+       (comp)
+       (comp)
+       (use-package)
+       (use-package)))
+   '(warning-suppress-types
+     '((emacs)
+       (lsp-mode)
+       (org-element-cache)
+       (comp)
+       (comp)
+       (use-package)
+       (use-package))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+  )
