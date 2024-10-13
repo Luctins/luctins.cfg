@@ -309,7 +309,7 @@ function see-later() {
 * TODO $([[ -z "$2" ]] && echo "$1" || echo "[[$1][$2]]" ) $([[ ! -z "$3" ]] && echo ":$3:" )
 :PROPERTIES:
   :CREATED: [$(date +"%F %a %H:%M" )]
-:END:" | tee -a ~/org/inbox.org
+:END:" | tee -a ~/org/inbox.org | bat -l org -p
   _delhist_1l
 }
 
