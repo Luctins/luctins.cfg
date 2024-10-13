@@ -28,7 +28,6 @@ format = 'at rev [$output](bold blue) '
 #when = 'test "$ENV" != "" '
 #format = "with env [$output](bold purple) "
 
-
 [env_var.ENV]
 variable = 'ENV'
 format = "with env [$env_value](bold purple) "

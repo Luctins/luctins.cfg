@@ -14,11 +14,11 @@
 export EDITOR=vim
 
 # 5mb should be plenty
-HISTFILESIZE=5000000
+HISTFILESIZE=50000000
 export HISTFILESIZE
 
 # 10m lines
-HISTSIZE=10000000
+HISTSIZE=100000000
 export HISTSIZE
 
 unsetopt share_history
@@ -94,7 +94,7 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    python git zsh-autosuggestions rust python ripgrep svn node man
+    python git zsh-autosuggestions rust python svn node man
     colored-man-pages env docker zoxide fzf
 )
 

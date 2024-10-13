@@ -134,3 +134,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 . "$HOME/.cargo/env"
+
+export STM32_PRG_PATH=/home/luctins/Tools/STM32CubeProgrammer/bin
