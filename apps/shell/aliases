@@ -318,5 +318,9 @@ alias slr=see-later
 case $SHELL in
     *zsh)
         compdef "_path_files -W /home/luctins/.config/espanso/" "espanso edit"
+        
+        if [ -f "~/.espup_completions" ]; then source "~/.espup_completions"; fi
     ;;
 esac
+
+if [ -f "~/.aliases.2" ]; then source "~/.aliases.2"; fi
