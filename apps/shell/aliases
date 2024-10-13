@@ -2,6 +2,10 @@
 # vim: ft=bash
 
 alias \
+    hexdump=hx-hexdump \
+    gitk-this-week="gitk --all --since='1 week ago' --date-order &" \
+    rg-all="rg --no-ignore -u -." \
+    idf='idf.py' \
     xclip_in='xclip -selection clip -i' \
     ls='ls --group-directories-first --color=tty' \
     rm_deadlinks="zsh -c 'rm -v -- *(-@D)'" \
@@ -36,12 +40,12 @@ alias \
     rgi='rg -i' \
     ecl='emacsclient -nw -c' \
     ldocker=lazydocker \
-	  tp="trash-put" \
-	  tpr="trash-put -r" \
-	  ssh-remove-known-host='ssh-keygen -R' \
-	  gitka="gitk --all &" \
-	  binspect="tmux split && tmux break-pane && tmux send-keys 'bacon' Enter && tmux split" \
-	  doco='docker compose' \
+	tp="trash-put" \
+	tpr="trash-put -r" \
+	ssh-remove-known-host='ssh-keygen -R' \
+	gitka="gitk --all&" \
+	binspect="tmux split && tmux break-pane && tmux send-keys 'bacon' Enter && tmux split" \
+	doco='docker compose' \
   	editor='$EDITOR' \
     vis-gui='kitty --class="Audio visualizer" -o font_size=1 vis'
 
@@ -84,6 +88,7 @@ declare -A MAYBE_ALIAS_DEST=(
 declare -A MAYBE_ALIAS_ARG=(
 	[ls]="--group-dirs=first"
 # 	[tree]='--tree'
+    [cat]='-p'
 );
 
 case $SHELL in
@@ -121,11 +126,11 @@ function rust-version-increment() {
 
     case $1 in
         maj|major)
-            perl $F "s/$E/\"\${1}version = \\\"\" . (\$2 + 1) . \".\" .  \$3      . \".\" .  \$4      . \$5 . q#\"#/me" $MANIFEST
+            perl $F "s/$E/\"\${1}version = \\\"\" . (\$2 + 1) . \".\" . \"0\"       . \".\" .  \"0\"      . \$5 . q#\"#/me" $MANIFEST
             ;;
 
         min|minor)
-            perl $F "s/$E/\"\${1}version = \\\"\" .  \$2      . \".\" . (\$3 + 1) . \".\" .  \$4      . \$5 . q#\"#/me" $MANIFEST
+            perl $F "s/$E/\"\${1}version = \\\"\" .  \$2      . \".\" . (\$3 + 1) . \".\" .  \"0\"      . \$5 . q#\"#/me" $MANIFEST
             ;;
 
         pat|patch)
