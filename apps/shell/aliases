@@ -75,6 +75,19 @@ function zoxide_query() {
 	cd $DEST
 }
 
+function get-mdns-ip() {
+  PREFIX="${1:?missing argument}"
+  
+  RET=$(expect -c "spawn avahi-browse --all; expect \"$PREFIX\" { close }" | rg -o "${PREFIX}[^ ]+")
+  
+  if [ -z "$RET" ]; then
+    echo "no response"
+    return 1;
+  fi
+
+  echo "${RET}.local"
+}
+  
 # Map of aliases to aliases based if the destination binary exists
 
 declare -A MAYBE_ALIAS=(
@@ -243,6 +256,11 @@ function bak() {
   else
     cp -r "${1}" "${1}.bak"
   fi
+}
+
+function runit() {
+    chmod u+x $1
+    $1
 }
 
 function setmb() {
