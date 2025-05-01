@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(sql
+   '(protobuf
+     sql
      ruby
      go
      php
@@ -53,7 +54,6 @@ This function should only modify configuration layer settings."
      version-control
      syntax-checking
      debug
-
      rust
 
      ;; (syntax-checking :variables
@@ -67,7 +67,7 @@ This function should only modify configuration layer settings."
                       )
 
      (lsp :variables
-          lsp-lens-enable t
+          lsp-lens-enable nil
 
           lsp-rust-server 'rust-analyzer
           lsp-rust-analyzer-server-display-inlay-hints t
@@ -75,13 +75,13 @@ This function should only modify configuration layer settings."
           ;; lsp-rust-analyzer-expand-macro t
 
           lsp-ui-doc-enable t
-          lsp-ui-sideline-show-hover t
+          lsp-ui-sideline-show-hover nil
           )
 
      (typescript :variables
                  typescript-linter 'eslint
                  typescript-backend 'tide
-                 tide-tsserver-executable "/usr/local/bin/tsserver"
+                 tide-tsserver-executable (expand-file-name "~/.local/bin/tsserver")
                  )
 
      (org :variables
@@ -127,10 +127,23 @@ This function should only modify configuration layer settings."
             )
 
      (c-c++ :variables
-            ;; c-c++-backend 'lsp-clangd
-            c-c++-backend 'lsp-ccls
+
+            c-c++-backend 'lsp-clangd
+            ;; c-c++-backend 'lsp-ccls
+
+            c-basic-offset 4
+            c-syntactic-indentation t
+            c-default-style "linux"
+            c-tab-always-indent t
+            c-auto-newline nil
+
+            c-c++-enable-google-style nil
+            c-c++-adopt-subprojects t
+            c-c++-lsp-enable-semantic-highlight t
             lsp-enable-file-watchers nil
             lsp-enable-indentation nil
+
+            indent-tabs-mode nil
             )
 
      (python :variables
@@ -154,6 +167,7 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
+                                      ;; ada-mode
                                       org-roam-ui
                                       scad-mode
                                       arduino-mode
@@ -344,12 +358,13 @@ It should only modify the values of Spacemacs settings."
                          spacemacs-dark
                          inkpot
                          nano
+                         dracula
                                         ;nano-light
                                         ;nano
                                         ;warm-night
                                         ;melancholy
-                         dracula
-                         spacemacs-light)
+                         spacemacs-light
+                         )
 
    ;; doom-modeline-minor-modes t
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -369,6 +384,12 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '(
+                               (
+                                "Comic Mono"
+                                :size 10.0
+                                :weight normal
+                                :width normal
+                                )
 
                                ("Source Code Pro"
                                 :size 10.0
@@ -714,7 +735,6 @@ See the header of this file for more information."
         epa-file-encrypt-to '("lucas.martinsmendes@gmail.com")
         magit-commit-arguments '("-S")
         tramp-default-method "ssh"
-        tab-width 4
         hs-hide-comments-when-hiding-all nil ; don't fold comments
         drag-stuff-global-mode t
         )
@@ -730,7 +750,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (custom-set-variables
   ;;  '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3")))
 
-  (setq fill-column 80)
+  (setq-default
+   indent-tabs-mode nil
+   tab-width 4
+   fill-column 100
+   )
 
   ;; ;; Force use default font for braille characters
   ;; (set-fontset-font t
@@ -774,7 +798,7 @@ you should place your code here."
   ;; (set-keyboard-coding-system 'utf-8)
   ;; (set-language-environment 'utf-8)
 
-  (spacemacs/enable-transparency)
+                                        ; (spacemacs/enable-transparency)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____             _ _    ____ _               _    _
@@ -831,6 +855,43 @@ you should place your code here."
 
   (yas-reload-all)
 
+  (setq-default indent-tabs-mode nil
+                tab-width 4
+                )
+
+
+  (defun luctins/cc-mode-continue-comment ()
+    "Continue a comment in C-familiy (comment syntax) languages like C, C++, Rust"
+    (interactive)
+    ;; check inside comment first
+    (if (nth 4 (syntax-ppss))
+        (let (
+              (prev-pos (point))
+              (comment-text (save-match-data
+                              (mwim-beginning-of-line)
+                              (if (re-search-forward "\\s-*///?!?" (line-end-position) t 1)
+                                  (match-string 0)
+                                (progn
+                                  (message "failed to match")
+                                  ""
+                                  )
+                                )
+                              )
+                            )
+              )
+          (if (length> comment-text 0)
+              (progn
+                (message comment-text)
+                (goto-char prev-pos)
+                (insert (concat "\n" comment-text " "))
+                (indent-for-tab-command)
+                )
+            )
+          )
+      (message "Not inside a comment")
+      )
+    )
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  __  ______       __
   ;;  \ \/ /  _ \ ___ / _|
@@ -853,10 +914,19 @@ you should place your code here."
   ;; all code-like modes
   (add-hook 'prog-mode-hook
             (lambda ()
-              (spacemacs/toggle-fill-column-indicator-on)
+              (spacemacs/toggle-display-fill-column-indicator-on)
               ))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;  _____ _     _
+  ;; | ____| |   (_)___ _ __
+  ;; |  _| | |   | / __| '_ \
+  ;; | |___| |___| \__ \ |_) |
+  ;; |_____|_____|_|___/ .__/
+  ;;                   |_|
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; __   __              _
   ;; \ \ / /_ _ _ __ ___ | |
   ;;  \ V / _` | '_ ` _ \| |
@@ -865,7 +935,7 @@ you should place your code here."
   (add-hook 'yaml-mode-hook
             (lambda ()
               (origami-mode)
-              (spacemacs/toggle-fill-column-indicator-on)
+              (spacemacs/toggle-display-fill-column-indicator-on)
               ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -883,11 +953,24 @@ you should place your code here."
             )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;     _       _
+  ;;    / \   __| | __ _
+  ;;   / _ \ / _` |/ _` |
+  ;;  / ___ \ (_| | (_| |
+  ;; /_/   \_\__,_|\__,_|
+  ;; (add-hook 'ada-mode-hook
+  ;;           (lambda ()
+  ;;             (setq tab-width 1)
+  ;;             ))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  ____            _
   ;;  |  _ \ _   _ ___| |_
   ;;  | |_) | | | / __| __|
   ;;  |  _ <| |_| \__ \ |_
   ;;  |_| \_\\__,_|___/\__|
+
+
   (add-hook 'rust-mode-hook
             (lambda ()
               (auto-fill-mode)
@@ -898,30 +981,26 @@ you should place your code here."
                       ;; add function to make sure a fold is open before going to it
                       (lambda () (save-excursion (evil-open-fold)))
                       recenter xref-pulse-momentarily))
-
               (define-key rust-mode-map (kbd "C-<return>") 'luctins/cc-mode-continue-comment)
+
+              ))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;   ____
+  ;;  / ___| ___
+  ;; | |  _ / _ \
+  ;; | |_| | (_) |
+  ;;  \____|\___/
+  (setq go-tab-width 4)
+
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (setq-local
+               indent-tabs-mode nil
+               )
               )
             )
 
-  (defun luctins/cc-mode-continue-comment ()
-    (interactive)
-    ;; check inside comment first
-    (if (nth 4 (syntax-ppss))
-        (let ((prev-pos (point)) (co (concat "\n"
-                                             (save-match-data
-                                               (mwim-beginning-of-line)
-                                               (re-search-forward "///?!?" (line-end-position) t 1)
-                                               (match-string 0)) " ")))
-          (message co)
-          (if (length> co 0)
-              (progn (goto-char prev-pos)
-                     (insert co)
-                     (indent-for-tab-command))
-            (message "failed to match")
-            )
-          )
-      )
-    )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  _____                 ____            _       _
@@ -937,31 +1016,110 @@ you should place your code here."
               ))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;   ____
-  ;;  / ___|
-  ;;  | |
-  ;;  | |___
-  ;;  \____|
+  ;;   ____    ___      ____
+  ;;  / ___|  ( _ )    / ___| _     _
+  ;; | |      / _ \/\ | |   _| |_ _| |_
+  ;; | |___  | (_>  < | |__|_   _|_   _|
+  ;;  \____|  \___/\/  \____||_|   |_|
+  (add-to-list 'spacemacs-indent-sensitive-modes 'c-mode)
+  (add-to-list 'spacemacs-indent-sensitive-modes 'c++-mode)
+
   (add-hook 'c-mode-common-hook
             (lambda ()
+              (setq
+               c-syntactic-indentation t ;; tab indents according to the current context
+               c-basic-offset 4
+               c-default-style "linux"
+               c-tab-always-indent t
+               hide-ifdef-shadow t
+               tab-width 4
+               ident-tabs-mode nil
+               comment-start "// "
+               comment-end ""
+               ;; electric-indent-mode nil
+               lsp-enable-on-type-formatting nil ;; disable formatting when pressing enter in certain contexts
+               )
+
+              (indent-tabs-mode nil)
+
+              ;; make the parenthesis after multi-line function parameters have no additional offset
+              (c-set-offset 'arglist-close 0)
+              (c-set-offset 'case-label '+)
+
+              (flyspell-mode-off) ;; do not run autocorrect for c files
+
               (hide-ifdef-mode)
-                                        ;(rtags-start-process-unless-running)
-              (flyspell-mode-off)
               (evil-close-folds)
               (auto-fill-mode)
               (hide-ifdefs)
               (platformio-conditionally-enable)
+
+              ;; re-run hide-ifdefs when saving the file
               (add-hook 'after-save-hook (lambda () (hide-ifdefs)))
-              (setq tab-width 4)
+
               ))
 
-  (setq c-syntactic-indentation t
-        c-default-style "linux"
-        c-basic-offset 4
-        c-tab-always-indent t
-        indent-tabs-mode nil
-        hide-ifdef-shadow t
-        )
+
+  (add-hook 'c++-mode-hook
+            (lambda ()
+              (setq
+               indent-tabs-mode nil
+               fill-column 100
+               )
+              )
+            )
+
+  (add-hook 'c-mode-hook
+            (lambda ()
+              (setq
+               indent-tabs-mode nil
+               fill-column 80
+               )
+              )
+            )
+
+
+  (require 'dap-gdb-lldb)
+  (setq dap-auto-configure-features '(sessions locals breakpoints expressions repl))
+
+  ;; (dap-register-debug-template
+  ;;  "GDB OpenOCD debug attach"
+  ;;  (list :type "gdb"
+  ;;        :request "attach"
+  ;;        :name "GDB::Attach"
+  ;;        :target "localhost:3333"
+  ;;        :cwd "${workspaceFolder}"
+  ;;        :program "${workspaceFolder}/release/firmware/build/firmware.elf"
+  ;;        :args nil
+  ;;        )
+  ;;  )
+
+  (dap-register-debug-template
+   "Remote GDB OpenOCD debug attach - 3"
+   (list :type "gdbserver"
+         :name "GDBServer::Run"
+         :request "attach"
+         :cwd "${workspaceFolder}"
+         :gdbpath "arm-none-eabi-gdb"
+         :target "localhost:3333"
+         :executable "${workspaceFolder}/release/firmware/build/firmware.elf"
+         :autorun nil
+         ;; :showDevDebugOutput :json-true
+         ;; :printCalls :json-true
+
+         ;; :debugger_args '( "-q" "--interpreter=mi")
+         ;; :stopAtEntry nil
+         ;; :remote :json-true
+         ;; :externalConsole nil
+         ;; :environment []
+         )
+   )
+
+  (define-key c-mode-base-map
+              (kbd "C-<return>") 'luctins/cc-mode-continue-comment
+              )
+
+
 
   (defun trim-at-col (line)
     "trim C comments at a specified column"
@@ -972,6 +1130,22 @@ you should place your code here."
     (setq c (- (point) (if line line '80)))
     (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
     )
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;  ____            _        _            __
+  ;; |  _ \ _ __ ___ | |_ ___ | |__  _   _ / _|
+  ;; | |_) | '__/ _ \| __/ _ \| '_ \| | | | |_
+  ;; |  __/| | | (_) | || (_) | |_) | |_| |  _|
+  ;; |_|   |_|  \___/ \__\___/|_.__/ \__,_|_|
+  (add-hook 'protobuf-mode
+            (lambda ()
+              (setq c-basic-offset 2
+                    indent-tabs-mode nil
+                    tab-width 2
+                    )
+              )
+            )
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Kconfig
@@ -1041,8 +1215,8 @@ you should place your code here."
   ;;        |___/
   (add-hook 'python-mode-hook
             (lambda ()
-              (spacemacs/toggle-fill-column-indicator-on)
-              (anaconda-eldoc-mode)
+              ;; (spacemacs/toggle-fill-column-indicator-on)
+              ;; (anaconda-eldoc-mode)
               (auto-fill-mode)
               (setq indent-tabs-mode nil
                     tab-width 4
@@ -1050,6 +1224,7 @@ you should place your code here."
               ))
 
   (setq python-indent-offset 4)
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  _         _____   __  __
   ;; | |    __ |_   _|__\ \/ /
@@ -1194,19 +1369,16 @@ should be continued."
    (-filter (lambda (arg) (file-exists-p (concat org-directory "/" (car (cdr (nth 4 arg))))))
             (car (list
                   '(
-                    ("t" "TODO Item" entry (file+headline "~/org/todo.org" "Inbox") (file "templates/todo.org"))
+                    ("t" "TODO Item" entry (file "~/org/inbox.org") (file "templates/todo.org")) ;; todo item
                     ("s" "See Later" entry (file+headline "~/org/inbox.org.org" "Inbox") (file "templates/see-later.org"))
-                    ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org")  :jump-to-captured t)
-                    ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org"))
-                                        ;("p" "org-protocol template" (file+headline "~/todo.org" "Inbox") (file "templates/org-protocol.org"))
-                    ("m" "Meeting notes" entry (file+headline "~/org/meeting-notes.org" "Inbox") (file "templates/meeting-notes.org") :jump-to-captured t)
+                    ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org")  :jump-to-captured t) ;; personal journal and task log @ work
+                    ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org")) ;; work task registered from the non-work context
+                    ("m" "Meeting notes" entry (file+headline "~/org/meeting-notes.org" "Inbox") (file "templates/meeting-notes.org") :jump-to-captured t) ;; quick note for meetings (work)
                     )))
             )
 
    org-format-latex-options '(:scale 1.5)
    )
-
-  (org-expiry-insinuate)
 
   (add-hook 'org-mode-hook
             (lambda ()
@@ -1224,6 +1396,8 @@ should be continued."
               (local-set-key (kbd "C-x C-c C-r") 'org-preview-latex-default-process)
               )
             )
+
+                                        ;(org-expiry-insinuate)
 
   ;; (add-hook 'org-mode-hook #'flyspell-mode)
 
@@ -1332,152 +1506,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
   (spacemacs/set-leader-keys "n l" 'org-roam-buffer-toggle)
   (spacemacs/set-leader-keys "n f" 'org-roam-node-find)
   (spacemacs/set-leader-keys "n i" 'org-roam-node-insert)
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; All mode hooks
-
-  ;; (add-hook 'treemacs-mode-hook
-  ;;			(lambda () (setq-local header-line-format (string-join (treemacs-workspace->name) ))
-
-  ;; (add-hook
-  ;;  'treemacs-mode-hook
-  ;;  (defun xxxx ()
-  ;;	 (setq-local header-line-format 'treemacs-workspace->name)))
-
-  ;; (add-hook
-  ;;	'treemacs-mode-hook
-  ;;	(defun xxxx ()
-  ;;	 (setq-local header-line-format
-  ;;				 (string-join (-map #'treemacs-workspace->name treemacs--workspaces) " » "))))
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; all code-like modes
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (spacemacs/toggle-fill-column-indicator-on)
-              ;;(flyspell-mode-off)
-              ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;  ____            _
-  ;;  |  _ \ _   _ ___| |_
-  ;;  | |_) | | | / __| __|
-  ;;  |  _ <| |_| \__ \ |_
-  ;;  |_| \_\\__,_|___/\__|
-  (add-hook 'rust-mode-hook
-            (lambda ()
-              (auto-fill-mode)
-              (evil-close-folds)
-              ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;   ____
-  ;;  / ___|
-  ;;  | |
-  ;;  | |___
-  ;;  \____|
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-                                        ;(rtags-start-process-unless-running)
-                                        ;(lsp-deferred)
-              (hide-ifdef-mode)
-              (flycheck-mode t)
-              (flyspell-prog-mode)
-              (evil-close-folds)
-              (auto-fill-mode)
-              (platformio-conditionally-enable)
-              (hide-ifdefs)
-              ))
-
-  (setq c-syntactic-indentation t
-        c-default-style "linux"
-        c-basic-offset 4
-        c-tab-always-indent t
-        indent-tabs-mode nil
-        )
-
-  (defun trim-at-col (line)
-    "trim C comments at a specified column"
-    (interactive (list (if current-prefix-arg
-                           (read-from-minibuffer "line to trim at: ") nil)))
-    (end-of-line)
-    (backward-char 9)
-    (setq c (- (point) (if line line 'fill-column)))
-    (if (> c 0) (universal-argument c "-") (universal-argument (* c -1) "DEL"))
-    )
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Objdump mode
-
-  ;; set to read only by default
-  (add-to-list 'auto-mode-alist '("\\.objdump\\'" . view-mode))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;     _                           _     _
-  ;;    / \   ___ ___  ___ _ __ ___ | |__ | | ___ _ __
-  ;;   / _ \ / __/ __|/ _ \ '_ ` _ \| '_ \| |/ _ \ '__|
-  ;;  / ___ \\__ \__ \  __/ | | | | | |_) | |  __/ |
-  ;; /_/   \_\___/___/\___|_| |_| |_|_.__/|_|\___|_|
-  (add-hook 'asm-mode-hook
-            (lambda ()
-              (setq tab-width 8
-                    electric-indent-mode nil
-                    indent-tabs-mode t)
-              (auto-fill-mode)
-              ))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;   ____ _   _ _   _   __  __       _
-  ;;  / ___| \ | | | | | |  \/  | __ _| | _____
-  ;; | |  _|  \| | | | | | |\/| |/ _` | |/ / _ \
-  ;; | |_| | |\  | |_| | | |  | | (_| |   <  __/
-  ;;  \____|_| \_|\___/  |_|  |_|\__,_|_|\_\___|
-  (add-hook  'makefile-mode (lambda () (setq tab-width 4)))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;  ____        _   _
-  ;; |  _ \ _   _| |_| |__   ___  _ __
-  ;; | |_) | | | | __| '_ \ / _ \| '_ \
-  ;; |  __/| |_| | |_| | | | (_) | | | |
-  ;; |_|    \__, |\__|_| |_|\___/|_| |_|
-  ;;        |___/
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (spacemacs/toggle-fill-column-indicator-on)
-              (auto-fill-mode)
-                                        ; (anaconda-eldoc-mode)
-                                        ; (conda-env-activate-path "~/.anaconda3")
-              ))
-
-
-  ;; _____              __  __
-  ;; |_   _| __ ___  ___|  \/  | __ _  ___ ___
-  ;;   | || '__/ _ \/ _ \ |\/| |/ _` |/ __/ __|
-  ;;   | || | |  __/  __/ |  | | (_| | (__\__ \
-  ;;   |_||_|  \___|\___|_|  |_|\__,_|\___|___/
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; (defvar treemacs-json-icon (text-properties-at 0 (treemacs-get-icon-value "json" nil)))
-  ;; (treemacs-define-custom-image-icon
-  ;;  (elt
-  ;;   (first (rest (text-properties-at 0 (treemacs-get-icon-value "json" nil))))
-  ;;   4
-  ;;   )
-  ;;  "json5" "jsonc" "env" "nvmrc"
-  ;;  )
-  ;; (treemacs-map-icons-with-auto-mode-alist
-  ;;  '(".env")
-  ;;  '(
-  ;;    (environment-mode . ,(treemacs-get-icon-value "json"))
-  ;;    )
-  ;;  )
-  ;; (treemacs-map-icons-with-auto-mode-alist
-  ;;  '(".json5")
-  ;;  '(
-  ;;    (jsonc-mode . ,(treemacs-get-icon-value "json"))
-  ;;    )
-  ;;  )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Company mode
@@ -1593,7 +1621,7 @@ This function is called at the very end of Spacemacs initialization."
      '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
    '(evil-want-Y-yank-to-eol nil)
    '(package-selected-packages
-     '(flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+     '(org-notify cmake-ide cmake-mode nushell-ts-mode nushell-mode flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
    '(safe-local-variable-values 'nil)
    '(send-mail-function 'smtpmail-send-it)
    '(warning-suppress-log-types
