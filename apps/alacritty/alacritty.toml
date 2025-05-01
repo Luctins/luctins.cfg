@@ -19,7 +19,7 @@ family = "MesloLGS NF"
 [mouse]
 hide_when_typing = false
 
-[shell]
+[terminal.shell]
 program = "tmux"
 
 [window]
@@ -30,3 +30,5 @@ opacity = 0.95
 [window.padding]
 x = 2
 y = 10
+
+[terminal]
