@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: center div
+# key: cdiv
+# group: style
+# --
+/*${1:$(make-string (- (/ (- fill-column 3) 2) (truncate (string-width yas-text) 2) 3) ?-)} ${1:Title} ${1:$(make-string (- (/ (- fill-column 3) 2) (truncate (string-width yas-text) 2) (mod (string-width yas-text) 2) -1) ?-)}*/
