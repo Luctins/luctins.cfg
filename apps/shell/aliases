@@ -62,6 +62,11 @@ function rm_replacement {
   \rm $@
 }
 
+function copy-file() {
+  src_file=${1:?"missing input file"}
+  wl-copy --type text/uri-list <<< "file://$(realpath $src_file)"
+}
+
 function gitka() {
   gitk --all "$@" &
 }
