@@ -118,6 +118,7 @@ if [ -f ~/.env ]; then
 fi
 
 eval "$(starship init bash)"
+eval "$(fzf --bash)"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
