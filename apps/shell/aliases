@@ -43,7 +43,6 @@ alias \
 	tp="trash-put" \
 	tpr="trash-put -r" \
 	ssh-remove-known-host='ssh-keygen -R' \
-	gitka="gitk --all&" \
 	binspect="tmux split && tmux break-pane && tmux send-keys 'bacon' Enter && tmux split" \
 	doco='docker compose' \
   	editor='$EDITOR' \
@@ -62,6 +61,9 @@ function rm_replacement {
   \rm $@
 }
 
+function gitka() {
+  gitk --all "$@" &
+}
 function zoxide_query() {
 	DEST=$(zoxide query -i)
 	cd $DEST
