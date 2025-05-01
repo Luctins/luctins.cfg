@@ -52,6 +52,7 @@ alias \
 # Optional Aliases
 function rm_replacement {
 	for arg in "$@"; do
+      if [[ "${arg:0:1}" == "-" ]]; then continue; fi;
       if [[ ! -h "$arg" ]]; then
           echo "'$arg' is not a link, please use trash-put or \\\\rm if really needed"
           return
