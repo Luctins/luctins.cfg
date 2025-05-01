@@ -21,7 +21,7 @@ export HISTFILESIZE
 HISTSIZE=100000000
 export HISTSIZE
 
-unsetopt share_history
+
 setopt INC_APPEND_HISTORY_TIME
 setopt extendedglob
 
@@ -99,6 +99,9 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+
+# overwrite option set by zshrc
+unsetopt share_history
 
 # ------------------------------------------------------------------------------
 
