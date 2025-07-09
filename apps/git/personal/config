@@ -1,7 +1,7 @@
 [user]
 	email = contact@luctins.me
 	name = luctins
-	signingkey = 2F1C34F8F874E110!
+	signingkey = FA804F815A00E7DB5AF22F091CF617A3252B142D
 [pull]
 	rebase = true
 [commit]
@@ -15,3 +15,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[push]
+	autoSetupRemote = true
