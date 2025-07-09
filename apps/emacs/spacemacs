@@ -67,7 +67,7 @@ This function should only modify configuration layer settings."
                       )
 
      (lsp :variables
-          lsp-lens-enable nil
+          lsp-lens-enable t
 
           lsp-rust-server 'rust-analyzer
           lsp-rust-analyzer-server-display-inlay-hints t
@@ -75,7 +75,11 @@ This function should only modify configuration layer settings."
           ;; lsp-rust-analyzer-expand-macro t
 
           lsp-ui-doc-enable t
-          lsp-ui-sideline-show-hover nil
+          lsp-ui-doc-use-childframe t
+          lsp-ui-doc-show-with-mouse t
+          ;; lsp-ui-doc-position 'at-point
+          ;; lsp-ui-doc-show-with-cursor t
+          ;; lsp-ui-sideline-show-hover t
           )
 
      (typescript :variables
@@ -147,7 +151,7 @@ This function should only modify configuration layer settings."
             )
 
      (python :variables
-                                        ;python-backend '
+             python-backend 'anaconda
              python-sort-imports-on-save t
              )
 
@@ -384,19 +388,19 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '(
-                               (
-                                "Comic Mono"
-                                :size 10.0
-                                :weight normal
-                                :width normal
-                                )
-
                                ("Source Code Pro"
                                 :size 10.0
                                 :weight normal
                                 :width normal
                                 ;; :powerline-scale 1.1
                                 )
+
+                               ("Comic Mono"
+                                :size 10.0
+                                :weight normal
+                                :width normal
+                                )
+
 
                                ("Cascadia Code"
                                 :size 10.0
@@ -405,6 +409,13 @@ It should only modify the values of Spacemacs settings."
                                 ;; :powerline-scale 1.1
                                 )
 
+                               ("Monocraft Nerd Font"
+                                :size 12.0
+                                ;; :weight normal
+                                ;; :width normal
+                                :powerline-scale 1.1)
+
+
                                ("MesloLGS NF"
                                 :size 10.0
                                 ;; :weight normal
@@ -412,11 +423,6 @@ It should only modify the values of Spacemacs settings."
                                 :powerline-scale 1.1
                                 )
 
-                               ("Monocraft"
-                                :size 12.0
-                                ;; :weight normal
-                                ;; :width normal
-                                :powerline-scale 1.1)
 
                                ("Fira Mono"
                                 :size 10.0
@@ -898,10 +904,19 @@ you should place your code here."
   ;;   \  /| |_) / _ \ |_
   ;;   /  \|  _ <  __/  _|
   ;;  /_/\_\_| \_\___|_|
-  (add-to-list 'xref-after-jump-hook
-               ;; add function to make sure a fold is open before going to it
-               #'(lambda () (save-excursion (evil-open-fold-rec)))
-               nil)
+  ;; (add-to-list 'xref-after-jump-hook
+  ;;              ;; add function to make sure a fold is open before going to it
+  ;;              #'(lambda () (save-excursion (evil-open-fold-rec)))
+  ;;              nil)
+
+  ;; (defun luctins/unfold (_line)
+  ;;   "custom callback after goto-line"
+  ;;   (evil-open-fold)
+  ;;   (message "run")
+  ;;   )
+
+  ;; (advice-add 'goto-line :after #'luctins/unfold)
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;  __  __           _      _   _             _
@@ -946,9 +961,12 @@ you should place your code here."
   ;;  \___/|____/ \___/|_| \_|
   (add-hook 'json-mode-hook
             (lambda ()
-              (setq tab-width 2n)
-              (ispell-change-dictionary "en")
-              (flyspell-mode-on)
+              (setq
+               tab-width 2
+               ident-tabs-mode nil
+               )
+                                        ; (ispell-change-dictionary "en")
+              (flyspell-mode nil)
               )
             )
 
@@ -1171,6 +1189,7 @@ you should place your code here."
   ;; |__/
   (add-to-list 'auto-mode-alist '("\\.json5" . jsonc-mode))
 
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;    _
   ;;   (_)___  ___  _ __   ___
@@ -1178,7 +1197,28 @@ you should place your code here."
   ;;   | \__ \ (_) | | | | (__
   ;;  _/ |___/\___/|_| |_|\___|
   ;; |__/
-  (add-to-list 'auto-mode-alist '("tsconfig.json" . jsonc-mode))
+  (cl-map 'vector (lambda (pair) (add-to-list 'auto-mode-alist pair))
+          '(
+            ("tsconfig.json" . jsonc-mode)
+            ("package.json" . jsonc-mode)
+            )
+          )
+
+  (defun luctins/json-hook ()
+    (setq
+     indent-tabs-mode nil
+     js-indent-level 4
+     )
+    )
+
+  (add-hook 'jsonc-mode-hook #'luctins/json-hook)
+  (add-hook 'json-mode-hook #'luctins/json-hook)
+
+  (add-hook 'typescript-mode
+            (lambda ()
+              (setq typescript-indent-level 4)
+              ))
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;     _                           _     _
@@ -1369,7 +1409,7 @@ should be continued."
    (-filter (lambda (arg) (file-exists-p (concat org-directory "/" (car (cdr (nth 4 arg))))))
             (car (list
                   '(
-                    ("t" "TODO Item" entry (file "~/org/inbox.org") (file "templates/todo.org")) ;; todo item
+                    ("t" "TODO Item" entry (file "~/org/taskbox.org") (file "templates/todo.org")) ;; todo item
                     ("s" "See Later" entry (file+headline "~/org/inbox.org.org" "Inbox") (file "templates/see-later.org"))
                     ("j" "Journal" entry (file+datetree "~/org/journal.org") (file "templates/journal.org")  :jump-to-captured t) ;; personal journal and task log @ work
                     ("w" ":work: TODO" entry (file+headline "~/org/shared/work-todo.org" "Inbox") (file "templates/work-todo.org")) ;; work task registered from the non-work context
@@ -1563,48 +1603,6 @@ same directory as the org-buffer and insert a link to this file. Depends in X.or
 ;; not write anything past this comment. This is where Emacs will do
 ;; variable definitions.
 
-;; (defun dotspacemacs/emacs-custom-settings ()
-;;   "Emacs custom settings.
-;; This is an auto-generated function, do not modify its content directly, use
-;; Emacs customize menu instead.
-;; This function is called at the very end of Spacemacs initialization."
-;;   (custom-set-variables
-;;    ;; custom-set-variables was added by Custom.
-;;    ;; If you edit it by hand, you could mess it up, so be careful.
-;;    ;; Your init file should contain only one such instance.
-;;    ;; If there is more than one, they won't work right.
-;;    '(conda-anaconda-home (expand-file-name "~/.local/share/anaconda3"))
-;;    '(custom-safe-themes
-;;      '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
-;;    '(evil-want-Y-yank-to-eol nil)
-;;    '(package-selected-packages
-;;      '(ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
-;;    '(safe-local-variable-values 'nil)
-;;    '(send-mail-function 'smtpmail-send-it)
-;;    '(warning-suppress-log-types
-;;      '((emacsql)
-;;        (emacs)
-;;        (lsp-mode)
-;;        (org-element-cache)
-;;        (comp)
-;;        (comp)
-;;        (use-package)
-;;        (use-package)))
-;;    '(warning-suppress-types
-;;      '((emacs)
-;;        (lsp-mode)
-;;        (org-element-cache)
-;;        (comp)
-;;        (comp)
-;;        (use-package)
-;;        (use-package))))
-;;   (custom-set-faces
-;;    ;; custom-set-faces was added by Custom.
-;;    ;; If you edit it by hand, you could mess it up, so be careful.
-;;    ;; Your init file should contain only one such instance.
-;;    ;; If there is more than one, they won't work right.
-;;    '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-;;   )
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -1622,7 +1620,8 @@ This function is called at the very end of Spacemacs initialization."
    '(evil-want-Y-yank-to-eol nil)
    '(package-selected-packages
      '(org-notify cmake-ide cmake-mode nushell-ts-mode nushell-mode flash-region ejson-mode sqlup-mode typescript-mode esqlite sqlite sqlite3 yasnippet-classic-snippets org-ai scad-mode dts-mode unicode-fonts bundler chruby enh-ruby-mode minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing toml company-go flycheck-golangci-lint go-eldoc go-fill-struct go-gen-test go-guru go-impl go-rename go-tag go-mode godoctor org-roam-ui markdown-preview-eww tabbar bongo conda sketch-mode pdf-tools phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode treemacs-all-the-icons xr kconfig-mode ccls platformio-mode org-trello helm-rtags kotlin-mode gcode-mode rtags-xref company-rtags flycheck-rtags nano-theme systemd graphviz-dot-mode org-contrib gnuplot-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data activity-watch-mode prettier-js nodejs-repl import-js grizzl impatient-mode helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper add-node-modules-path company-fuzzy d-mode company-dcd ivy flycheck-dmd-dub rotate wide-column visual-fill-column company-c-headers auto-complete-clang highlight-doxygen lv f web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc tern coffee-mode mmm-mode yasnippet company-arduino multiple-cursors org-edit-latex rainbow-mode rainbow-identifiers color-identifiers-mode org-projectile-helm dockerfile-mode csv-mode auctex nodemcu-mode lua-mode org-projectile org-pomodoro alert log4e unfill org-category-capture org-present gntp org-mime org-download mwim htmlize gnuplot transient drag-stuff org-babel-eval-in-repl babel xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct eshell-z eshell-prompt-extras esh-help diff-hl auto-dictionary ess-smart-equals ess-R-data-view ctable ess julia-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub let-alist with-editor arduino-mode yapfify yaml-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org spaceline powerline restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-plus-contrib org-bullets org-autolist open-junk-file neotree move-text markdown-toc macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word cython-mode company-statistics company-anaconda company column-enforce-mode clean-aindent-mode cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
-   '(safe-local-variable-values 'nil)
+   '(safe-local-variable-values
+     '((tide-tsserver-executable . "./node_modules/.bin/tsserver")))
    '(send-mail-function 'smtpmail-send-it)
    '(warning-suppress-log-types
      '((emacsql)
