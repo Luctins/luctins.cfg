@@ -1,7 +1,10 @@
 #!/bin/env zsh
 
-PREFIX="/home/$USER/config/apps"
+# strict mode
+set -euo pipefail
+IFS=$'\n\t'
 
+PREFIX="/home/$USER/config/apps"
 CFG_PATH=$(realpath .. | sed "s#/home/$USER/##")
 
 ENV_NAME=$([[ "$(hostname)" =~ "$(cat work_hostname.priv).*" ]] && echo work || echo personal)
