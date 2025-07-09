@@ -1,7 +1,0 @@
-# -*- mode: sh -*-
-PATHS=(
-  "${PREFIX}/shell/aliases" ".aliases"
-  "${PREFIX}/shell/env" ".env"
-  "${PREFIX}/shell/aliases" ".aliases"
-  "${PREFIX}/shell/env" ".env"
-)
