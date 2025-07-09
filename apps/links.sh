@@ -25,11 +25,12 @@ esac
 
 echo "env: $ENV_NAME"
 
-# all paths are relative to ~/
-if [ -f mappings.priv ]; then
-	source mappings.priv
+if [ -f "./setup.sh.priv" ]; then
+    # NOTE: this file sets up a few variables and can also run other checks
+    # related to the system setup
+	source "./setup.sh.priv"
 else
-	echo 'please define path mappings'
+	echo 'please define configuration file'
 fi
 
 ################################################################################
@@ -38,6 +39,8 @@ fi
 echo "prefix: $PREFIX"
 
 cd ~/
+
+# all paths in the PATHS array are relative to ~/
 
 # create link ~/config -> ${CFG_PATH}
 CFG_DIR=$( basename "$CFG_PATH" )
@@ -49,15 +52,13 @@ else
 	echo "cfg path link already exists"
 fi
 
-echo
-
 for src dest in "${PATHS[@]}"; do
 	  if [ -f "$dest" ] || [ -d "$dest" ]; then
 		    if [ ! -e "$dest" ]; then
 			      echo 'broken symlink, removing'
 			      rm -v "$dest"
 		    else
-			      echo "File '$dest' already exists, skip"
+			      echo " - '$dest' already exists, skip"
 			      continue
 		    fi
     else
