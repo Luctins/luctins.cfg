@@ -7,7 +7,21 @@ IFS=$'\n\t'
 PREFIX="/home/$USER/config/apps"
 CFG_PATH=$(realpath .. | sed "s#/home/$USER/##")
 
-ENV_NAME=$([[ "$(hostname)" =~ "$(cat work_hostname.priv).*" ]] && echo work || echo personal)
+case ${1:-} in
+    work)
+        ENV_NAME=work
+        ;;
+
+    *)
+        read -r "yesno?Use defalt personal env? [y/n]: ";
+        if [[ ! "${yesno}" =~ [Yy](es)? ]]; then
+            echo "no confirmation, abort";
+            exit 1
+        fi
+
+        ENV_NAME=personal
+        ;;
+esac
 
 echo "env: $ENV_NAME"
 
