@@ -141,7 +141,7 @@ if [[ -f ${zsh_syntax_h} ]]; then
   source ${zsh_syntax_h};
 fi
 
-if type -f zoxide 1>/dev/null; then
+if command -v zoxide >/dev/null; then
 	eval "$(zoxide init zsh)"
 fi
 
@@ -182,3 +182,5 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 . "$HOME/.cargo/env"
+
+if [ -e /home/luctins/.nix-profile/etc/profile.d/nix.sh ]; then . /home/luctins/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
